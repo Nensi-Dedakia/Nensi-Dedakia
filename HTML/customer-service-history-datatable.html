@@ -1,0 +1,692 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<title>csh</title>
+	<link rel="stylesheet" href="./css/bootstrap.min.css">
+  <link href="./css/custom4.css" rel="stylesheet">
+  <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.0/css/all.css" integrity="sha384-lZN37f5QGtY3VHgisS14W3ExzMWZxybE1SJSEsQp9S+oqd12jhcu+A56Ebc1zFSJ" crossorigin="anonymous">
+  
+  <link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.5.2/css/bootstrap.css">
+  <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.11.3/css/dataTables.bootstrap4.min.css">
+  <link rel="stylesheet" href="https://cdn.datatables.net/responsive/2.2.9/css/responsive.bootstrap4.min.css">
+</head>
+<body>
+	<header class="main1" id="header" >
+<nav class="navbar navbar-expand-lg navbar-light navbar-inner bg-secondary ctnav "> <a class="navbar-brand" href="homepage.html"> <img src="./images/logo-small.png" width="78px" height="54px" alt="Logo"> </a>
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNavDropdown" aria-controls="navbarNavDropdown" aria-expanded="false" aria-label="Toggle navigation" id="collapse-button"> <span class="navbar-toggler-icon"></span> </button>
+    <div class="collapse navbar-collapse ctnav " id="navbarNavDropdown">
+    					
+      <ul class="navbar-nav ml-auto">
+       
+        <li class="nav-item"> <a class="nav-link mr-2 " href="price.html" >Price & services</a> </li>
+        <li class="nav-item"> <a class="nav-link mr-2" href="#">Warrenty</a> </li>
+        <li class="nav-item"> <a class="nav-link mr-2" href="#">Blog</a> </li>
+        <li class="nav-item"> <a class="nav-link mr-2" href="contact.html">Contact</a> </li>
+
+    </ul>
+   </div>
+       
+    	
+        <div class="nav-item" id="icon-notification"> <a class="nav-link mr-2 " href="#"><img src="./images/icon-notification.png" ></a> </div>
+       
+        <div class="nav-item dropdown " id="avtar-symbol" >
+        <a class="nav-link dropdown-toggle" href="#" role ="button" id="navbarDropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+          <img src="./images/admin-user.png">
+        </a>
+        <div class="dropdown-menu " aria-labelledby="navbarDropdownMenuLink" style="min-width: 50px; background-color: grey; color: black; font-size: 14px;" >
+          <a class="dropdown-item" href="#">Setting</a>
+          <a class="dropdown-item" href="#">Log out</a>
+          
+        </div>
+      </div>
+</nav>
+</header>
+	<header class="main2" id="header" style="z-index: 1000;">
+<nav class="navbar navbar-expand-lg navbar-light navbar-inner bg-secondary ctnav "> <a class="navbar-brand" href="homepage.html"> <img src="./images/logo-small.png" width="78px" height="54px" alt="Logo"> </a>
+	   <div class="nav-item" id="icon-notification"> <a class="nav-link mr-2 " href="#"><img src="./images/icon-notification.png" ></a> </div>
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNavDropdown1" aria-controls="navbarNavDropdown" aria-expanded="false" aria-label="Toggle navigation" id="collapse-button"> <span class="navbar-toggler-icon"></span> </button>
+    <div class="collapse navbar-collapse ctnav " id="navbarNavDropdown1">
+    					<ul class="nav flex-column sub-menu-nav-navbar">
+						  <li class="nav-item ">
+						    <a class="nav-link text-white side-menu-content" href="#">Dashboard</a>
+						  </li>
+						  
+						  <li class="nav-item" >
+						    <a class="nav-link text-white side-menu-content" href="#customer-service-history">Service History</a>
+						  </li>
+
+						  
+						  <li class="nav-item ">
+						    <a class="nav-link  text-white side-menu-content" href="#">Service Schedule</a>
+						  </li>
+						  
+						  <li class="nav-item ">
+						    <a class="nav-link text-white side-menu-content " href="#">Favourite Pros</a>
+						  </li>
+						  
+						  <li class="nav-item">
+						    <a class="nav-link text-white side-menu-content " href="#">Invoices</a>
+						  </li>
+						  
+						  <li class="nav-item">
+						    <a class="nav-link text-white side-menu-content " href="#">Notifications</a>
+						  </li>
+						  
+						 
+				</ul>
+      <ul class="navbar-nav ml-auto">
+       
+        <li class="nav-item"> <a class="nav-link mr-2 " href="price.html" >Price & services</a> </li>
+        <li class="nav-item"> <a class="nav-link mr-2" href="#">Warrenty</a> </li>
+        <li class="nav-item"> <a class="nav-link mr-2" href="#">Blog</a> </li>
+        <li class="nav-item"> <a class="nav-link mr-2" href="contact.html">Contact</a> </li>
+
+    </ul>
+   </div>
+    
+</nav>
+</header>
+
+<section class="Welcome-section">
+	<h1 class="Welcome-section-heading">Welcome,<b> Gaurang!</b></h1>
+	<div class="Welcome-section-line">
+		<hr>
+	</div>
+	
+</section>
+<!-----------------------------main section-------------------------->
+<section id="upcoming-main-section" >
+	<div class="container">
+		<div class="row">
+			<!------------------side-menu----------------------->
+			<div class="col-lg-3 side-menu below-side-menu">
+				<ul class="nav flex-column ">
+						  <ul class="nav flex-column ">
+						  <li class="nav-item ">
+						    <a class="nav-link text-white side-menu-content" href="#">Dashboard</a>
+						  </li>
+						  <hr class="side-menu-line">
+						  <li class="nav-item" >
+						    <a class="nav-link text-white side-menu-content" href="#customer-service-history">Service History</a>
+						  </li>
+
+						  <hr class="side-menu-line">
+						  <li class="nav-item ">
+						    <a class="nav-link  text-white side-menu-content" href="#">Service Schedule</a>
+						  </li>
+						  <hr class="side-menu-line">
+						  <li class="nav-item ">
+						    <a class="nav-link text-white side-menu-content " href="#">Favourite Pros</a>
+						  </li>
+						  <hr class="side-menu-line">
+						  <li class="nav-item">
+						    <a class="nav-link text-white side-menu-content " href="#">Invoices</a>
+						  </li>
+						  <hr class="side-menu-line">
+						  <li class="nav-item">
+						    <a class="nav-link text-white side-menu-content " href="#">Notifications</a>
+						  </li>
+						  <hr class="side-menu-line">
+						 
+				</ul>
+				</ul>
+			</div>
+
+<div class="col-lg-9 main-part">
+	<div>
+				<p class="Service-history-heading "> Service History
+				<button type="button" class="export-button">Export</button></p>
+			   </div>
+<table id="example" class="table upcoming-table" style="width: 100%;">
+        <thead>
+            <tr>
+              <th>Service Details</th>
+							<th>Service Provider</th>
+							<th>Payment</th>
+							<th>Status</th>	
+							<th>Rate SP</th>
+               
+            </tr>
+        </thead>
+        <tbody>
+            <tr class="customer-table-data">
+						<td class="service-detail">
+							<div>
+							<img src="./images/calendar.png">
+							<b>31/03/2018</b>
+						  </div>
+						  <div>
+							12:00 to 18:00
+						  </div>
+						</td>
+						<td>
+							 <div>
+								<img src="./images/cap.png" class="cap">
+								Lyum Watson
+                </div>
+              <div class="rating-star">
+								<img src="./images/star1.png">
+								<img src="./images/star1.png">
+								<img src="./images/star1.png">
+								<img src="./images/star1.png">
+								<img src="./images/star2.png"> 4
+							</div>
+
+						</td>
+              
+						<td>
+							<p class="euro-currency">€<b class="rupee">63</b></p>
+						</td>
+						<td>
+							<button type="button" class="completed-button">Completed</button>
+						</td>
+						<td>
+							<button type="button" class="Rate-sp-button">Rate SP</button>
+						</td>
+					</tr>
+
+					<tr class="customer-table-data">
+						<td class="service-detail">
+							<div>
+							<img src="./images/calendar.png">
+							<b>31/03/2018</b>
+						  </div>
+						  <div>
+							12:00 to 18:00
+						  </div>
+						</td>
+						<td>
+							 <div>
+								<img src="./images/cap.png" class="cap">
+								Lyum Watson
+                </div>
+              <div class="rating-star">
+								<img src="./images/star1.png">
+								<img src="./images/star1.png">
+								<img src="./images/star1.png">
+								<img src="./images/star1.png">
+								<img src="./images/star2.png"> 4
+							</div>
+
+						</td>
+              
+						<td>
+							<p class="euro-currency">€<b class="rupee">63</b></p>
+						</td>
+						<td>
+							<button type="button" class="completed-button">Completed</button>
+						</td>
+						<td>
+							<button type="button" class="Rate-sp-button">Rate SP</button>
+						</td>
+					</tr>
+
+					<tr class="customer-table-data">
+						<td class="service-detail">
+							<div>
+							<img src="./images/calendar.png">
+							<b>31/03/2018</b>
+						  </div>
+						  <div>
+							12:00 to 18:00
+						  </div>
+						</td>
+						<td>
+							 <div>
+								<img src="./images/cap.png" class="cap">
+								Lyum Watson
+                </div>
+              <div class="rating-star">
+								<img src="./images/star1.png">
+								<img src="./images/star1.png">
+								<img src="./images/star1.png">
+								<img src="./images/star1.png">
+								<img src="./images/star2.png"> 4
+							</div>
+
+						</td>
+              
+						<td>
+							<p class="euro-currency">€<b class="rupee">63</b></p>
+						</td>
+						<td>
+							<button type="button" class="completed-button">Completed</button>
+						</td>
+						<td>
+							<button type="button" class="Rate-sp-button">Rate SP</button>
+						</td>
+					</tr>
+
+					<tr class="customer-table-data">
+						<td class="service-detail">
+							<div>
+							<img src="./images/calendar.png">
+							<b>31/03/2018</b>
+						  </div>
+						  <div>
+							12:00 to 18:00
+						  </div>
+						</td>
+						<td>
+							 <div>
+								<img src="./images/cap.png" class="cap">
+								Lyum Watson
+                </div>
+              <div class="rating-star">
+								<img src="./images/star1.png">
+								<img src="./images/star1.png">
+								<img src="./images/star1.png">
+								<img src="./images/star1.png">
+								<img src="./images/star2.png"> 4
+							</div>
+
+						</td>
+              
+						<td>
+							<p class="euro-currency">€<b class="rupee">63</b></p>
+						</td>
+						<td>
+							<button type="button" class="cancelled-button">Cancelled</button>
+						</td>
+						<td>
+							<button type="button" class="Rate-sp-button">Rate SP</button>
+						</td>
+					</tr>
+
+					<tr class="customer-table-data">
+						<td class="service-detail">
+							<div>
+							<img src="./images/calendar.png">
+							<b>31/03/2018</b>
+						  </div>
+						  <div>
+							12:00 to 18:00
+						  </div>
+						</td>
+						<td>
+							 <div>
+								<img src="./images/cap.png" class="cap">
+								Lyum Watson
+                </div>
+              <div class="rating-star">
+								<img src="./images/star1.png">
+								<img src="./images/star1.png">
+								<img src="./images/star1.png">
+								<img src="./images/star1.png">
+								<img src="./images/star2.png"> 4
+							</div>
+
+						</td>
+              
+						<td>
+							<p class="euro-currency">€<b class="rupee">63</b></p>
+						</td>
+						<td>
+							<button type="button" class="completed-button">Completed</button>
+						</td>
+						<td>
+							<button type="button" class="Rate-sp-button">Rate SP</button>
+						</td>
+					</tr>
+
+					<tr class="customer-table-data">
+						<td class="service-detail">
+							<div>
+							<img src="./images/calendar.png">
+							<b>31/03/2018</b>
+						  </div>
+						  <div>
+							12:00 to 18:00
+						  </div>
+						</td>
+						<td>
+							 <div>
+								<img src="./images/cap.png" class="cap">
+								Lyum Watson
+                </div>
+              <div class="rating-star">
+								<img src="./images/star1.png">
+								<img src="./images/star1.png">
+								<img src="./images/star1.png">
+								<img src="./images/star1.png">
+								<img src="./images/star2.png"> 4
+							</div>
+
+						</td>
+              
+						<td>
+							<p class="euro-currency">€<b class="rupee">63</b></p>
+						</td>
+						<td>
+							<button type="button" class="completed-button">Completed</button>
+						</td>
+						<td>
+							<button type="button" class="Rate-sp-button">Rate SP</button>
+						</td>
+					</tr>
+
+					<tr class="customer-table-data">
+						<td class="service-detail">
+							<div>
+							<img src="./images/calendar.png">
+							<b>31/03/2018</b>
+						  </div>
+						  <div>
+							12:00 to 18:00
+						  </div>
+						</td>
+						<td>
+							 <div>
+								<img src="./images/cap.png" class="cap">
+								Lyum Watson
+                </div>
+              <div class="rating-star">
+								<img src="./images/star1.png">
+								<img src="./images/star1.png">
+								<img src="./images/star1.png">
+								<img src="./images/star1.png">
+								<img src="./images/star2.png"> 4
+							</div>
+
+						</td>
+              
+						<td>
+							<p class="euro-currency">€<b class="rupee">63</b></p>
+						</td>
+						<td>
+							<button type="button" class="cancelled-button">Cancelled</button>
+						</td>
+						<td>
+							<button type="button" class="Rate-sp-button">Rate SP</button>
+						</td>
+					</tr>
+
+					<tr class="customer-table-data">
+						<td class="service-detail">
+							<div>
+							<img src="./images/calendar.png">
+							<b>31/03/2018</b>
+						  </div>
+						  <div>
+							12:00 to 18:00
+						  </div>
+						</td>
+						<td>
+							 <div>
+								<img src="./images/cap.png" class="cap">
+								Lyum Watson
+                </div>
+              <div class="rating-star">
+								<img src="./images/star1.png">
+								<img src="./images/star1.png">
+								<img src="./images/star1.png">
+								<img src="./images/star1.png">
+								<img src="./images/star2.png"> 4
+							</div>
+
+						</td>
+              
+						<td>
+							<p class="euro-currency">€<b class="rupee">63</b></p>
+						</td>
+						<td>
+							<button type="button" class="cancelled-button">Cancelled</button>
+						</td>
+						<td>
+							<button type="button" class="Rate-sp-button">Rate SP</button>
+						</td>
+					</tr>
+					<tr class="customer-table-data">
+						<td class="service-detail">
+							<div>
+							<img src="./images/calendar.png">
+							<b>31/03/2018</b>
+						  </div>
+						  <div>
+							12:00 to 18:00
+						  </div>
+						</td>
+						<td>
+							 <div>
+								<img src="./images/cap.png" class="cap">
+								Lyum Watson
+                </div>
+              <div class="rating-star">
+								<img src="./images/star1.png">
+								<img src="./images/star1.png">
+								<img src="./images/star1.png">
+								<img src="./images/star1.png">
+								<img src="./images/star2.png"> 4
+							</div>
+
+						</td>
+              
+						<td>
+							<p class="euro-currency">€<b class="rupee">63</b></p>
+						</td>
+						<td>
+							<button type="button" class="cancelled-button">Cancelled</button>
+						</td>
+						<td>
+							<button type="button" class="Rate-sp-button">Rate SP</button>
+						</td>
+					</tr>
+					<tr class="customer-table-data">
+						<td class="service-detail">
+							<div>
+							<img src="./images/calendar.png">
+							<b>31/03/2018</b>
+						  </div>
+						  <div>
+							12:00 to 18:00
+						  </div>
+						</td>
+						<td>
+							 <div>
+								<img src="./images/cap.png" class="cap">
+								Lyum Watson
+                </div>
+              <div class="rating-star">
+								<img src="./images/star1.png">
+								<img src="./images/star1.png">
+								<img src="./images/star1.png">
+								<img src="./images/star1.png">
+								<img src="./images/star2.png"> 4
+							</div>
+
+						</td>
+              
+						<td>
+							<p class="euro-currency">€<b class="rupee">63</b></p>
+						</td>
+						<td>
+							<button type="button" class="cancelled-button">Cancelled</button>
+						</td>
+						<td>
+							<button type="button" class="Rate-sp-button">Rate SP</button>
+						</td>
+					</tr>
+					<tr class="customer-table-data">
+						<td class="service-detail">
+							<div>
+							<img src="./images/calendar.png">
+							<b>31/03/2018</b>
+						  </div>
+						  <div>
+							12:00 to 18:00
+						  </div>
+						</td>
+						<td>
+							 <div>
+								<img src="./images/cap.png" class="cap">
+								Lyum Watson
+                </div>
+              <div class="rating-star">
+								<img src="./images/star1.png">
+								<img src="./images/star1.png">
+								<img src="./images/star1.png">
+								<img src="./images/star1.png">
+								<img src="./images/star2.png"> 4
+							</div>
+
+						</td>
+              
+						<td>
+							<p class="euro-currency">€<b class="rupee">63</b></p>
+						</td>
+						<td>
+							<button type="button" class="cancelled-button">Cancelled</button>
+						</td>
+						<td>
+							<button type="button" class="Rate-sp-button">Rate SP</button>
+						</td>
+					</tr><tr class="customer-table-data">
+						<td class="service-detail">
+							<div>
+							<img src="./images/calendar.png">
+							<b>31/03/2018</b>
+						  </div>
+						  <div>
+							12:00 to 18:00
+						  </div>
+						</td>
+						<td>
+							 <div>
+								<img src="./images/cap.png" class="cap">
+								Lyum Watson
+                </div>
+              <div class="rating-star">
+								<img src="./images/star1.png">
+								<img src="./images/star1.png">
+								<img src="./images/star1.png">
+								<img src="./images/star1.png">
+								<img src="./images/star2.png"> 4
+							</div>
+
+						</td>
+              
+						<td>
+							<p class="euro-currency">€<b class="rupee">63</b></p>
+						</td>
+						<td>
+							<button type="button" class="cancelled-button">Cancelled</button>
+						</td>
+						<td>
+							<button type="button" class="Rate-sp-button">Rate SP</button>
+						</td>
+					</tr>
+          </tbody>
+          
+        </table>
+   </div>
+</div>
+</div>
+
+</section>
+
+<footer>
+    <div class="mt-5 footerall" >
+      <div class="container d-flex justify-content-between align-items-center py-4 footer1 " >
+        <div>
+          <a href="#"><img src="./images/logo.png" class="footer-logo"></a>
+        </div>
+    
+        <nav class="nav mx-5">
+          <ul class="nav mx-5">
+            <li class="nav-item">
+              <a href="homepage.html" class="nav-link foot ">HOME</a>
+            </li>
+            <li class="nav-item">
+              <a href="aboutus.html" class="nav-link foot  ">ABOUT</a>
+            </li>
+            <li class="nav-item">
+              <a href="#" class="nav-link foot ">TESIMONIALS</a>
+            </li>
+            <li class="nav-item">
+              <a href="faq.html" class="nav-link foot ">FAQs</a>
+            </li>
+            <li class="nav-item">
+              <a href="#" class="nav-link foot">INSURANCE POLICY</a>
+            </li>
+            <li class="nav-item">
+              <a href="#" class="nav-link foot">IMPRESSUM</a>
+            </li>
+          </ul>
+        </nav>
+    
+        <!-- logo of instagram and facebook -->
+        <div class="mx-4">
+          <a class="px-2" href="#" style="color: #ffffff;"><i class="fab fa-facebook-f"></i></a>
+          <a class="px-2" href="#" style="color: #ffffff;"><i class="fab fa-instagram"></i></a>
+        </div>
+
+      </div>
+
+    
+    
+      <!-- line -->
+    
+      <div class="d-flex justify-content-center  ">
+        <hr class="footer-line">
+      </div>
+    
+      <!-- line done -->
+    
+    
+      <!-- privacy content -->
+      <div class=" text-center mb-0 py-3 privacy" >
+        <p class="mb-0 py-2 d-inline" style="color: #9BA0A3">©2018 Helperland. All rights reserved.&nbsp; Terms and Conditions &nbsp; 
+          <a href="#" class="privacy" > Privacy Policy</a>
+        </p>
+      </div>
+    </div>
+    </footer>
+<script src="./js/jquery.min.js"></script>
+
+<!-- Popper JS -->
+<script src="./js/popper.min.js"></script>
+
+<!-- Latest compiled JavaScript -->
+
+<script src="https://code.jquery.com/jquery-3.5.1.js"></script>
+ <script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.5.2/js/bootstrap.bundle.min.js"></script>
+<script type="text/javascript" src="https://cdn.datatables.net/1.11.3/js/jquery.dataTables.min.js"></script>
+<script type="text/javascript" src="https://cdn.datatables.net/1.11.3/js/dataTables.bootstrap4.min.js"></script>
+ <script src="https://cdn.datatables.net/responsive/2.2.9/js/dataTables.responsive.min.js"></script>
+    <script src="https://cdn.datatables.net/responsive/2.2.9/js/responsive.bootstrap4.min.js"></script>
+    <script type="text/javascript">
+$(document).ready(function() {
+    $('#example').DataTable( {
+      searching:false,
+      info:false,
+      dom: '<"float-left"B><"float-right"f>rt<"row"<"col-sm-4"l><"col-sm-4"i><"col-sm-4"p>>',
+      "sPaginationType":"full_numbers",
+      language: {
+        paginate: {
+          first:'<img src="./images/first-page.png">',
+          next: '<i class="fas fa-angle-right"></i>',
+          previous: '<i class="fas fa-angle-left"></i>',
+          last:'<img src="./images/first-page.png" style="transform:rotate(180deg);">'
+        },
+      },
+        responsive: {
+            details: {
+                display: $.fn.dataTable.Responsive.display.modal( {
+                    header: function ( row ) {
+                        var data = row.data();
+                        return 'Details for '+data[0]+' '+data[1];
+                    }
+                } ),
+                renderer: $.fn.dataTable.Responsive.renderer.tableAll( {
+                    tableClass: 'table'
+                } )
+            }
+        }
+    } );
+  } );
+
+</script>
+</body>
+</html>

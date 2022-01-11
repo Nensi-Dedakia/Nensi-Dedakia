@@ -1,0 +1,348 @@
+@import url('https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&display=swap');
+body { font-family: 'Roboto', sans-serif;}
+
+
+
+*{
+	margin: 0px;
+	padding: 0px;
+
+}
+.fixed{
+	position: fixed;
+    top: 0;
+    width: 100%;
+}
+
+
+
+.navbar-inner {
+	background: transparent;
+	z-index: 999;
+}
+.ctnav ul li a {
+	color: #fff !important;
+}
+
+.ctborder {
+	border: 1px solid;
+	border-radius: 40px;
+	padding-top: 13px;
+	padding-bottom: 13px;
+
+}
+
+.ctbuttoncolor
+{
+	background-color: #29626d;
+
+}
+
+
+@media(max-width: 992px)
+{
+	.navbar-toggler {
+	border-color: #fff !important;
+    
+
+}
+.navbar-light .navbar-toggler {
+	color: #fff;
+}
+.nav-item
+{
+ padding: 0px !important;
+}
+.ctborder {
+	border: none;
+	border-radius: 0;
+}
+.navbar-nav {
+	background-color: #fff;
+}
+.ctnav ul li a {
+	color: #555 !important;
+}
+.ctnav ul li a:hover {
+	color: #000 !important;
+}
+.ctnav ul li a {
+	color: #555 !important;
+	margin: 5px 15px;
+	margin-right: 15px;
+	padding: 5px;
+	padding-right: 5px;
+	padding-left: 5px;
+	border-bottom: 1px solid #cecece;
+}
+.ctnav a 
+{
+	padding-left: 0px !important;
+	padding-right: 0px !important;
+}
+.ctbuttoncolor
+{
+   background-color: white !important;
+}
+.ctbtn01 {
+	margin-top: 25px;
+}
+
+}
+.main2
+{
+	display: none;
+}
+#icon-notification
+{
+	border-left:1px solid white;
+	border-right: 1px solid white;
+	 padding-left: 0.2%;
+	 padding-right: 0.1%; 
+	 padding-top: 5px;
+	  padding-bottom: 5px;
+}
+@media(max-width: 992px)
+{
+	.main1
+	{
+		display: none !important;
+	}
+	.main2
+	{
+		display: inline !important;
+
+	}
+	.sub-menu-nav-navbar
+	{
+		background-color: white !important;
+
+	}
+	.side-menu-content
+	{
+		font-size: 16px !important;
+	}
+	#icon-notification
+	{
+	
+		padding-left: 10px !important;
+	}
+
+	
+}
+.Welcome-section
+{
+	margin-top: 40px;
+}
+.Welcome-section-heading
+{
+	font-size: 30px;
+	text-align: center;
+}
+.Welcome-section-line
+{
+	background-color: #F9F9F9;
+	margin-top: 43px;
+}
+.side-menu
+{
+	background-color: #1D7A8C;
+	max-height: 900px;
+	margin-top: 31px;
+	padding-left: 0px;
+	padding-right: 0px;
+
+}
+
+	
+.side-menu-line
+{
+   background-color: #F9F9F9;
+   margin: 0px;
+
+  opacity: 0.2;
+}
+.side-menu-content
+{
+	font-size: 18px;
+
+	height: 54px;
+}
+@media(max-width: 992px)
+{
+	.side-menu-content
+	{
+		height: auto !important;
+	}
+}
+ .side-menu a:hover
+{
+	background-color: #146371;
+}
+@media(max-width: 992px)
+{
+	.below-side-menu
+	{
+		display: none !important;
+	}
+	.upcoming-table
+	{
+
+	}
+}
+.main-part
+{
+	margin-top: 30px;
+}
+.upcoming-table
+{
+	border: 1px solid #E1E1E1;
+	border-collapse: collapse;
+	
+	margin-top: px;
+	font-size: 16px;
+	color: #646464;
+}
+.cancel-button
+{
+	color: white;
+	background-color:#FF6B6B ;
+	border-radius: 17px;
+	border: none;
+	width: 80px;
+	height: 34px;
+	 
+
+}
+.footerall
+{
+	background: #111111;
+}
+.footer1
+{
+	flex-wrap: wrap;
+}
+.footer-logo
+{
+	width: 106px;
+}
+.privacy
+{
+	color: #9ba0a3;
+	 text-decoration: none;
+	
+}
+.foot
+{
+	color: #f1f1f1;
+}
+.footer-line
+{
+	width: 80%;
+	background-color: #8c8c8c;
+}
+@media(max-width: 576px)
+{
+	footer .container{
+        text-align: center!important;
+    }
+}
+@media (max-width: 992px) 
+{
+footer.container{
+        justify-content: center!important;
+    }
+    footer nav ul{
+        display: inline-block!important;
+    } 
+}
+@media (max-width: 1200px) {
+	
+ footer .container{
+        justify-content: center !important;
+    }
+
+}
+/*******************************************service history page*****************************/
+.Service-history-heading
+{
+	font-size: 22px;
+	color: #646464;
+	font-weight: bold;
+}
+.export-button
+{
+	color: white;
+	font-size: 14px;
+	width: 70px;
+	height: 34px;
+	border-radius: 17px;
+	border: none;
+	background-color: #146371;
+    float: right;
+}
+.cap 
+{
+	border: 1px solid #aaaaaa;
+	border-radius: 44px;
+	padding: 12px 7px 12px 7px;
+	margin-top: 25px;
+	
+}
+.rating-star
+{
+	margin-top: -20px;
+	margin-left: 50px;
+}
+@media(max-width: 768px)
+{
+	.rating-star
+	{
+		margin-top: 0px !important;
+		margin-left: 0px !important;
+	}
+
+
+}
+.euro-currency
+{
+	font-size: 20px;
+    color: #1d7a8c;
+    margin-top: 25px;
+}
+.rupee
+{
+	font-size: 24px;
+	
+}
+.completed-button
+{
+	font-size: 13px;
+	color: white;
+	background-color: #67b644;
+	width: 82px;
+	height:22px;
+	border: none;
+	margin-top: 30px;
+}
+.cancelled-button
+{
+	font-size: 13px;
+	color: white;
+	background-color: #FF6B6B;
+	width: 76px;
+	height:22px;
+	border: none;
+	margin-top: 30px;
+}
+.Rate-sp-button
+{
+	font-size: 14px;
+	background-color: #6DA9B5;
+	color: white;
+	border-radius: 17px;
+	border: none;
+	width: 70px;
+	height: 34px;
+	margin-top: 25px;
+}
