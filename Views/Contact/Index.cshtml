@@ -1,0 +1,171 @@
+﻿@*@model Helperland.Models.Data.ContactU*@
+
+@model Helperland.ViewModels.ContactUSViewModel
+@{
+    Layout = "~/Views/Shared/CustomLayout.cshtml";
+}
+
+f
+
+<img class="img-fluid" src="~/images/group-16_2.png">
+<section>
+    <!------------------contact us------------------------------------->
+    <h1 class="text-center heading mt-3 ">Contact us</h1>
+    <div class="d-flex justify-content-center">
+        <hr class="line">
+        <img src="~/images/forma-1-copy-5.png" class="diamond">
+        <hr class="line1">
+    </div>
+
+    <div class="container mt-5">
+        <div class="row ">
+
+            <div class="col-md-4 text-center">
+                <img src="~/images/location.png">
+                <p class="location"><br>1111 Lorem ipsum text 100,<br>Lorem ipsum AB</p>
+            </div>
+            <div class="col-md-4 text-center">
+                <img src="~/images/phonecall.png">
+                <p class="location"><br>+49(40)-123-56-7890<br>+49(40)-987-56-0000</p>
+            </div>
+            <div class="col-md-4 text-center">
+                <img src="~/images/email.png" class="imgmail">
+                <p class="location"><br>info@helperland.com</p>
+            </div>
+        </div>
+    </div>
+    <div class=" container ">
+        <div class="row justify-content-center">
+            <hr style="height: 1px; width: 100%;">
+        </div>
+    </div>
+</section>
+<!------------contact form------------------------->
+
+<section>
+    <h2 class="text-center formheading">Get in touch with us</h2>
+
+    <div class="container">
+
+        <div class="form">
+            <form enctype="multipart/form-data" asp-action="" method="post">
+                <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                <div class="row">
+                    <div class="col-md-2"></div>
+                    <div class=" col-md-4">
+                        <input asp-for="firstName" placeholder="First Name" class="form-control form11">
+                        <span asp-validation-for="firstName" class="text-danger"></span>
+                    </div>
+                    <div class="col-md-4">
+                        <input asp-for="lastName" placeholder="Last Name" class=" form-control form11">
+                        <span asp-validation-for="lastName" class="text-danger"></span>
+                    </div>
+                    <div class="col-md-2"></div>
+                </div>
+
+                <div class="row">
+                    <div class="col-md-2"></div>
+
+                    <div class="col-md-4">
+                        <div class="input-group  mobile-no1">
+                            <div class="input-group-prepend">
+                                <span class="input-group-text" id="basic-addon1" style="height:46px;">+49</span>
+                            </div>
+                            <input asp-for="phoneNumber" class="form-control " placeholder="Mobile number"  style="height:46px;">
+
+                        </div>
+                        <span asp-validation-for="phoneNumber" class="text-danger"></span>
+                    </div>
+                    <div class=" col-md-4">
+                        <input asp-for="email" placeholder="Email Address" class="form-control form11">
+                        <span asp-validation-for="email" class="text-danger"></span>
+                    </div>
+                    <div class="col-md-2"></div>
+                </div>
+
+
+                <div class="row">
+                    <div class="col-md-2"></div>
+
+                    <div class="col-md-8">
+                        <select asp-for="subject"  class="form-control form2">
+                            <option value="" disabled selected>subject</option>
+                            <option value="Maths">Subject1</option>
+                            <option value="Phy">Subject2</option>
+                            <option value="Chem">Subject3</option>
+
+                        </select>
+                        <span asp-validation-for="subject" class="text-danger"></span>
+
+                    </div>
+                    <div class="col-md-2"></div>
+                </div>
+
+                <div class="row">
+                    <div class="col-md-2"></div>
+
+                    <div class="col-md-8">
+                        <textarea asp-for="message" placeholder="message" rows="4" class="form-control form3"></textarea>
+                        <span asp-validation-for="message" class="text-danger"></span>
+                    </div>
+                    <div class="col-md-2"></div>
+                </div>
+
+                <div class="row" style="margin-top:15px;">
+                        <div class="col-md-2"></div>
+
+                        <div class="col-md-8">
+                            <label for="myfile">Attachment:</label>
+                            <br />
+                            <label class="uploadfile" for="filefield" style=" border-radius: 46px;  border: 1px solid #1D7A8C; width: 130px; height: 46px; margin-top: 15px; 
+                            font-size: 20px; margin-bottom: 50px; color: #1D7A8C; text-align:center; padding-top:10px;">Upload</label>
+                            <input asp-for="uploadFileName" class="form-control-lg" id="filefield" type="file" hidden>
+                            <span asp-validation-for="uploadFileName" class="text-danger"></span>
+                        </div>
+                        <div class="col-md-2"></div>
+                    </div>
+
+                <div class="row justify-content-center">
+                    <button type="submit" class="submit">Submit</button>
+                </div>
+
+            </form>
+
+        </div>
+
+    </div>
+</section>
+<!---------------map----------------->
+<section>
+    <div>
+        <iframe class="map" src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3773.83146053615!2d72.8235753145849!3d18.938852787166763!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3be7d1e0f0a26a81%3A0x87d6e47e04df3916!2sWankhede%20Stadium%20Mumbai!5e0!3m2!1sen!2sin!4v1638267492310!5m2!1sen!2sin" width="100%" height="400" style="border:0;" allowfullscreen="" loading="lazy"></iframe>
+    </div>
+    <!-- <img src="~/images/group-16.png" class="img-fluid" height="400px"> -->
+    <!-----------Get News Letter-------------------->
+    <div class="text-center pt-5 ">
+        <span class="newsletter">  GET OUR NEWSLETER</span>
+        <div class="d-flex justify-content-center d-wrap mt-2">
+            <input type="text" value="YOUR EMAIL" placeholder="YOUR EMAIL " class="rounded-pill align-items-left pl-3 emailbox">
+            <input type="submit" value="submit" class="btn rounded-pill text-center mx-2 submit-button">
+        </div>
+    </div>
+</section>
+
+
+<script src="~/js/jquery.min.js"></script>
+<!-- Popper JS -->
+<script src="~/js/popper.min.js"></script>
+<!-- Latest compiled JavaScript -->
+<script src="~/js/bootstrap.min.js"></script>
+
+<script src="./js/jquery-3.6.0.js"></script>
+<script type="text/javascript">
+        $(window).scroll(function () {
+            var sticky = $("#header"),
+                scroll = $(window).scrollTop();
+
+            if (scroll > 64) sticky.addClass("fixed");
+            else sticky.removeClass("fixed");
+        });
+
+</script>

@@ -22,8 +22,6 @@ namespace Helperland.Models.Data
         public string Comments { get; set; }
         [Column(TypeName = "datetime")]
         public DateTime RatingDate { get; set; }
-        public bool? IsApproved { get; set; }
-        public bool VisibleOnHomeScreen { get; set; }
         [Column(TypeName = "decimal(2, 1)")]
         public decimal OnTimeArrival { get; set; }
         [Column(TypeName = "decimal(2, 1)")]

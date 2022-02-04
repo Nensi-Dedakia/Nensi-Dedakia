@@ -1,0 +1,84 @@
+﻿@*@model Helperland.Models.Data.User*@
+@model Helperland.ViewModels.CreateAccountViewModel
+@{
+    Layout = "~/Views/Shared/CustomLayout.cshtml";
+}
+
+<section>
+    <h2 class="text-center formheading">Get in touch with us</h2>
+
+    <div class="container">
+
+        <div class="form">
+            <form asp-action="CreateAnAccount" asp-controller="Create" method="post">
+                <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                <div class="row">
+                    <div class="col-md-2"></div>
+                    <div class=" col-md-4">
+                        <input asp-for="firstName" placeholder="First Name" class="form-control form11">
+                        <span asp-validation-for="firstName" class="text-danger"></span>
+                    </div>
+                    <div class="col-md-4">
+                        <input asp-for="lastName" placeholder="Last Name" class=" form-control form11">
+                        <span asp-validation-for="lastName" class="text-danger"></span>
+                    </div>
+                    <div class="col-md-2"></div>
+                </div>
+
+                <div class="row">
+                    <div class="col-md-2"></div>
+
+                    <div class="col-md-4">
+                        <div class="input-group  mobile-no1">
+                            <div class="input-group-prepend">
+                                <span class="input-group-text" id="basic-addon1" style="height:46px;">+49</span>
+                            </div>
+                            <input asp-for="mobile" class="form-control " placeholder="Mobile number" style="height:46px;">
+
+                        </div>
+                        <span asp-validation-for="mobile" class="text-danger"></span>
+                    </div>
+                    <div class=" col-md-4">
+                        <input asp-for="email" placeholder="Email Address" class="form-control form11">
+                        <span asp-validation-for="email" class="text-danger"></span>
+                    </div>
+                    <div class="col-md-2"></div>
+                </div>
+
+                <div class="row">
+                    <div class="col-md-2"></div>
+                    <div class=" col-md-4">
+                        <input type="password" asp-for="Password" placeholder="password" class="form11">
+                        <span asp-validation-for="Password" class="text-danger"></span>
+                    </div>
+                    <div class="col-md-4">
+                        <input type="password" asp-for="ConfirmPassword" placeholder="confirm-password" class="form11">
+                        <span asp-validation-for="ConfirmPassword" class="text-danger"></span>
+                    </div>
+                    <div class="col-md-2"></div>
+                </div>
+
+                <div class="row">
+                    <div class="col-md-2"></div>
+                    <div class=" col-md-4" style="width: 100%; margin-top: 20px;">
+                        <input class="form-check-input login-checkbox" style="margin-left:5px;" type="checkbox" id="myCheck" name="remember">
+                        <label class="form-check-label " for="myCheck" style="margin-left:30px; color:#4f4f4f;">
+                            I have read the<a href="#" style="color:#1D7A8C"> Privacy Policy</a>
+                        </label>
+                    </div>
+                </div>
+
+
+                <div class="row justify-content-center">
+                    <button type="submit" class="submit">Submit</button>
+                </div>
+
+                <div class="row justify-content-center" style="color: #4f4f4f;">
+                   Already Registered? &nbsp;<a asp-controller="Home" asp-action="Index" style="color:#1D7A8C">Login now</a>
+                </div>
+            </form>
+
+        </div>
+
+    </div>
+</section>

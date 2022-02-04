@@ -20,13 +20,11 @@ namespace Helperland.Repository
 
         public virtual DbSet<City> Cities { get; set; }
         public virtual DbSet<ContactU> ContactUs { get; set; }
-        public virtual DbSet<ContactUsAttachment> ContactUsAttachments { get; set; }
         public virtual DbSet<FavoriteAndBlocked> FavoriteAndBlockeds { get; set; }
         public virtual DbSet<Rating> Ratings { get; set; }
         public virtual DbSet<ServiceRequest> ServiceRequests { get; set; }
         public virtual DbSet<ServiceRequestAddress> ServiceRequestAddresses { get; set; }
         public virtual DbSet<ServiceRequestExtra> ServiceRequestExtras { get; set; }
-        public virtual DbSet<ServiceSetting> ServiceSettings { get; set; }
         public virtual DbSet<State> States { get; set; }
         public virtual DbSet<User> Users { get; set; }
         public virtual DbSet<UserAddress> UserAddresses { get; set; }
@@ -54,6 +52,11 @@ namespace Helperland.Repository
                     .HasConstraintName("FK_City_State");
             });
 
+            modelBuilder.Entity<ContactU>(entity =>
+            {
+                entity.Property(e => e.FileName).IsUnicode(false);
+            });
+
             modelBuilder.Entity<FavoriteAndBlocked>(entity =>
             {
                 entity.HasOne(d => d.TargetUser)
@@ -71,8 +74,6 @@ namespace Helperland.Repository
 
             modelBuilder.Entity<Rating>(entity =>
             {
-                entity.Property(e => e.IsApproved).HasDefaultValueSql("((1))");
-
                 entity.HasOne(d => d.RatingFromNavigation)
                     .WithMany(p => p.RatingRatingFromNavigations)
                     .HasForeignKey(d => d.RatingFrom)
@@ -112,8 +113,6 @@ namespace Helperland.Repository
 
             modelBuilder.Entity<ServiceRequestAddress>(entity =>
             {
-                entity.Property(e => e.Type).HasDefaultValueSql("((1))");
-
                 entity.HasOne(d => d.ServiceRequest)
                     .WithMany(p => p.ServiceRequestAddresses)
                     .HasForeignKey(d => d.ServiceRequestId)

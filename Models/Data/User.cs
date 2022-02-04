@@ -39,12 +39,10 @@ namespace Helperland.Models.Data
         [StringLength(20)]
         public string Mobile { get; set; }
         public int UserTypeId { get; set; }
-        public int? RoleId { get; set; }
         public int? Gender { get; set; }
         [Column(TypeName = "datetime")]
+       
         public DateTime? DateOfBirth { get; set; }
-        [StringLength(1000)]
-        public string WebSite { get; set; }
         [StringLength(200)]
         public string UserProfilePicture { get; set; }
         public bool IsRegisteredUser { get; set; }
@@ -55,9 +53,8 @@ namespace Helperland.Models.Data
         public bool WorksWithPets { get; set; }
         public int? LanguageId { get; set; }
         public int? NationalityId { get; set; }
-        [StringLength(200)]
-        public string ResetKey { get; set; }
         [Column(TypeName = "datetime")]
+       
         public DateTime CreatedDate { get; set; }
         [Column(TypeName = "datetime")]
         public DateTime ModifiedDate { get; set; }
@@ -66,7 +63,6 @@ namespace Helperland.Models.Data
         public bool IsActive { get; set; }
         public bool IsDeleted { get; set; }
         public int? Status { get; set; }
-        public bool IsOnline { get; set; }
         [StringLength(100)]
         public string BankTokenId { get; set; }
         [StringLength(50)]

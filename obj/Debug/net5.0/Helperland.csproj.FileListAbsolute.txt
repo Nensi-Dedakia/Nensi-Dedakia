@@ -432,5 +432,14 @@ C:\Users\Nensi Dedakia\source\repos\Helperland\Helperland\bin\Debug\net5.0\runti
 C:\Users\Nensi Dedakia\source\repos\Helperland\Helperland\obj\Debug\net5.0\Razor\Views\Home\faq.cshtml.g.cs
 C:\Users\Nensi Dedakia\source\repos\Helperland\Helperland\obj\Debug\net5.0\Razor\Views\Shared\CustomLayout.cshtml.g.cs
 C:\Users\Nensi Dedakia\source\repos\Helperland\Helperland\obj\Debug\net5.0\Razor\Views\Home\price.cshtml.g.cs
-C:\Users\Nensi Dedakia\source\repos\Helperland\Helperland\obj\Debug\net5.0\Razor\Views\Home\contact.cshtml.g.cs
 C:\Users\Nensi Dedakia\source\repos\Helperland\Helperland\obj\Debug\net5.0\Razor\Views\Home\aboutus.cshtml.g.cs
+C:\Users\Nensi Dedakia\source\repos\Helperland\Helperland\obj\Debug\net5.0\Razor\Views\Contact\Index.cshtml.g.cs
+C:\Users\Nensi Dedakia\source\repos\Helperland\Helperland\obj\Debug\net5.0\Razor\Views\Create\CreateAnAccount.cshtml.g.cs
+C:\Users\Nensi Dedakia\source\repos\Helperland\Helperland\obj\Debug\net5.0\Razor\Views\BecomeAProvider\ServiceProviderRegistration.cshtml.g.cs
+C:\Users\Nensi Dedakia\source\repos\Helperland\Helperland\bin\Debug\net5.0\Microsoft.AspNet.Identity.Core.dll
+C:\Users\Nensi Dedakia\source\repos\Helperland\Helperland\bin\Debug\net5.0\Microsoft.AspNet.Identity.Owin.dll
+C:\Users\Nensi Dedakia\source\repos\Helperland\Helperland\bin\Debug\net5.0\Microsoft.Owin.dll
+C:\Users\Nensi Dedakia\source\repos\Helperland\Helperland\bin\Debug\net5.0\Microsoft.Owin.Security.dll
+C:\Users\Nensi Dedakia\source\repos\Helperland\Helperland\bin\Debug\net5.0\Microsoft.Owin.Security.Cookies.dll
+C:\Users\Nensi Dedakia\source\repos\Helperland\Helperland\bin\Debug\net5.0\Microsoft.Owin.Security.OAuth.dll
+C:\Users\Nensi Dedakia\source\repos\Helperland\Helperland\bin\Debug\net5.0\Owin.dll

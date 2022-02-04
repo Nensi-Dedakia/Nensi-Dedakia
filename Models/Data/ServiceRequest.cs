@@ -27,7 +27,6 @@ namespace Helperland.Models.Data
         [Required]
         [StringLength(10)]
         public string ZipCode { get; set; }
-        public byte? ServiceFrequency { get; set; }
         [Column(TypeName = "decimal(8, 2)")]
         public decimal? ServiceHourlyRate { get; set; }
         public double ServiceHours { get; set; }
@@ -43,7 +42,6 @@ namespace Helperland.Models.Data
         [StringLength(50)]
         public string PaymentTransactionRefNo { get; set; }
         public bool PaymentDue { get; set; }
-        public byte? JobStatus { get; set; }
         public int? ServiceProviderId { get; set; }
         [Column("SPAcceptedDate", TypeName = "datetime")]
         public DateTime? SpacceptedDate { get; set; }

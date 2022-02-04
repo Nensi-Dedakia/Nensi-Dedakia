@@ -1,4 +1,6 @@
-﻿body {
+﻿@import url('https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&display=swap');
+
+body {
     font-family: 'Roboto', sans-serif;
 }
 
@@ -515,20 +517,15 @@
     color: #646464;
 }
 
-.faqbutton {
-    text-align: center;
-    width: 50%;
-    border-radius: 0;
-    border-bottom: solid 3px #29626d;
-    background-color: #29626d;
+.faq-btn .nav-link {
+    background-color: #f3f3f3 !important;
+    color: #646464 !important;
+    border-bottom: 2px solid #1d7a8c;
 }
 
-.faqbutton1 {
-    width: 50%;
-    border: none;
-    color: #646464;
-    border-radius: 0;
-    border-bottom: solid 3px #29626d;
+.nav-item .active {
+    background-color: #1d7a8c !important;
+    color: white !important;
 }
 
 @media(max-width: 458px) {
@@ -760,29 +757,31 @@
     margin-top: 60px;
 }
 
-.form1 {
-    width: 299px;
+.file_Attachment {
+    border-radius: 50px;
+    height: 46px;
+}
+
+.form11 {
+    width: 100%;
     height: 46px;
     border-radius: 5px;
     border: 1px solid #646464;
     margin-top: 15px;
-    margin-right: 14px;
     padding-left: 15px;
 }
 
-.mobile-no {
+.mobile-no1 {
     border: 1px solid #646464;
     border-radius: 5px;
-    width: 299px;
-    margin-right: 14px;
     margin-top: 15px;
 }
 
 .form2 {
-    width: 620px;
+    width: 100%;
     height: 46px;
     border-radius: 5px;
-    border: 1 px solid #646464;
+    border: 1px solid #646464;
     margin-top: 15px;
     margin-right: 14px;
     padding-left: 15px;
@@ -790,12 +789,24 @@
 }
 
 .form3 {
-    width: 620px;
+    width: 100%;
     margin-top: 15px;
     border-radius: 5px;
     border: 1px solid #646464;
     margin-right: 14px;
     padding-left: 15px;
+}
+
+.uploadfile {
+    border-radius: 46px;
+    font-weight: bold;
+    border: 1px solid #1D7A8C;
+    width: 163px;
+    height: 46px;
+    margin-top: 15px;
+    font-size: 20px;
+    margin-bottom: 80px;
+    color: #1D7A8C;
 }
 
 .submit {
@@ -807,7 +818,6 @@
     height: 46px;
     margin-top: 15px;
     font-size: 20px;
-    padding-left: 15px;
     margin-bottom: 80px;
     color: white;
 }
@@ -843,22 +853,6 @@
     .why-helperland-content {
         text-align: center !important;
     }
-
-    .form1 {
-        width: 97% !important;
-    }
-
-    .form2 {
-        width: 97% !important;
-    }
-
-    .form3 {
-        width: 97% !important;
-    }
-
-    .mobile-no {
-        width: 100% !important;
-    }
 }
 
 /* Large devices (desktops, 992px and up) */
@@ -884,4 +878,83 @@
     footer .container {
         justify-content: center !important;
     }
+}
+
+.modal-shadow {
+    box-shadow: 5px 5px 5px 5px;
+}
+
+.nav-link-login {
+    padding-left: 20px;
+    padding-right: 20px;
+    margin-bottom: 4px;
+}
+
+.modal-content {
+    width: 80%;
+    margin-left: 10%;
+}
+
+.login-main-heading {
+    color: #524F4F;
+}
+
+.login-modal-header {
+    border-bottom: none;
+}
+
+.input-group-text {
+    color: rgb(177, 171, 171);
+    background: transparent;
+}
+
+.login-btn {
+    background-color: #339aaf;
+    width: 100%;
+    color: #FFFBFB;
+    font-size: 20px;
+    border-radius: 38px;
+}
+
+    .login-btn:hover {
+        color: #FFFBFB;
+    }
+
+.login-para-links {
+    color: #339aaf;
+}
+
+    .login-para-links:hover {
+        color: #1D7A8C;
+    }
+
+.login-para {
+    text-align: center;
+}
+
+.login-check {
+    margin-left: 20px;
+}
+
+.login-checkbox {
+    height: 20px;
+    width: 20px;
+}
+
+.send-btn {
+    background-color: #339aaf;
+    ;
+    width: 100%;
+    color: rgb(255, 251, 251);
+    font-size: 20px;
+    border-radius: 38px;
+}
+
+    .send-btn:hover {
+        color: rgb(255, 251, 251);
+    }
+/*CSS for popup (LOGIN)*/
+
+.create-form-section {
+    overflow-x: hidden;
 }

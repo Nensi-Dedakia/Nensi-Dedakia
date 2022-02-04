@@ -28,7 +28,6 @@ namespace Helperland.Models.Data
         public string Mobile { get; set; }
         [StringLength(100)]
         public string Email { get; set; }
-        public int? Type { get; set; }
 
         [ForeignKey(nameof(ServiceRequestId))]
         [InverseProperty("ServiceRequestAddresses")]
