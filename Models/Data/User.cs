@@ -68,19 +68,22 @@ namespace Helperland.Models.Data
         [StringLength(50)]
         public string TaxNo { get; set; }
 
+        [StringLength(50)]
+        public string ResetPasswordCode { get; set; }
+
         [InverseProperty(nameof(FavoriteAndBlocked.TargetUser))]
         public virtual ICollection<FavoriteAndBlocked> FavoriteAndBlockedTargetUsers { get; set; }
         [InverseProperty(nameof(FavoriteAndBlocked.User))]
         public virtual ICollection<FavoriteAndBlocked> FavoriteAndBlockedUsers { get; set; }
         [InverseProperty(nameof(Rating.RatingFromNavigation))]
-        public virtual ICollection<Rating> RatingRatingFromNavigations { get; set; }
-        [InverseProperty(nameof(Rating.RatingToNavigation))]
-        public virtual ICollection<Rating> RatingRatingToNavigations { get; set; }
-        [InverseProperty(nameof(ServiceRequest.ServiceProvider))]
-        public virtual ICollection<ServiceRequest> ServiceRequestServiceProviders { get; set; }
-        [InverseProperty(nameof(ServiceRequest.User))]
-        public virtual ICollection<ServiceRequest> ServiceRequestUsers { get; set; }
-        [InverseProperty(nameof(UserAddress.User))]
-        public virtual ICollection<UserAddress> UserAddresses { get; set; }
+       public virtual ICollection<Rating> RatingRatingFromNavigations { get; set; }
+       [InverseProperty(nameof(Rating.RatingToNavigation))]
+       public virtual ICollection<Rating> RatingRatingToNavigations { get; set; }
+       [InverseProperty(nameof(ServiceRequest.ServiceProvider))]
+       public virtual ICollection<ServiceRequest> ServiceRequestServiceProviders { get; set; }
+       [InverseProperty(nameof(ServiceRequest.User))]
+       public virtual ICollection<ServiceRequest> ServiceRequestUsers { get; set; }
+       [InverseProperty(nameof(UserAddress.User))]
+       public virtual ICollection<UserAddress> UserAddresses { get; set; }
     }
 }

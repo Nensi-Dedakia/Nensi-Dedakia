@@ -30,11 +30,11 @@
                 <div class="collapse navbar-collapse ctnav" id="navbarNavDropdown">
                     <ul class="navbar-nav ml-auto">
                         <li class="nav-item active"> <a class="nav-link mr-2 ctborder ctbuttoncolor" style="padding-left: 25px; padding-right: 25px;" href="#">Book a cleaner</a> </li>
-                        <li class="nav-item"> <a class="nav-link mr-2 "asp-controller="Home" asp-action="price">Price</a> </li>
+                        <li class="nav-item"> <a class="nav-link mr-2 " asp-controller="Home" asp-action="price">Price</a> </li>
                         <li class="nav-item"> <a class="nav-link mr-2" href="#">Our Guarantee</a> </li>
                         <li class="nav-item"> <a class="nav-link mr-2" href="#">Blog</a> </li>
                         <li class="nav-item"> <a class="nav-link mr-2" asp-controller="Contact" asp-action="Index">Contact us</a> </li>
-                         <li class="nav-item mr-2"> <a class="nav-link ctborder ctbuttoncolor b1" style="padding-left: 29px ; padding-right: 29px; " href="#">Login</a> </li>
+                        <li class="nav-item mr-2"> <a class="nav-link ctborder ctbuttoncolor b1" style="padding-left: 29px ; padding-right: 29px; " href="#">Login</a> </li>
                         <li class="nav-item mr-1"> <a class="nav-link ctborder ctbuttoncolor b1" style="padding-left:22px ;padding-right: 18px;" asp-controller="BecomeAProvider" asp-action="ServiceProviderRegistration">Become a Helper</a> </li>
                         <li class="nav-item dropdown dropleft">
                             <a class="nav-link" href="#" id="navbarDropdownMenuLink" data-toggle="dropdown" aria-expanded="false">
@@ -57,7 +57,7 @@
         <!------------------form-start------------------------>
         <div>
             <div class=" container service-provider-form  d-block bg-white">
-                <form asp-action="ServiceProviderRegistration" asp-controller="BecomeAProvider" method="post">
+                <form asp-action="ServiceProviderRegistration" asp-controller="Home" method="post">
                     <div asp-validation-summary="ModelOnly" class="text-danger"></div>
                     <div>
                         <p class="form-head text-center">Register Now!</p>
@@ -98,9 +98,9 @@
                     <!--<div>
                         <input  type="checkbox" id="I-accept" name="I-accept" value="I-accept" class="checkbox" />
                         <label for="I-accept" class="checkbox-label">I accept<a href="#" style="color: #1FB6FF;">terms and condition</a>& <a href="#" style="color: #1FB6FF;">privacy policy</a></label>-->
-                        @*<span  class="text-danger ml-sm-5 ml-3 mb-3"></span>*@
+                    @*<span  class="text-danger ml-sm-5 ml-3 mb-3"></span>*@
                     <!--</div>-->
-                    
+
                     <div class="captcha row">
                         <div class="g-recaptcha" data-sitekey="(your-site-key)"></div>
 
@@ -216,7 +216,7 @@
                             <a href="#" class="nav-link foot">TESIMONIALS</a>
                         </li>
                         <li class="nav-item">
-                            <a  asp-area="" asp-controller="Home" asp-action="faq"  class="nav-link  foot">FAQs</a>
+                            <a asp-area="" asp-controller="Home" asp-action="faq" class="nav-link  foot">FAQs</a>
                         </li>
                         <li class="nav-item">
                             <a href="#" class="nav-link foot ">INSURANCE POLICY</a>

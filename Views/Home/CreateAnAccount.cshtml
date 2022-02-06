@@ -1,5 +1,4 @@
-﻿@*@model Helperland.Models.Data.User*@
-@model Helperland.ViewModels.CreateAccountViewModel
+﻿@model Helperland.ViewModels.CreateAccountViewModel
 @{
     Layout = "~/Views/Shared/CustomLayout.cshtml";
 }
@@ -10,7 +9,7 @@
     <div class="container">
 
         <div class="form">
-            <form asp-action="CreateAnAccount" asp-controller="Create" method="post">
+            <form asp-action="CreateAnAccount" asp-controller="Home" method="post">
                 <div asp-validation-summary="ModelOnly" class="text-danger"></div>
                 <div class="row">
                     <div class="col-md-2"></div>
@@ -74,7 +73,7 @@
                 </div>
 
                 <div class="row justify-content-center" style="color: #4f4f4f;">
-                   Already Registered? &nbsp;<a asp-controller="Home" asp-action="Index" style="color:#1D7A8C">Login now</a>
+                    Already Registered? &nbsp;<a asp-controller="Home" asp-action="ResetPassword" style="color:#1D7A8C">Login now</a>
                 </div>
             </form>
 
