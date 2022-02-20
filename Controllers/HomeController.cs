@@ -45,6 +45,9 @@ namespace Helperland.Controllers
         {
             if (ModelState.IsValid)
             {
+                model.Password = Crypto.Hash(model.Password);
+
+                model.ConfirmPassword = Crypto.Hash(model.ConfirmPassword);
 
                 User user = new User
                 {
@@ -82,6 +85,9 @@ namespace Helperland.Controllers
         {
             if (ModelState.IsValid)
             {
+                model.Password = Crypto.Hash(model.Password);
+
+                model.ConfirmPassword = Crypto.Hash(model.ConfirmPassword);
 
                 User serviceprovider = new User
                 {
@@ -117,12 +123,11 @@ namespace Helperland.Controllers
         [HttpPost]
         public ActionResult Index(CreateAccountViewModel use)
         {
-            if (ModelState.IsValid)
-            {
+           // if (ModelState.IsValid)
+           // {
                 using (HelperlandContext _tc = new HelperlandContext())
                 {
-                    var detail = _tc.Users.Where(a => a.Email.Equals(use.email)
-                    && a.Password.Equals(use.Password)).FirstOrDefault();
+                    var detail = _helperlandContext.Users.Where(a => a.Email.Equals(use.email)).FirstOrDefault();
                     if (detail == null)
                     {
                         ViewBag.Message = "Invalid UserName And Password";
@@ -131,6 +136,8 @@ namespace Helperland.Controllers
                     HttpContext.Session.SetString("Email", use.email);
                     HttpContext.Session.SetString("Password", use.Password);
                     if (detail != null)
+                    {
+                    if (string.Compare(Crypto.Hash(use.Password), detail.Password) == 0)
                     {
                         var check = use.RememberMe;
                         if (check == true)
@@ -150,17 +157,22 @@ namespace Helperland.Controllers
                         }
                         if (use.UserTypeId == 2)
                         {
-                           return RedirectToAction("ServiceProviderRegistration", "BecomeAProvider");
+                            return RedirectToAction("ServiceProviderRegistration", "BecomeAProvider");
                         }
                         //Redirect to page according to use if user is customer then redirect to dashboard, Service Provider then Service Request
                         //If Admin Page then admin page are open
-
                     }
+                    else
+                    {
+                        ViewBag.message = "Invalid Password";
+                    }
+                }
 
                 }
-            }
-            ViewBag.openmodel = true;
-            return View("~/Views/Home/Index.cshtml", use);
+            //   }
+            return View();
+           
+          
 
         }
         public IActionResult LogeddIn(CreateAccountViewModel use)

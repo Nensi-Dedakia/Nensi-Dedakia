@@ -7,6 +7,8 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using System.Net;
+using System.Net.Mail;
 using System.Threading.Tasks;
 
 namespace Helperland.Controllers
@@ -77,10 +79,40 @@ namespace Helperland.Controllers
 
                 _helperlandContext.Add(contactus);
                 _helperlandContext.SaveChanges();
+
                 //TempData["Message"] = "Account Created Successfully";
+                var subject = contactus.Subject;
+                var body = contactus.Message + "     " + contactus.UploadFileName;
+
+                SendEmail("nensidedakia@gmail.com", body, subject);
                 return RedirectToAction();
             }
             return View();
+        }
+
+        private void SendEmail(string emailAddress, string body, string subject)
+        {
+            using (MailMessage mm = new MailMessage("18it.nensi.dedakia@gmail.com", emailAddress))
+            {
+                mm.Subject = subject;
+                mm.Body = body;
+
+                mm.IsBodyHtml = true;
+                SmtpClient smtp = new SmtpClient();
+
+                smtp.Host = "smtp.gmail.com";
+
+
+
+
+                smtp.UseDefaultCredentials = false;
+                NetworkCredential NetworkCred = new System.Net.NetworkCredential("18it.nensi.dedakia@gmail.com", "9737012809Jayshri@123");
+                smtp.Credentials = NetworkCred;
+                smtp.EnableSsl = true;
+                smtp.Port = 587;
+                smtp.Send(mm);
+
+            }
         }
     }
 }

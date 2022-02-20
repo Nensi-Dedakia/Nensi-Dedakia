@@ -23,7 +23,7 @@
                 <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNavDropdown" aria-controls="navbarNavDropdown" aria-expanded="false" aria-label="Toggle navigation"> <span class="navbar-toggler-icon"></span> </button>
                 <div class="collapse navbar-collapse ctnav" id="navbarNavDropdown">
                     <ul class="navbar-nav ml-auto">
-                        <li class="nav-item active"> <a class="nav-link mr-2 ctborder ctbuttoncolor" style="padding-left: 25px; padding-right: 25px;" href="#">Book a cleaner</a> </li>
+                        <li class="nav-item active"> <a class="nav-link mr-2 ctborder ctbuttoncolor" style="padding-left: 25px; padding-right: 25px;" asp-action="BookNow" asp-controller="BookNow">Book a cleaner</a> </li>
                         <li class="nav-item"> <a class="nav-link mr-2 " asp-controller="Home" asp-action="price">Price</a> </li>
                         <li class="nav-item"> <a class="nav-link mr-2" href="#">Our Guarantee</a> </li>
                         <li class="nav-item"> <a class="nav-link mr-2" href="#">Blog</a> </li>
@@ -38,7 +38,7 @@
 
                         }
 
-                        <li class="nav-item mr-1"> <a class="nav-link ctborder ctbuttoncolor" style="padding-left:22px ;padding-right: 18px;" asp-controller="BecomeAProvider" asp-action="ServiceProviderRegistration">Become a Helper</a> </li>
+                        <li class="nav-item mr-1"> <a class="nav-link ctborder ctbuttoncolor" style="padding-left:22px ;padding-right: 18px;" asp-controller="Home" asp-action="ServiceProviderRegistration">Become a Helper</a> </li>
                         <li class="nav-item dropdown dropleft">
                             <a class="nav-link" href="#" id="navbarDropdownMenuLink" data-toggle="dropdown" aria-expanded="false">
                                 <img src="./images/ic-flag.png" alt="Flag" style="margin-right: 5px;">
@@ -91,6 +91,7 @@
                                 </div>
                                 <br>
                                 <button type="submit" class="btn  login-btn"> Login </button>
+                                </form>
                                 <br><br>
                                 <p class="login-para">
                                     <a href="" class="login-para-links" data-target="#forgotModal"
@@ -105,7 +106,7 @@
                                         </b>
                                     </a>
                                 </p>
-                            </form>
+                          
                         </div>
                     </div>
                 </div>

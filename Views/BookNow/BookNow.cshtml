@@ -1,0 +1,938 @@
+﻿@model Helperland.ViewModels.BookNowViewModel
+@{
+    Layout = "~/Views/Shared/CustomLayout.cshtml";
+}
+<head>
+
+    
+    <link href="~/css/custom2.css" rel="stylesheet" />
+</head>
+<style>
+    .active-tab {
+        background-color: #1d7a8c !important;
+        color: white !important;
+    }
+
+    .tab {
+        background-color: #f3f3f3;
+        color: #646464;
+        padding: 10px;
+        cursor: pointer;
+    }
+
+    .special {
+        height: 100px;
+        width: 700px;
+        background-color: green;
+    }
+</style>
+<body>
+
+    <img class="img-fluid" src="~/images/book-service-banner.jpg">
+    <section class="book-service">
+        <h1 class="text-center heading mt-4 ">Set up your cleaning service</h1>
+        <div class="d-flex justify-content-center">
+            <hr class="line">
+            <img src="~/images/forma-1-copy-5.png" class="diamond">
+            <hr class="line1">
+        </div>
+        <!------------------main section----------------->
+        <div class="row">
+            <div class="col-md-8" style="width:100%;">
+                <div class="container mt-5">
+
+                    <ul class="st" style="width : 100%;">
+                        <li class="pill-item nd" style="display: inline-block;">
+                            <a id="tab1" class="tab active-tab justify-content-center " style="display: inline-block; width : 100%;text-decoration: none ;" onclick="Tab1Click()">
+                                <img src="~/images/setup-service-white.png" class="pill-img " id="setup" style="margin-right:5px;"><span class="book-service-tab-name">Setup Service</span>
+                            </a>
+
+                        </li>
+                        <li class="pill-item nd" style="display: inline-block;">
+                            <a id="tab2" class="tab btn disabled" style="display: inline-block;text-decoration: none; width : 100%;" onclick="Tab2Click()">
+                                <img src="~/images/schedule.png" class="pill-img" id="schedule" style="margin-right: 5px; align-items: center;"><span class="book-service-tab-name">Schedule & Plan</span>
+                            </a>
+                        </li>
+                        <li class="pill-item nd" style="display: inline-block;  ">
+                            <a id="tab3" class="tab btn disabled" style="display: inline-block; text-decoration : none; width : 100%;" onclick="Tab3Click()">
+                                <img src="~/images/details.png" style="margin-right: 5px;" id="detail">
+                                <span class="book-service-tab-name">Your Details</span>
+                            </a>
+                        </li>
+                        <li class="pill-item nd" style="display:inline-block; ">
+                            <a id="tab4" class="tab btn " style="display: inline-block;text-decoration: none; width : 100%;" onclick="Tab4Click()">
+                                <img src="~/images/payment.png" style="margin-right: 5px;" id="payment"><span class="book-service-tab-name">Make Payment</span>
+                            </a>
+                        </li>
+                    </ul>
+
+
+                    <div>
+                        <div id="tabContent1" class="container">
+                            <br>
+                            <label class="selection-heading">Enter your postal code</label>
+                            <div>
+                                <input asp-for="ZipCode" class="postal-code" placeholder="postal code" id="zipcode">
+                                <button type="button" class="check-availiblity-btn" onclick="SearchZipCode()">Check Availability</button>
+                                <div id="ErrorMessage"> </div>
+                            </div>
+                        </div>
+                        <div id="tabContent2" class="container" style="display:none;">
+                            <br>
+
+                            <p class="selection-heading">Select number of rooms and bath </p>
+                            <div class="row">
+                                <div>
+                                    <select name="Bed" class="bath" onblur="bed();" id="numofbed">
+                                        <option value="1">1  Bed</option>
+                                        <option value="2">2  Bed</option>
+                                        <option value="3">3  Bed</option>
+                                        <option value="4">4  Bed</option>
+                                    </select>
+
+                                </div>
+                                <div>
+                                    <select name="Bath" class="bath" onblur="bath();" id="numofbath">
+                                        <option value="1">1  Bath</option>
+                                        <option value="2">2  Bath</option>
+                                        <option value="3">3  Bath</option>
+                                        <option value="4">4  Bath</option>
+                                    </select>
+
+                                </div>
+                            </div>
+
+                            <div>
+                                <hr class="book-service-line">
+                            </div>
+
+                            <div id="scheduleform">
+                                <div class="row">
+                                    <div class="col-xl-5 ">
+                                        <p class="selection-heading">When do you need the cleaner?</p>
+                                        <div class="row ">
+                                            <input asp-for="ServiceStartDate" class="date-of-service" style="margin-left:10px;" onblur="date();" id="day">
+                                            <div>
+                                                <select name="Bed" class="bath when-do-you-clean" onblur="Time();" id="time">
+                                                    <option value="2:00">2 PM</option>
+                                                    <option value="3:00">3 PM</option>
+                                                    <option value="4:00">4 PM</option>
+                                                    <option value="5:00">5 PM</option>
+                                                </select>
+
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-xl-7">
+                                        <p class="selection-heading">How long do you need your cleaner to stay?</p>
+                                        <div>
+                                            <select asp-for="ServiceHours" class="date-of-service" onblur="duration();" id="hours">
+                                                <option value="3">3 hrs</option>
+                                                <option value="4">4 hrs</option>
+                                                <option value="5">5 hrs</option>
+                                                <option value="6">6 hrs</option>
+                                            </select>
+
+                                        </div>
+                                    </div>
+
+                                </div>
+                            </div>
+                            <div>
+                                <hr class="book-service-line">
+                            </div>
+                            <p class="selection-heading">Extra Services</p>
+                            <div class="row">
+                                <div class="">
+                                    <div class="d-flex flex-wrap">
+                                        <div class="card border border-0 text-center justify-content-center  service">
+                                            <div class="mx-auto">
+                                                <div class=" text-center cardimg " style="border:1px solid #DEDDDD; border-radius:50%; " id="cabinetborder">
+                                                    <img class="card-img-top img1" src="../images/3.png" onclick="Cabinet();" id="cabinet" alt="Card image">
+                                                </div>
+                                            </div>
+                                            <div class="card-body text-center">
+                                                <h5 class="card-title service-content1">Inside cabinets</h5>
+
+                                            </div>
+                                        </div>
+
+                                        <div class="card border border-0 text-center justify-content-center  service ">
+                                            <div class="mx-auto">
+                                                <div class=" text-center cardimg" style="border:1px solid #DEDDDD; border-radius:50%; " id="fridgeborder">
+                                                    <img class="card-img-top img2" src="~/images/5.png" id="fridge" onclick="Fridge();" alt="Card image">
+                                                </div>
+                                            </div>
+                                            <div class="card-body text-center">
+                                                <h5 class="card-title service-content1">Inside fridge</h5>
+
+                                            </div>
+                                        </div>
+
+
+                                        <div class="card border border-0 text-center justify-content-center  service ">
+                                            <div class="mx-auto">
+                                                <div class=" text-center cardimg1 " onclick="Oven();" id="ovenborder" style="border:1px solid #DEDDDD; border-radius:50%; ">
+                                                    <img class="card-img-top img3" src="~/images/4.png" alt="Card image" id="oven">
+                                                </div>
+                                            </div>
+                                            <div class="card-body text-center">
+                                                <h5 class="card-title service-content1">Inside oven</h5>
+
+                                            </div>
+                                        </div>
+
+
+                                        <div class="card border border-0 text-center justify-content-center  service ">
+                                            <div class="mx-auto">
+                                                <div class=" text-center cardimg" style="border:1px solid #DEDDDD; border-radius:50%; " id="laundryborder">
+                                                    <img class="card-img-top img4" src="~/images/2.png" alt="Card image" onclick="Laundry();" id="laundry">
+                                                </div>
+                                            </div>
+                                            <div class="card-body text-center">
+                                                <h5 class="card-title service-content1">Laundry wash</h5>
+
+                                            </div>
+                                        </div>
+
+                                        <div class="card border border-0 text-center justify-content-center  service ">
+                                            <div class="mx-auto">
+                                                <div class=" text-center cardimg " style="border:1px solid #DEDDDD; border-radius:50%; " id="interiorborder">
+                                                    <img class="card-img-top img5" src="~/images/1.png" alt="Card image" onclick="Interior();" id="interior">
+                                                </div>
+                                            </div>
+                                            <div class="card-body text-center">
+                                                <h5 class="card-title service-content1">Interior windows</h5>
+
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div>
+                                <hr class="book-service-line">
+                            </div>
+                            <div>
+                                <p class="selection-heading">Comments</p>
+                                <textarea asp-for="Comments" rows="3" class="comment-aera"></textarea>
+                                <div style="margin-top: 10px;">
+                                    <input type="checkbox" name="pet" class="chack">
+                                    <label class="pet-label">I have a pets at home</label>
+                                </div>
+                            </div>
+                            <div>
+                                <hr class="book-service-line">
+                            </div>
+                            <div>
+                                <button type="button" class="continue-btn" onclick="SaveServiceDetail();">Continue</button>
+                            </div>
+                        </div>
+
+                        <div id="tabContent3" class="container" style="display:none;">
+                            <br>
+                            <p class="selection-heading">Enter your contact detail, so we can serve you in better way!</p>
+                            <div class="row address-for-book-service">
+                                <div>
+                                    <input type="radio" name="address1" class="address-radio">
+                                </div>
+                                <div>
+                                    <div><b>Address :</b> Koerigstree 112, Tambach Dietharz</div>
+                                    <div><b>Phone Number :</b> 999999999</div>
+                                </div>
+                            </div>
+
+                            <div class="row address-for-book-service">
+                                <input type="radio" name="address1" class="address-radio">
+                                <div>
+                                    <div><b>Address :</b> Koerigstree 112, Tambach Dietharz</div>
+                                    <div><b>Phone Number :</b> 999999999</div>
+                                </div>
+                            </div>
+
+                            <div class="row" style="margin-left:10px;">
+
+                                <a class="btn add-new-button hide-me" data-toggle="collapse" href="#collapseExample" role="button" aria-expanded="false" aria-controls="collapseExample">
+                                    + Add New Address
+                                </a>
+                            </div>
+
+                            <div class="collapse" id="collapseExample" style="margin-top:20px;">
+                                <div class="card card-body" style="width:100%;">
+                                    <div class="row">
+                                        <div class="col-md-6">
+                                            <label class="add-new-button-label">Street Name:</label>
+                                            <input asp-for="addressline1" placeholder="Street Name" class="form11">
+                                        </div>
+                                        <div class="col-md-6">
+                                            <label class="add-new-button-label">House Number:</label>
+                                            <input asp-for="addressline2" placeholder="Street Name" class="form11">
+                                        </div>
+
+                                    </div>
+
+                                    <div class="row">
+                                        <div class="col-md-6">
+                                            <label class="add-new-button-label">Postal Code:</label>
+                                            <input asp-for="postalcode" placeholder="Postal-Code" class="form11">
+                                        </div>
+                                        <div class="col-md-6">
+                                            <label class="add-new-button-label">City:</label>
+                                            <input asp-for="city" placeholder="City" class="form11">
+                                        </div>
+                                    </div>
+
+                                    <div class="row">
+                                        <div class="col-md-6">
+                                            <label class="add-new-button-label">Phone Number:</label>
+                                            <input asp-for="mobile" placeholder="Phone Number" class="form11">
+                                        </div>
+                                        <div class="col-md-6"></div>
+                                    </div>
+
+                                    <div class="row">
+                                        <button type="button" class="Save-btn" onclick="addNewAddress();">Save</button>
+                                        <button type="reset" class="Save-btn">Cancel</button>
+                                    </div>
+
+                                </div>
+                            </div>
+
+
+                            <div class="row">
+                                <p class="selection-heading" style="margin-left:10px;">Your Favourite Service Providers </p>
+
+                            </div>
+                            <div>
+                                <hr class="book-service-line" style="margin-top:0px;">
+                            </div>
+                            <div class="row">
+                                <p style="margin-left:20px; color: #646464;">You can choose your favourite service provider from the below list</p>
+                            </div>
+
+                            <div>
+                                <div class="row" style="margin-left:10px;">
+                                    <img src="~/images/cap.png" class="cap-img">
+                                </div>
+                                <div class="row">
+                                    <p class="selection-heading" style="margin-left:10px; font-weight: normal;">Sandip Patel</p>
+                                </div>
+                                <div class="row">
+                                    <button type="submit" class="select-btn">Select</button>
+                                </div>
+                            </div>
+
+                            <div>
+                                <hr class="book-service-line" style="margin-top:20px;">
+                            </div>
+
+                            <div>
+                                <button type="button" class="continue-btn">Continue</button>
+                            </div>
+
+                        </div>
+                        <div id="tabContent4" class="container" style="display:none;">
+                            <br>
+                            <p class="selection-heading">Pay securely with helperland payment gateway!</p>
+                            <label class="selection-heading" style="font-weight:normal;">Promo Code(optional)</label>
+                            <div class="row">
+                                <input type="text" placeholder=" promo code(optional)" class="promo-code">
+                                <button type="button" class="Apply-btn">Apply</button>
+                            </div>
+
+                            <div>
+                                <hr class="book-service-line">
+                            </div>
+
+                            <div class="row" style="width:100%;">
+
+                                <div class="col-md-8 col-sm-7 col-6">	<input type="number" name="" placeholder="Card Number" class="card-number"></div>
+                                <div class="col-md-4 col-sm-5 col-6">	<input type="text" name="" placeholder="MM/YY CVC" class="card-number" style="float: right;"></div>
+                            </div>
+
+                            <div>
+                                <hr class="book-service-line">
+                            </div>
+
+                            <div class="row">
+                                <div class="col-1"><input type="checkbox" name="" style="width:20px; height: 20px;"></div>
+                                <div class="col-11">
+                                    I accepeted <span style="color: #;"> terms and condition.</span>the <span>cancellation policy </span> and the
+                                    <span>privacy policy</span> .I confirm that helperland start to execute contract before the expiry of withdrawal period and I lose my right of withdrawal as a consumer with full perfomace of the contract.
+                                </div>
+                            </div>
+
+                            <div>
+                                <hr class="book-service-line">
+                            </div>
+
+                            <div>
+                                <button type="button" class="completebooking-btn" onclick="Complete();">Complete Booking</button>
+                            </div>
+
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+            <div class="col-md-4 mt-5">
+                <div class="card">
+                    <div class="card-header payment-summary-heading">Payment Summary</div>
+                    <div class="card-body " style="border-bottom: 1px solid #DEDDDD;">
+                        <div>
+                            <p class="payment-summary-content" id="daydate"></p>
+                            <p class="payment-summary-content" id="bathbed"></p>
+                        </div>
+                        <div>
+                            <p class="payment-summary-content"><b>Duration</b></p>
+                            <div class="row payment-summary-content">
+                                <div class="col-8 col-sm-8 ">Basic</div>
+                                <div class="col-4 col-sm-4 " id="basicduration">3 Hrs</div>
+                            </div>
+                            <div class="row payment-summary-content">
+                                <div class="col-8 col-sm-8 extraservicetext"></div>
+                                <div class="col-4 col-sm-4 extratime"></div>
+                            </div>
+                            <hr>
+                            <div class="row payment-summary-content">
+                                <div class="col-8 col-sm-8"><b>Total Service Time</b></div>
+                                <div class="col-4 col-sm-4" id="totalservicetime"><b></b></div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="card-body " style="border-bottom: 1px solid #DEDDDD;">
+                        <div class="row">
+                            <div class="col-8 col-sm-8 payment-summary-content">Per Cleaning</div>
+                            <div class="col-4 col-sm-4 payment-summary-content percleaning">$87</div>
+                        </div>
+                        <div class="row">
+                            <div class="col-8 col-sm-8 payment-summary-content">Discount</div>
+                            <div class="col-4 col-sm-4 payment-summary-content discount">$0.00</div>
+                        </div>
+                    </div>
+                    <div class="card-body">
+                        <div class="row">
+                            <div class="col-8 col-sm-8 payment-summary-content2">Total Payment</div>
+                            <div class=" col-4 col-sm-4 payment-summary-content3 totalpayment" style="font-size:24px;">$261</div>
+                        </div>
+                        <div class="row">
+                            <div class="col-8 col-sm-8 payment-summary-content">Effective Price</div>
+                            <div class=" col-4 col-sm-4 payment-summary-content effectivepayment"><b>$261</b></div>
+                        </div>
+                        <p class="payment-summary-content4 mt-2"><span class="text-danger">*</span> you will save 20% according to §35a EStG.</p>
+                    </div>
+                    <div class="card-footer payment-summary-content4"><img src="images/smiley.png" alt="">    See what is always included</div>
+                </div>
+                <div>
+                    <p class="text-center mt-3 question">Questions?</p>
+
+                    <div id="accordion">
+                        <div class="card book-service-accordion-card">
+                            <div class="card-header" style="background: none;">
+                                <a onclick="rotateimg1()" class="card-link book-service-accordion-card-header" data-toggle="collapse" href="#collapseOne">
+                                    <img src="~/images/right-arrow-grey.png" id="img1" class="mr-2 " style="margin-left: -20px;"> Which Helperland professional will come to my place?
+
+                                </a>
+
+                            </div>
+
+                            <div id="collapseOne" class="collapse" data-parent="#accordion">
+                                <div class="card-body" style="font-weight: bold;">
+                                    Lorem-ipsum
+                                </div>
+                            </div>
+                        </div>
+
+
+                        <div class="card book-service-accordion-card">
+                            <div class="card-header" style="background: none;">
+                                <a onclick="rotateimg2()" class="card-link book-service-accordion-card-header" data-toggle="collapse" href="#collapseTwo">
+                                    <img src="~/images/right-arrow-grey.png" id="img2" class="mr-2 " style="margin-left: -20px;"> Which Helperland professional will come to my place?
+
+                                </a>
+
+                            </div>
+
+                            <div id="collapseTwo" class="collapse" data-parent="#accordion">
+                                <div class="card-body" style="font-weight: bold;">
+                                    Lorem-ipsum
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="card book-service-accordion-card">
+                            <div class="card-header" style="background: none;">
+                                <a onclick="rotateimg3()" class="card-link book-service-accordion-card-header" data-toggle="collapse" href="#collapseThree">
+                                    <img src="~/images/right-arrow-grey.png" id="img3" class="mr-2 " style="margin-left: -20px;"> Which Helperland professional will come to my place?
+
+                                </a>
+
+                            </div>
+
+                            <div id="collapseThree" class="collapse" data-parent="#accordion">
+                                <div class="card-body" style="font-weight: bold;">
+                                    Lorem-ipsum
+                                </div>
+                            </div>
+                        </div>
+                        <div class="card book-service-accordion-card">
+                            <div class="card-header" style="background: none;">
+                                <a onclick="rotateimg4()" class="card-link book-service-accordion-card-header" data-toggle="collapse" href="#collapseFour">
+                                    <img src="~/images/right-arrow-grey.png" id="img4" class="mr-2 " style="margin-left: -20px;"> Which Helperland professional will come to my place?
+
+                                </a>
+
+                            </div>
+
+                            <div id="collapseFour" class="collapse" data-parent="#accordion">
+                                <div class="card-body" style="font-weight: bold;">
+                                    Lorem-ipsum
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="card book-service-accordion-card">
+                            <div class="card-header" style="background: none;">
+                                <a onclick="rotateimg5()" class="card-link book-service-accordion-card-header" data-toggle="collapse" href="#collapseFive">
+                                    <img src="~/images/right-arrow-grey.png" id="img5" class="mr-2 " style="margin-left: -20px;"> Which Helperland professional will come to my place?
+
+                                </a>
+
+                            </div>
+
+                            <div id="collapseFive" class="collapse" data-parent="#accordion">
+                                <div class="card-body" style="font-weight: bold;">
+                                    Lorem-ipsum
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+                    <div><a href="faq.html"><p style="color: #1d7a8c; font-weight: bold;">For more Help</p></a></div>
+                </div>
+            </div>
+        </div>
+
+        <div class="text-center pt-5 ">
+            <span class="newsletter">  GET OUR NEWSLETER</span>
+            <div class="d-flex justify-content-center d-wrap mt-2">
+                <input type="text" value="YOUR EMAIL" placeholder="YOUR EMAIL " class="rounded-pill align-items-left pl-3 emailbox">
+                <input type="submit" value="submit" class="btn rounded-pill text-center mx-2 submit-button">
+            </div>
+        </div>
+    </section>
+
+
+
+
+
+    <script type="text/javascript">
+        var globalVar = "Global to Booking page";
+        var totaltime = 0;
+        var cabinet = 0;
+        var interior = 0;
+        var laundry = 0;
+        var oven = 0;
+        var fridge = 0;
+        var time = 0;
+        var payment = 0;
+        var percleaning = 87;
+
+
+        function Tab1Click() {
+
+        $("#tab1").addClass("active-tab");
+        $("#tab2").removeClass("active-tab").addClass("tab");
+        $("#tab3").removeClass("active-tab").addClass("tab");
+        $("#tab4").removeClass("active-tab").addClass("tab");
+
+        $("#tabContent2").hide();
+        $("#tabContent3").hide();
+        $("#tabContent4").hide();
+        $("#tabContent1").show();
+
+
+    }
+
+    function Tab2Click() {
+        $("#tab2").addClass("active-tab");
+        $("#tab1").removeClass("active-tab").addClass("tab");
+        $("#tab3").removeClass("active-tab").addClass("tab");
+        $("#tab4").removeClass("active-tab").addClass("tab");
+
+        $("#tabContent1").hide();
+        $("#tabContent3").hide();
+        $("#tabContent4").hide();
+        $("#tabContent2").show();
+    }
+
+    function Tab3Click() {
+        $("#tab3").addClass("active-tab");
+        $("#tab1").removeClass("active-tab").addClass("tab");
+        $("#tab2").removeClass("active-tab").addClass("tab");
+        $("#tab4").removeClass("active-tab").addClass("tab");
+
+        $("#tabContent1").hide();
+        $("#tabContent2").hide();
+        $("#tabContent4").hide();
+        $("#tabContent3").show();
+        //$("#divAddress").html("Loading Address view...")
+            //.load('@Url.Action("GetAddress", "BookServiceRequest")');
+    }
+    function Tab4Click() {
+        $("#tab4").addClass("active-tab");
+        $("#tab1").removeClass("active-tab").addClass("tab");
+        $("#tab2").removeClass("active-tab").addClass("tab");
+        $("#tab3").removeClass("active-tab").addClass("tab");
+
+        $("#tabContent1").hide();
+        $("#tabContent2").hide();
+        $("#tabContent3").hide();
+        $("#tabContent4").show();
+    }
+
+
+        function SearchZipCode() {
+
+
+            var data = {};
+            data.ZipCode = $("#zipcode").val();
+
+            $.ajax({
+                type: 'POST',
+                url: '/BookNow/ZipCodeValue',
+                contentType: 'application/x-www-form-urlencoded; charset=UTF-8',
+                data: data,
+                success: function (result) {
+                    if (result.value == "true") {
+                       // next();
+                        $("#tab2").addClass("active-tab");
+                        $("#tab1").removeClass("active-tab").addClass("tab");
+                        $("#tabContent1").hide();
+                        $("#tabContent2").show();
+                    }
+                },
+                error: function () {
+                    alert('Failed to receive the Data');
+                    console.log('Failed ');
+                }
+            })
+        }
+
+
+
+
+
+        function SaveServiceDetail() {
+
+            var data = $("#scheduleform").serialize ;
+
+
+            $.ajax({
+                type: 'POST',
+                url: '/BookNow/Schedule',
+                contentType: 'application/x-www-form-urlencoded; charset=UTF-8',
+                data: data,
+                success: function (result) {
+                    if (result.value == "true") {
+
+                        $("#tab3").addClass("active-tab");
+                        $("#tab2").removeClass("active-tab").addClass("tab");
+                        $("#tabContent2").hide();
+                        $("#tabContent4").hide();
+                        $("#tabContent3").show();
+                        alladdress();
+                    }
+                },
+                error: function () {
+                    alert('Failed to ');
+                    console.log('Failed ');
+                }
+            })
+        }
+
+        //function alladdress() {
+
+        //    $.ajax({
+        //        type: 'GET',
+        //        url: '/BookNow/GetUserAddresses',
+        //        contentType: 'application/x-www-form-urlencoded; charset=UTF-8',
+
+        //        success: function (data) {
+
+        //            data = JSON.parse(data);
+
+        //            $("#addressline").text(data.addressline1);
+        //            $("#phonenumber").text(data.mobile);
+
+        //               // alert("successfully Add New Address");
+
+        //        },
+        //        error: function () {
+        //            alert('Failed to receive the Data');
+        //            console.log('Failed ');
+        //        }
+        //    })
+        //}
+
+        function addNewAddress() {
+
+            var data = {};
+            data.addressline1 = $("#AddressLine1").val();
+            data.addressline2 = $("#AddressLine2").val();
+            data.city = $("#City").val();
+            data.postalcode = $("#PostalCode").val();
+
+            data.mobile = $("#MobileNumber").val();
+
+            $.ajax({
+                type: 'POST',
+                url: '/BookNow/AddNewAddress',
+                contentType: 'application/x-www-form-urlencoded; charset=UTF-8',
+                data: data,
+                success: function (result) {
+                    if (result.value == "true") {
+
+                        alert("successfully Add New Address");
+                    }
+                },
+                error: function () {
+                    alert('Failed ');
+                    console.log('Failed ');
+                }
+            })
+
+        }
+
+
+        function SaveAddress() {
+            var data = {};
+
+
+            $.ajax({
+                type: 'POST',
+                url: '/BookNow/YourDetail',
+                contentType: 'application/x-www-form-urlencoded; charset=UTF-8',
+                data: data,
+                success: function (result) {
+                    if (result.value == "true") {
+
+                        $("#tab4").addClass("active-tab");
+                        $("#tab3").removeClass("active-tab").addClass("tab");
+                        $("#tabContent3").hide();
+                        $("#tabContent4").show();
+                        $("#confirmZipCode").html($("#ZipCode").val());
+                    }
+                },
+                error: function () {
+                    alert('Failed to receive the ');
+                    console.log('Failed ');
+                }
+            })
+
+        }
+
+
+        function Complete() {
+            debugger;
+            var data = {};
+            data.ZipCode = $("#zipcode").val();
+            data.ServiceStartDate = $("#day").val();
+            data.ServiceHourlyRate = percleaning;
+            data.ExtraHours = 4;
+            data.SubTotal = payment;
+            data.ServiceHours = $("#hours").val();
+          //  data.ServiceRequestId =
+            data.Discount = 0.00;
+            data.TotalCost = payment;
+            data.Comments = $("#comment").val();
+            data.HasPets = false;
+
+
+           // details.
+            $.ajax({
+                type: 'POST',
+                url: '/BookNow/CompleteBooking',
+                contentType: 'application/x-www-form-urlencoded; charset=UTF-8',
+
+                data:data,
+                success: function (result) {
+                    if (result.value == "true") {
+                        alert('Successfully!completed service booking!');
+                    }
+                },
+                error: function () {
+                    alert('Failed to  Data');
+                    console.log('Failed ');
+                }
+            })
+
+        }
+
+
+
+
+
+
+
+
+        function date() {
+            $("#daydate").html($("#day").val());
+        }
+
+        function bed() {
+            $("#bathbed").html(" " + $("#numofbed").val() + " Bed");
+        }
+
+        function bath() {
+            $("#bathbed").append(" " + $("#numofbath").val() + " Bath");
+        }
+
+        function Time() {
+            $("#daydate").append(" " + $("#time").val());
+        }
+
+
+        function duration() {
+            $("#basicduration").html($("#hours").val() + " Hrs ");
+
+
+
+
+
+
+
+            totaltime = parseFloat($("#hours").val());
+
+            $("#totalservicetime").html(totaltime + " Hrs ");
+
+            payment = parseFloat(percleaning * totaltime);
+            $(".totalpayment").html("$" + payment);
+            $(".effectivepayment").html("$" + payment);
+
+
+
+        }
+
+
+        function Cabinet() {
+
+            if (cabinet < 1) {
+                totaltime += 0.5;
+                $("#totalservicetime").html(totaltime + " Hrs ");
+                $(".extraservicetext").append("<p>Inside Cabinets(extra)</p>");
+                $(".extratime").append("<p>30 Mins</p>");
+
+                payment = parseFloat(percleaning * totaltime);
+                $(".totalpayment").html("$" + payment);
+                $(".effectivepayment").html("$" + payment);
+                cabinet++;
+            }
+
+            $('#cabinetborder').css({
+                'border': '2px solid #1d7a8c',
+            });
+
+
+
+            $(document).ready(function () {
+                $("#cabinet").click(function () {
+                    var select = true;
+                    if (select == true) {
+                        $("#cabinet").attr("src", "../image/cabinet-green.png");
+                        //document.getElementById("cabinet").src = "../image/cabinet-green.png";
+                        select = false;
+                    }
+
+                    else {
+                        $("#cabinet").attr("src", "../image/cabinet.png");
+                        //document.getElementById("cabinet").src = "../image/cabinet.png";
+                        select = true;
+                    }
+                });
+            });
+
+        }
+
+
+
+        function Fridge() {
+            if (fridge < 1) {
+                totaltime += 0.5;
+                $("#totalservicetime").html(totaltime + " Hrs ");
+                $(".extraservicetext").append("<p>Inside Fridge(extra)</p>");
+                $(".extratime").append("<p>30 Mins</p>");
+
+                payment = parseFloat(percleaning * totaltime);
+                $(".totalpayment").html("$" + payment);
+                $(".effectivepayment").html("$" + payment);
+                fridge++;
+            }
+            document.getElementById("fridge").src = "../image/fridge-green.png";
+            $('#fridgeborder').css({
+                'border': '2px solid #1d7a8c',
+            });
+        }
+
+        function Oven() {
+            if (oven < 1) {
+                totaltime += 0.5;
+                $("#totalservicetime").html(totaltime + " Hrs ");
+                $(".extraservicetext").append("<p>Inside Oven(extra)</p>");
+                $(".extratime").append("<p>30 Mins</p>");
+
+                payment = parseFloat(percleaning * totaltime);
+                $(".totalpayment").html("$" + payment);
+                $(".effectivepayment").html("$" + payment);
+                oven++;
+            }
+
+            //$(".extraservicetext").html($("#oventext").text());
+            document.getElementById("oven").src = "../image/oven-green.png";
+            $('#ovenborder').css({
+                'border': '2px solid #1d7a8c',
+            });
+        }
+
+        function Laundry() {
+            if (laundry < 1) {
+                totaltime += 0.5;
+                $("#totalservicetime").html(totaltime + " Hrs ");
+                $(".extraservicetext").append("<p>Laundry Wash & Dry (extra)</p>");
+                $(".extratime").append("<p>30 Mins</p>");
+
+                payment = parseFloat(percleaning * totaltime);
+                $(".totalpayment").html("$" + payment);
+                $(".effectivepayment").html("$" + payment);
+                laundry++;
+            }
+
+            //$(".extraservicetext").html($("#laundrytext").text());
+            document.getElementById("laundry").src = "../image/laundry-green.png";
+            $('#laundryborder').css({
+                'border': '2px solid #1d7a8c',
+            });
+        }
+
+        function Window() {
+            if (interior < 1) {
+                totaltime += 0.5;
+                $("#totalservicetime").html(totaltime + " Hrs ");
+                $(".extraservicetext").append("<p>Interior Windows(extra)</p>");
+                $(".extratime").append("<p>30 Mins</p>");
+
+                payment = parseFloat(percleaning * totaltime);
+                $(".totalpayment").html("$" + payment);
+                $(".effectivepayment").html("$" + payment);
+                interior++;
+            }
+
+            //$(".extraservicetext").html($("#windowtext").text());
+            document.getElementById("window").src = "../image/window-green.png";
+            $('#windowborder').css({
+                'border': '2px solid #1d7a8c',
+            });
+        }
+    </script>
+
+
+</body>
