@@ -114,7 +114,7 @@ namespace Helperland.Controllers
 
 
 
-
+        [HttpGet]
         public IActionResult Index()
         {
             return View();

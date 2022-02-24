@@ -231,146 +231,135 @@
                         <div id="tabContent3" class="container" style="display:none;">
                             <br>
                             <p class="selection-heading">Enter your contact detail, so we can serve you in better way!</p>
-                            <div class="row address-for-book-service">
-                                <div>
-                                    <input type="radio" name="address1" class="address-radio">
-                                </div>
-                                <div>
-                                    <div><b>Address :</b> Koerigstree 112, Tambach Dietharz</div>
-                                    <div><b>Phone Number :</b> 999999999</div>
-                                </div>
+                            <div class="row address-for-book-service" style="width:100%;">
+
+                                
+                                    <div id="displayAddress"></div><br />
+                                
                             </div>
 
-                            <div class="row address-for-book-service">
-                                <input type="radio" name="address1" class="address-radio">
-                                <div>
-                                    <div><b>Address :</b> Koerigstree 112, Tambach Dietharz</div>
-                                    <div><b>Phone Number :</b> 999999999</div>
-                                </div>
-                            </div>
+                                    <div class="row" style="margin-left:10px;">
 
-                            <div class="row" style="margin-left:10px;">
+                                        <a class="btn add-new-button hide-me" data-toggle="collapse" href="#collapseExample" role="button" aria-expanded="false" aria-controls="collapseExample">
+                                            + Add New Address
+                                        </a>
+                                    </div>
+                                 <form>
+                                    <div class="collapse" id="collapseExample" style="margin-top:20px;">
+                                        <div class="card card-body" style="width:100%;">
+                                            <div class="row">
+                                                <div class="col-md-6">
+                                                    <label class="add-new-button-label">Street Name:</label>
+                                                    <input asp-for="addressline1" placeholder="Street Name" class="form11" id="AddressLine1">
+                                                </div>
+                                                <div class="col-md-6">
+                                                    <label class="add-new-button-label">House Number:</label>
+                                                    <input asp-for="addressline2" placeholder="Street Name" class="form11" id="AddressLine2">
+                                                </div>
 
-                                <a class="btn add-new-button hide-me" data-toggle="collapse" href="#collapseExample" role="button" aria-expanded="false" aria-controls="collapseExample">
-                                    + Add New Address
-                                </a>
-                            </div>
+                                            </div>
 
-                            <div class="collapse" id="collapseExample" style="margin-top:20px;">
-                                <div class="card card-body" style="width:100%;">
+                                            <div class="row">
+                                                <div class="col-md-6">
+                                                    <label class="add-new-button-label">Postal Code:</label>
+                                                    <input asp-for="postalcode" placeholder="Postal-Code" class="form11" id="PostalCode">
+                                                </div>
+                                                <div class="col-md-6">
+                                                    <label class="add-new-button-label">City:</label>
+                                                    <input asp-for="city" placeholder="City" class="form11" id="City">
+                                                </div>
+                                            </div>
+
+                                            <div class="row">
+                                                <div class="col-md-6">
+                                                    <label class="add-new-button-label">Phone Number:</label>
+                                                    <input asp-for="mobile" placeholder="Phone Number" class="form11" id="MobileNumber">
+                                                </div>
+                                                <div class="col-md-6"></div>
+                                            </div>
+
+                                            <div class="row">
+                                                <button type="button" class="Save-btn" onclick="addNewAddress();">Save</button>
+                                                <button type="reset" class="Save-btn">Cancel</button>
+                                            </div>
+
+                                        </div>
+                                    </div>
+
+                                  </form>
                                     <div class="row">
-                                        <div class="col-md-6">
-                                            <label class="add-new-button-label">Street Name:</label>
-                                            <input asp-for="addressline1" placeholder="Street Name" class="form11">
-                                        </div>
-                                        <div class="col-md-6">
-                                            <label class="add-new-button-label">House Number:</label>
-                                            <input asp-for="addressline2" placeholder="Street Name" class="form11">
-                                        </div>
+                                        <p class="selection-heading" style="margin-left:10px;">Your Favourite Service Providers </p>
 
+                                    </div>
+                                    <div>
+                                        <hr class="book-service-line" style="margin-top:0px;">
+                                    </div>
+                                    <div class="row">
+                                        <p style="margin-left:20px; color: #646464;">You can choose your favourite service provider from the below list</p>
+                                    </div>
+
+                                    <div>
+                                        <div class="row" style="margin-left:10px;">
+                                            <img src="~/images/cap.png" class="cap-img">
+                                        </div>
+                                        <div class="row">
+                                            <p class="selection-heading" style="margin-left:10px; font-weight: normal;">Sandip Patel</p>
+                                        </div>
+                                        <div class="row">
+                                            <button type="submit" class="select-btn">Select</button>
+                                        </div>
+                                    </div>
+
+                                    <div>
+                                        <hr class="book-service-line" style="margin-top:20px;">
+                                    </div>
+
+                                    <div>
+                                        <button type="button" class="continue-btn" onclick="SaveAddress();">Continue</button>
+                                    </div>
+
+                                </div>
+                                <div id="tabContent4" class="container" style="display:none;">
+                                    <br>
+                                    <p class="selection-heading">Pay securely with helperland payment gateway!</p>
+                                    <label class="selection-heading" style="font-weight:normal;">Promo Code(optional)</label>
+                                    <div class="row">
+                                        <input type="text" placeholder=" promo code(optional)" class="promo-code">
+                                        <button type="button" class="Apply-btn">Apply</button>
+                                    </div>
+
+                                    <div>
+                                        <hr class="book-service-line">
+                                    </div>
+
+                                    <div class="row" style="width:100%;">
+
+                                        <div class="col-md-8 col-sm-7 col-6">	<input type="number" name="" placeholder="Card Number" class="card-number"></div>
+                                        <div class="col-md-4 col-sm-5 col-6">	<input type="text" name="" placeholder="MM/YY CVC" class="card-number" style="float: right;"></div>
+                                    </div>
+
+                                    <div>
+                                        <hr class="book-service-line">
                                     </div>
 
                                     <div class="row">
-                                        <div class="col-md-6">
-                                            <label class="add-new-button-label">Postal Code:</label>
-                                            <input asp-for="postalcode" placeholder="Postal-Code" class="form11">
-                                        </div>
-                                        <div class="col-md-6">
-                                            <label class="add-new-button-label">City:</label>
-                                            <input asp-for="city" placeholder="City" class="form11">
+                                        <div class="col-1"><input type="checkbox" name="" style="width:20px; height: 20px;"></div>
+                                        <div class="col-11">
+                                            I accepeted <span style="color: #;"> terms and condition.</span>the <span>cancellation policy </span> and the
+                                            <span>privacy policy</span> .I confirm that helperland start to execute contract before the expiry of withdrawal period and I lose my right of withdrawal as a consumer with full perfomace of the contract.
                                         </div>
                                     </div>
 
-                                    <div class="row">
-                                        <div class="col-md-6">
-                                            <label class="add-new-button-label">Phone Number:</label>
-                                            <input asp-for="mobile" placeholder="Phone Number" class="form11">
-                                        </div>
-                                        <div class="col-md-6"></div>
+                                    <div>
+                                        <hr class="book-service-line">
                                     </div>
 
-                                    <div class="row">
-                                        <button type="button" class="Save-btn" onclick="addNewAddress();">Save</button>
-                                        <button type="reset" class="Save-btn">Cancel</button>
+                                    <div>
+                                        <button type="button" class="completebooking-btn" onclick="Complete();">Complete Booking</button>
                                     </div>
 
                                 </div>
                             </div>
-
-
-                            <div class="row">
-                                <p class="selection-heading" style="margin-left:10px;">Your Favourite Service Providers </p>
-
-                            </div>
-                            <div>
-                                <hr class="book-service-line" style="margin-top:0px;">
-                            </div>
-                            <div class="row">
-                                <p style="margin-left:20px; color: #646464;">You can choose your favourite service provider from the below list</p>
-                            </div>
-
-                            <div>
-                                <div class="row" style="margin-left:10px;">
-                                    <img src="~/images/cap.png" class="cap-img">
-                                </div>
-                                <div class="row">
-                                    <p class="selection-heading" style="margin-left:10px; font-weight: normal;">Sandip Patel</p>
-                                </div>
-                                <div class="row">
-                                    <button type="submit" class="select-btn">Select</button>
-                                </div>
-                            </div>
-
-                            <div>
-                                <hr class="book-service-line" style="margin-top:20px;">
-                            </div>
-
-                            <div>
-                                <button type="button" class="continue-btn">Continue</button>
-                            </div>
-
-                        </div>
-                        <div id="tabContent4" class="container" style="display:none;">
-                            <br>
-                            <p class="selection-heading">Pay securely with helperland payment gateway!</p>
-                            <label class="selection-heading" style="font-weight:normal;">Promo Code(optional)</label>
-                            <div class="row">
-                                <input type="text" placeholder=" promo code(optional)" class="promo-code">
-                                <button type="button" class="Apply-btn">Apply</button>
-                            </div>
-
-                            <div>
-                                <hr class="book-service-line">
-                            </div>
-
-                            <div class="row" style="width:100%;">
-
-                                <div class="col-md-8 col-sm-7 col-6">	<input type="number" name="" placeholder="Card Number" class="card-number"></div>
-                                <div class="col-md-4 col-sm-5 col-6">	<input type="text" name="" placeholder="MM/YY CVC" class="card-number" style="float: right;"></div>
-                            </div>
-
-                            <div>
-                                <hr class="book-service-line">
-                            </div>
-
-                            <div class="row">
-                                <div class="col-1"><input type="checkbox" name="" style="width:20px; height: 20px;"></div>
-                                <div class="col-11">
-                                    I accepeted <span style="color: #;"> terms and condition.</span>the <span>cancellation policy </span> and the
-                                    <span>privacy policy</span> .I confirm that helperland start to execute contract before the expiry of withdrawal period and I lose my right of withdrawal as a consumer with full perfomace of the contract.
-                                </div>
-                            </div>
-
-                            <div>
-                                <hr class="book-service-line">
-                            </div>
-
-                            <div>
-                                <button type="button" class="completebooking-btn" onclick="Complete();">Complete Booking</button>
-                            </div>
-
-                        </div>
-                    </div>
                 </div>
 
             </div>
@@ -550,6 +539,10 @@
         $("#tabContent4").hide();
         $("#tabContent1").show();
 
+            document.getElementById("schedule").src = "../images/schedule.png";
+            document.getElementById("setup").src = "../images/setup-service-white.png";
+            document.getElementById("detail").src = "../images/details.png";
+            document.getElementById("payment").src = "../images/payment.png";
 
     }
 
@@ -563,6 +556,11 @@
         $("#tabContent3").hide();
         $("#tabContent4").hide();
         $("#tabContent2").show();
+
+        document.getElementById("schedule").src = "../images/schedule-white.png";
+        document.getElementById("setup").src = "../images/setup-service.png";
+        document.getElementById("detail").src = "../images/details.png";
+        document.getElementById("payment").src = "../images/payment.png";
     }
 
     function Tab3Click() {
@@ -575,6 +573,11 @@
         $("#tabContent2").hide();
         $("#tabContent4").hide();
         $("#tabContent3").show();
+
+        document.getElementById("schedule").src = "../images/schedule.png";
+        document.getElementById("setup").src = "../images/setup-service.png";
+        document.getElementById("detail").src = "../images/details-white.png";
+        document.getElementById("payment").src = "../images/payment.png";
         //$("#divAddress").html("Loading Address view...")
             //.load('@Url.Action("GetAddress", "BookServiceRequest")');
     }
@@ -588,6 +591,11 @@
         $("#tabContent2").hide();
         $("#tabContent3").hide();
         $("#tabContent4").show();
+
+        document.getElementById("schedule").src = "../images/schedule.png";
+        document.getElementById("setup").src = "../images/setup-service.png";
+        document.getElementById("detail").src = "../images/details.png";
+        document.getElementById("payment").src = "../images/payment-white.png";
     }
 
 
@@ -606,9 +614,15 @@
                     if (result.value == "true") {
                        // next();
                         $("#tab2").addClass("active-tab");
+                        $("#tab2").removeClass("disabled");
                         $("#tab1").removeClass("active-tab").addClass("tab");
                         $("#tabContent1").hide();
                         $("#tabContent2").show();
+
+                        document.getElementById("schedule").src = "../images/schedule-white.png";
+                        document.getElementById("setup").src = "../images/setup-service.png";
+                        document.getElementById("detail").src = "../images/details.png";
+                        document.getElementById("payment").src = "../images/payment.png";
                     }
                 },
                 error: function () {
@@ -636,11 +650,19 @@
                     if (result.value == "true") {
 
                         $("#tab3").addClass("active-tab");
+                        $("#tab3").removeClass("disabled");
                         $("#tab2").removeClass("active-tab").addClass("tab");
                         $("#tabContent2").hide();
                         $("#tabContent4").hide();
                         $("#tabContent3").show();
-                        alladdress();
+
+                        document.getElementById("schedule").src = "../images/schedule.png";
+                        document.getElementById("setup").src = "../images/setup-service.png";
+                        document.getElementById("detail").src = "../images/details-white.png";
+                        document.getElementById("payment").src = "../images/payment.png";
+
+                         $("#displayAddress").load('@Url.Action("Address","BookNow")');
+                         alert("print Address");
                     }
                 },
                 error: function () {
@@ -650,29 +672,7 @@
             })
         }
 
-        //function alladdress() {
 
-        //    $.ajax({
-        //        type: 'GET',
-        //        url: '/BookNow/GetUserAddresses',
-        //        contentType: 'application/x-www-form-urlencoded; charset=UTF-8',
-
-        //        success: function (data) {
-
-        //            data = JSON.parse(data);
-
-        //            $("#addressline").text(data.addressline1);
-        //            $("#phonenumber").text(data.mobile);
-
-        //               // alert("successfully Add New Address");
-
-        //        },
-        //        error: function () {
-        //            alert('Failed to receive the Data');
-        //            console.log('Failed ');
-        //        }
-        //    })
-        //}
 
         function addNewAddress() {
 
@@ -693,6 +693,8 @@
                     if (result.value == "true") {
 
                         alert("successfully Add New Address");
+                         $("#displayAddress").load('@Url.Action("Address","BookNow")');
+        
                     }
                 },
                 error: function () {
@@ -706,28 +708,40 @@
 
         function SaveAddress() {
             var data = {};
+            if ($("input[type='radio'][name = 'address1']:Checked").val() != null) {
 
+                data.radio = parseInt($("input[type='radio'][name = 'address1']:Checked").val())
 
-            $.ajax({
-                type: 'POST',
-                url: '/BookNow/YourDetail',
-                contentType: 'application/x-www-form-urlencoded; charset=UTF-8',
-                data: data,
-                success: function (result) {
-                    if (result.value == "true") {
+                $.ajax({
+                    type: 'POST',
+                    url: '/BookNow/YourDetail',
+                    contentType: 'application/x-www-form-urlencoded; charset=UTF-8',
+                    data: data,
+                    success: function (result) {
+                        if (result.value == "true") {
 
-                        $("#tab4").addClass("active-tab");
-                        $("#tab3").removeClass("active-tab").addClass("tab");
-                        $("#tabContent3").hide();
-                        $("#tabContent4").show();
-                        $("#confirmZipCode").html($("#ZipCode").val());
+                            $("#tab4").addClass("active-tab");
+                            $("#tab3").removeClass("active-tab").addClass("tab");
+                            $("#tabContent3").hide();
+                            $("#tabContent4").show();
+                            $("#confirmZipCode").html($("#ZipCode").val());
+
+                            document.getElementById("schedule").src = "../images/schedule.png";
+                            document.getElementById("setup").src = "../images/setup-service.png";
+                            document.getElementById("detail").src = "../images/details.png";
+                            document.getElementById("payment").src = "../images/payment-white.png";
+                        }
+                    },
+                    error: function () {
+                        alert('Failed to receive the ');
+                        console.log('Failed ');
                     }
-                },
-                error: function () {
-                    alert('Failed to receive the ');
-                    console.log('Failed ');
-                }
-            })
+                })
+            }
+
+            else {
+                alert('please check radio button');
+            }
 
         }
 
@@ -746,6 +760,7 @@
             data.TotalCost = payment;
             data.Comments = $("#comment").val();
             data.HasPets = false;
+            data.PaymentDone = true;
 
 
            // details.
@@ -838,13 +853,13 @@
                 $("#cabinet").click(function () {
                     var select = true;
                     if (select == true) {
-                        $("#cabinet").attr("src", "../image/cabinet-green.png");
+                        $("#cabinet").attr("src", "../images/3-green.png");
                         //document.getElementById("cabinet").src = "../image/cabinet-green.png";
                         select = false;
                     }
 
                     else {
-                        $("#cabinet").attr("src", "../image/cabinet.png");
+                        $("#cabinet").attr("src", "../images/3.png");
                         //document.getElementById("cabinet").src = "../image/cabinet.png";
                         select = true;
                     }
@@ -867,7 +882,7 @@
                 $(".effectivepayment").html("$" + payment);
                 fridge++;
             }
-            document.getElementById("fridge").src = "../image/fridge-green.png";
+            document.getElementById("fridge").src = "../images/5-green.png";
             $('#fridgeborder').css({
                 'border': '2px solid #1d7a8c',
             });
@@ -887,7 +902,7 @@
             }
 
             //$(".extraservicetext").html($("#oventext").text());
-            document.getElementById("oven").src = "../image/oven-green.png";
+            document.getElementById("oven").src = "../images/4-green.png";
             $('#ovenborder').css({
                 'border': '2px solid #1d7a8c',
             });
@@ -907,13 +922,13 @@
             }
 
             //$(".extraservicetext").html($("#laundrytext").text());
-            document.getElementById("laundry").src = "../image/laundry-green.png";
+            document.getElementById("laundry").src = "../images/2-green.png";
             $('#laundryborder').css({
                 'border': '2px solid #1d7a8c',
             });
         }
 
-        function Window() {
+        function Interior() {
             if (interior < 1) {
                 totaltime += 0.5;
                 $("#totalservicetime").html(totaltime + " Hrs ");
@@ -927,8 +942,8 @@
             }
 
             //$(".extraservicetext").html($("#windowtext").text());
-            document.getElementById("window").src = "../image/window-green.png";
-            $('#windowborder').css({
+            document.getElementById("interior").src = "../images/1-green.png";
+            $('#interiorborder').css({
                 'border': '2px solid #1d7a8c',
             });
         }

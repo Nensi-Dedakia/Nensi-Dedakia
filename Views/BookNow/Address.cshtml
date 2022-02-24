@@ -1,0 +1,19 @@
+﻿@model IEnumerable<Helperland.Models.Data.UserAddress>
+@{
+    Layout = null;
+}
+@foreach (var add in Model)
+{
+<div class="row address-for-book-service">
+    <input type="radio" name="address1" class="address-radio" value="@Html.DisplayFor(modelItem => add.AddressId)">
+    <div>
+        <div>
+            <b>Address :</b>@Html.DisplayFor(modelItem => add.AddressLine1),@Html.DisplayFor(modelItem => add.AddressLine2)
+            @Html.DisplayFor(modelItem => add.City),@Html.DisplayFor(modelItem => add.PostalCode)
+        </div>
+        <div><b>Phone Number :</b>@Html.DisplayFor(modelItem => add.Mobile)</div>
+    </div>
+</div>
+
+    }
+

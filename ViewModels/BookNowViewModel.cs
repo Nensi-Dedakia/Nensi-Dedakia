@@ -48,7 +48,7 @@ namespace Helperland.ViewModels
         [Key]
         public int AddressId { get; set; }
         public int UId { get; set; }
-        [Required]
+        
         [StringLength(200)]
         public string addressline1 { get; set; }
         [StringLength(200)]
@@ -68,8 +68,8 @@ namespace Helperland.ViewModels
         [StringLength(100)]
         public string email { get; set; }
 
-        public List<UserAddress> Address { get; set; } = new List<UserAddress>();
-        public int? tick { get; set; }
+       // public List<UserAddress> Address { get; set; } = new List<UserAddress>();
+       // public int? tick { get; set; }
 
 
 
@@ -110,6 +110,6 @@ namespace Helperland.ViewModels
         public bool? PaymentDone { get; set; }
         public Guid? RecordVersion { get; set; }
 
-      
+       // public IEnumerable<UserAddress> address { get; set; }
     }
 }

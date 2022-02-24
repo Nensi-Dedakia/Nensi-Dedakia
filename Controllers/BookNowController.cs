@@ -6,6 +6,8 @@ using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Net;
+using System.Net.Mail;
 using System.Threading.Tasks;
 
 namespace Helperland.Controllers
@@ -28,7 +30,8 @@ namespace Helperland.Controllers
 
         [HttpPost]
 
-        public IActionResult ZipCodeValue(BookNowViewModel model)
+        
+        public ActionResult ZipCodeValue(BookNowViewModel model)
         {
             if (HttpContext.Session.GetString("Email") != null)
             {
@@ -46,7 +49,7 @@ namespace Helperland.Controllers
 
             else
             {
-                return RedirectToAction("Index", "Home");
+                return RedirectToAction("faq", "Home");
             }
 
             return View();
@@ -67,22 +70,23 @@ namespace Helperland.Controllers
             //}
         }
 
+        [HttpGet]
+
+        public IActionResult Address()
+        {
+            var CustomerId = _helperlandContext.Users.Where(b => b.Email.Equals(HttpContext.Session.GetString("Email"))).FirstOrDefault();
+            int ID = CustomerId.UserId;
+
+            System.Threading.Thread.Sleep(2000);
+
+            return View(_helperlandContext.UserAddresses.Where(address => address.UserId.Equals(ID)).ToList());
 
 
-      
-      //  [HttpGet]
 
-        //public JsonResult GetUserAddresses(BookNowViewModel getaddress)
-        //{
-        //    var CustomerId = _helperlandContext.Users.Where(b => b.Email.Equals(HttpContext.Session.GetString("Email"))).FirstOrDefault();
-        //    int ID = CustomerId.UserId;
+        }
 
-        //    getaddress.Address = _helperlandContext.UserAddresses.Where(c => c.UserId.Equals(ID)).ToList();
-        //    var json = JsonConvert.SerializeObject(getaddress.Address);
 
-        //    return Json(json, JsonRequestBehavior.AllowGet);
 
-        //}
 
 
 
@@ -102,7 +106,7 @@ namespace Helperland.Controllers
                 State = address.state,
                 PostalCode = address.postalcode,
                 Mobile = address.mobile,
-                //  Email = address.email,
+                
             };
 
 
@@ -110,10 +114,17 @@ namespace Helperland.Controllers
 
             _helperlandContext.SaveChanges();
             return Ok(Json("true"));
-          //  return new JsonResult()
+          
         }
 
+        [HttpPost]
+        public IActionResult YourDetail(int radio)
+        {
 
+            HttpContext.Session.SetInt32("AddressID", radio);
+
+            return Ok(Json("true"));
+        }
 
 
 
@@ -140,29 +151,76 @@ namespace Helperland.Controllers
                 TotalCost = booking.TotalCost,
                 Comments = booking.Comments,
                 HasPets = booking.HasPets,
+                PaymentDone= booking.PaymentDone,
             };
-
-
-
-
-
-
 
             _helperlandContext.Add(service);
 
             _helperlandContext.SaveChanges();
 
+            var AddressRadio = HttpContext.Session.GetInt32("AddressID");
+            var AddressData = _helperlandContext.UserAddresses.Where(a => a.AddressId.Equals(AddressRadio)).FirstOrDefault();
 
+            ServiceRequestAddress serviceaddress = new ServiceRequestAddress
+            {
+                AddressLine1 = AddressData.AddressLine1,
+                AddressLine2 = AddressData.AddressLine2,
+                City = AddressData.City,
+                PostalCode = AddressData.PostalCode,
+                Mobile = AddressData.Mobile,
+                ServiceRequestId = service.ServiceRequestId,
+
+            };
+            _helperlandContext.Add(serviceaddress);
+
+            _helperlandContext.SaveChanges();
+
+            var emailmessage = _helperlandContext.Users.Where(b => b.ZipCode.Equals(AddressData.PostalCode) && b.UserTypeId == 2).ToList();
+
+            foreach (var EmailMessage in emailmessage)
+            {
+                var subject = "New Request Arrived";
+                var body = "Hi " + EmailMessage.FirstName + ", <br/> Customer Wants to book a service on this aera .Can you take this service ? " + "<br> Thank you";
+
+
+
+
+                SendEmail(EmailMessage.Email, body, subject);
+            }
 
             return Ok(Json("true"));
 
 
 
 
-            // return View();
+            
         }
 
 
+        private void SendEmail(string emailAddress, string body, string subject)
+        {
+            using (MailMessage mm = new MailMessage("18comp.kajal.parmar@gmail.com", emailAddress))
+            {
+                mm.Subject = subject;
+                mm.Body = body;
+
+                mm.IsBodyHtml = true;
+                SmtpClient smtp = new SmtpClient();
+
+                smtp.Host = "smtp.gmail.com";
+
+
+
+
+                smtp.UseDefaultCredentials = false;
+                NetworkCredential NetworkCred = new System.Net.NetworkCredential("18comp.kajal.parmar@gmail.com", "1907kajal");
+                smtp.Credentials = NetworkCred;
+                smtp.EnableSsl = true;
+                smtp.Port = 587;
+                smtp.Send(mm);
+
+            }
+        }
 
 
     }
