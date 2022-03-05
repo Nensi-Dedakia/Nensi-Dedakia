@@ -10,7 +10,7 @@ namespace Helperland.ViewModels
 {
     public class BookNowViewModel
     {
-        [Required]
+       [Required]
         [StringLength(10)]
         public string ZipCode { get; set; }
 
@@ -38,7 +38,12 @@ namespace Helperland.ViewModels
         [StringLength(100)]
         public string Email { get; set; }
         [Column(TypeName = "datetime")]
-         public DateTime ServiceStartDate { get; set; }
+        public DateTime ServiceStartDate { get; set; }
+        [DataType(DataType.Date)]
+        public DateTime ServiceDate { get; set; }
+
+        [DataType(DataType.Time)]
+        public DateTime ServiceTime { get; set; }
 
 
 
@@ -58,7 +63,7 @@ namespace Helperland.ViewModels
         public string city { get; set; }
         [StringLength(50)]
         public string state { get; set; }
-        [Required]
+       [Required]
         [StringLength(20)]
         public string postalcode { get; set; }
         public bool IsDefault { get; set; }

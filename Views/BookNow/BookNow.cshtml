@@ -111,13 +111,13 @@
                                     <div class="col-xl-5 ">
                                         <p class="selection-heading">When do you need the cleaner?</p>
                                         <div class="row ">
-                                            <input asp-for="ServiceStartDate" class="date-of-service" style="margin-left:10px;" onblur="date();" id="day">
+                                            <input  asp-for="ServiceDate" class="date-of-service" style="margin-left:10px;" onblur="date();" id="day">
                                             <div>
-                                                <select name="Bed" class="bath when-do-you-clean" onblur="Time();" id="time">
-                                                    <option value="2:00">2 PM</option>
-                                                    <option value="3:00">3 PM</option>
-                                                    <option value="4:00">4 PM</option>
-                                                    <option value="5:00">5 PM</option>
+                                                <select asp-for="ServiceTime" class="bath when-do-you-clean" onblur="Time();" id="time">
+                                                    <option value="02:00:00">2 PM</option>
+                                                    <option value="03:00:00">3 PM</option>
+                                                    <option value="04:00:00">4 PM</option>
+                                                    <option value="05:00:00">5 PM</option>
                                                 </select>
 
                                             </div>
@@ -525,6 +525,7 @@
         var time = 0;
         var payment = 0;
         var percleaning = 87;
+        var Extraservice = 0;
 
 
         function Tab1Click() {
@@ -750,9 +751,10 @@
             debugger;
             var data = {};
             data.ZipCode = $("#zipcode").val();
-            data.ServiceStartDate = $("#day").val();
+            data.ServiceDate = $("#day").val();
+            data.ServiceTime = $("#time").val();
             data.ServiceHourlyRate = percleaning;
-            data.ExtraHours = 4;
+            data.ExtraHours = Extraservice;
             data.SubTotal = payment;
             data.ServiceHours = $("#hours").val();
           //  data.ServiceRequestId =
@@ -833,6 +835,7 @@
 
             if (cabinet < 1) {
                 totaltime += 0.5;
+                Extraservice += 0.5;
                 $("#totalservicetime").html(totaltime + " Hrs ");
                 $(".extraservicetext").append("<p>Inside Cabinets(extra)</p>");
                 $(".extratime").append("<p>30 Mins</p>");
@@ -849,21 +852,25 @@
 
 
 
-            $(document).ready(function () {
-                $("#cabinet").click(function () {
-                    var select = true;
-                    if (select == true) {
-                        $("#cabinet").attr("src", "../images/3-green.png");
-                        //document.getElementById("cabinet").src = "../image/cabinet-green.png";
-                        select = false;
-                    }
+            //$(document).ready(function () {
+            //    $("#cabinet").click(function () {
+            //        var select = true;
+            //        if (select == true) {
+            //            $("#cabinet").attr("src", "../images/3-green.png");
+            //            //document.getElementById("cabinet").src = "../image/cabinet-green.png";
+            //            select = false;
+            //        }
 
-                    else {
-                        $("#cabinet").attr("src", "../images/3.png");
-                        //document.getElementById("cabinet").src = "../image/cabinet.png";
-                        select = true;
-                    }
-                });
+            //        else {
+            //            $("#cabinet").attr("src", "../images/3.png");
+            //            //document.getElementById("cabinet").src = "../image/cabinet.png";
+            //            select = true;
+            //        }
+            //    });
+            //});
+            document.getElementById("cabinet").src = "../images/3-green.png";
+            $('#cabinetborder').css({
+                'border': '2px solid #1d7a8c',
             });
 
         }
@@ -873,6 +880,7 @@
         function Fridge() {
             if (fridge < 1) {
                 totaltime += 0.5;
+                Extraservice += 0.5;
                 $("#totalservicetime").html(totaltime + " Hrs ");
                 $(".extraservicetext").append("<p>Inside Fridge(extra)</p>");
                 $(".extratime").append("<p>30 Mins</p>");
@@ -891,6 +899,7 @@
         function Oven() {
             if (oven < 1) {
                 totaltime += 0.5;
+                Extraservice += 0.5;
                 $("#totalservicetime").html(totaltime + " Hrs ");
                 $(".extraservicetext").append("<p>Inside Oven(extra)</p>");
                 $(".extratime").append("<p>30 Mins</p>");
@@ -911,6 +920,7 @@
         function Laundry() {
             if (laundry < 1) {
                 totaltime += 0.5;
+                Extraservice += 0.5;
                 $("#totalservicetime").html(totaltime + " Hrs ");
                 $(".extraservicetext").append("<p>Laundry Wash & Dry (extra)</p>");
                 $(".extratime").append("<p>30 Mins</p>");
@@ -931,6 +941,7 @@
         function Interior() {
             if (interior < 1) {
                 totaltime += 0.5;
+                Extraservice += 0.5;
                 $("#totalservicetime").html(totaltime + " Hrs ");
                 $(".extraservicetext").append("<p>Interior Windows(extra)</p>");
                 $(".extratime").append("<p>30 Mins</p>");

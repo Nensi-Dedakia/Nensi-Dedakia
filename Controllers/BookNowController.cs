@@ -49,10 +49,10 @@ namespace Helperland.Controllers
 
             else
             {
-                return RedirectToAction("faq", "Home");
+                return RedirectToAction("Index", "Home");
             }
 
-            return View();
+           
         }
 
 
@@ -137,11 +137,17 @@ namespace Helperland.Controllers
 
             var ZipValue = HttpContext.Session.GetString("ZipCode");
 
+            var day = booking.ServiceDate.ToString("dd-MM-yyyy");
+            var time = booking.ServiceTime.ToString("hh:mm:ss");
+            var actual = day + " " + time;
+            DateTime dt = DateTime.Parse(actual);
+            booking.ServiceStartDate = dt;
+
             ServiceRequest service = new ServiceRequest
             {
                 ZipCode = ZipValue,
                 UserId = ID,
-                ServiceStartDate = DateTime.Now,
+                ServiceStartDate = booking.ServiceStartDate,
                 ServiceHourlyRate = booking.ServiceHourlyRate,
                 ExtraHours = booking.ExtraHours,
                 SubTotal = booking.SubTotal,
@@ -152,6 +158,7 @@ namespace Helperland.Controllers
                 Comments = booking.Comments,
                 HasPets = booking.HasPets,
                 PaymentDone= booking.PaymentDone,
+                RecordVersion = Guid.NewGuid(),
             };
 
             _helperlandContext.Add(service);
@@ -199,7 +206,7 @@ namespace Helperland.Controllers
 
         private void SendEmail(string emailAddress, string body, string subject)
         {
-            using (MailMessage mm = new MailMessage("18comp.kajal.parmar@gmail.com", emailAddress))
+            using (MailMessage mm = new MailMessage("18it.nensi.dedakia@gmail.com", emailAddress))
             {
                 mm.Subject = subject;
                 mm.Body = body;
@@ -213,7 +220,7 @@ namespace Helperland.Controllers
 
 
                 smtp.UseDefaultCredentials = false;
-                NetworkCredential NetworkCred = new System.Net.NetworkCredential("18comp.kajal.parmar@gmail.com", "1907kajal");
+                NetworkCredential NetworkCred = new System.Net.NetworkCredential("18it.nensi.dedakia@gmail.com", "9737012809Jayshri@123");
                 smtp.Credentials = NetworkCred;
                 smtp.EnableSsl = true;
                 smtp.Port = 587;
@@ -221,6 +228,8 @@ namespace Helperland.Controllers
 
             }
         }
+
+
 
 
     }

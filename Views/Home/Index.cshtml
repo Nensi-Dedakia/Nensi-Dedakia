@@ -26,7 +26,7 @@
                         <li class="nav-item active"> <a class="nav-link mr-2 ctborder ctbuttoncolor" style="padding-left: 25px; padding-right: 25px;" asp-action="BookNow" asp-controller="BookNow">Book a cleaner</a> </li>
                         <li class="nav-item"> <a class="nav-link mr-2 " asp-controller="Home" asp-action="price">Price</a> </li>
                         <li class="nav-item"> <a class="nav-link mr-2" href="#">Our Guarantee</a> </li>
-                        <li class="nav-item"> <a class="nav-link mr-2" href="#">Blog</a> </li>
+                        <li class="nav-item"> <a class="nav-link mr-2" asp-controller="Customer" asp-action="CustomerPage">Blog</a> </li>
                         <li class="nav-item"> <a class="nav-link mr-2" asp-controller="Contact" asp-action="Index">Contact us</a> </li>
                         @if (Context.Session.GetString("Email") == null)
                         {
@@ -125,6 +125,7 @@
 
                             </div>
                             <div class="modal-body">
+                                <div class="text-danger">@ViewBag.error</div>
                                 <div class="input-group mb-3">
                                     <input type="email" class="form-control" placeholder="Email" name="Email"
                                            style="border-right: none;">

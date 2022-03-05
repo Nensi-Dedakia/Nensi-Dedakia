@@ -1,0 +1,301 @@
+﻿@model IEnumerable<Helperland.Models.Data.ServiceRequest>
+
+<div>
+
+    <p class="Service-history-heading ">
+        Current Service Request
+        <button type="button" class="export-button" style="width:180px;">Add New Request</button>
+    </p>
+</div>
+<table class="example table upcoming-table" id="tableDashboard" style="width: 100%;">
+    <thead>
+        <tr>
+            <th>Service ID</th>
+            <th>Service Date</th>
+            <th>Service Provider</th>
+            <th>Payment</th>
+            <th>Action</th>
+
+
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var add in Model)
+        {
+            DateTime dt = add.ServiceStartDate;               //Gets the current date
+            string datetime = dt.ToString();          //converts the datetime value to string
+            string[] DateTime = datetime.Split(' ');  //splitting the date from time with the help of space delimeter
+            string Date = DateTime[0];                //saving the date value from the string array
+            string Time = DateTime[1];
+            string[] time = Time.Split(':');
+            string clocktime = time[0] + ":" + time[1];
+            var Extratime = add.ServiceHours + add.ExtraHours;
+            string Endtime = Extratime.ToString();
+            string totaltime = clocktime + Endtime;
+            <tr class="customer-table-data" id="serviceid">
+
+                <td onclick="ShowDetails(@add.ServiceRequestId);" data-toggle="modal" data-target=".ServiceDetails" id="SrId">@Html.DisplayFor(modelitem => add.ServiceRequestId)</td>
+                <td class="service-detail" onclick="ShowDetails(@add.ServiceRequestId);" data-toggle="modal" data-target=".ServiceDetails">
+                    <div>
+                        <img src="~/images/calendar.png">
+                        <b>@Html.DisplayFor(modelitem => Date)</b>
+                    </div>
+                    <div>
+                        @Html.DisplayFor(modelitem => clocktime)- @Html.DisplayFor(modelitem => totaltime)
+                    </div>
+                </td>
+                <td onclick="ShowDetails(@add.ServiceRequestId);" data-toggle="modal" data-target=".ServiceDetails">
+                    <div>
+                        <img src="~/images/cap.png" class="cap">
+                        Lyum Watson
+                    </div>
+                    <div class="rating-star">
+                        <img src="~/images/star1.png">
+                        <img src="~/images/star1.png">
+                        <img src="~/images/star1.png">
+                        <img src="~/images/star1.png">
+                        <img src="~/images/star2.png"> 4
+                    </div>
+
+                </td>
+
+                <td data-toggle="modal" data-target=".ServiceDetails" onclick="ShowDetails(@add.ServiceRequestId);">
+                    <p class="euro-currency">€<b class="rupee">@Html.DisplayFor(modelitem => add.TotalCost)</b></p>
+                </td>
+                <td class="row">
+                    <button type="button" class="reschedule-button col-6 ">
+                        @*@Html.HiddenFor(modelItme => add.ServiceRequestId)*@
+                        <a href="#" data-toggle="modal" data-target="#RescheduleModal" onclick="Reschedule(@add.ServiceRequestId)" style="color:white">Reschedule</a>
+
+                    </button>
+                    <button type="button" class="cancel-button col-6">
+                        <a href="#" data-toggle="modal" data-target="#CancelModal" onclick="Cancle(@add.ServiceRequestId)" style="color:white">Cancel</a>
+                    </button>
+                </td>
+
+
+
+            </tr>
+
+        }
+
+
+
+
+
+
+
+    </tbody>
+
+</table>
+
+<div class="modal" id="RescheduleModal">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+
+            <!-- Modal Header -->
+            <div class="modal-header">
+                <h4 class="modal-title" style="color:#646464;"><b>Reschedule Service Request</b></h4>
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+            </div>
+
+            <!-- Modal body -->
+            <div class="modal-body">
+                <label style="color:#646464;">Select New Date And Time</label>
+                <div class="row">
+                    <div class="col-6">
+                        <input id="scheduleddate" type="date" class="birthdate" name="reschedule-date" />
+                    </div>
+                    <div class="col-6">
+                        <select id="scheduledtime" name="RescheduleTime" class="birthdate">
+                            <option value="08:00:00">8:00</option>
+                            <option value="09:00:00">9:00</option>
+                            <option value="10:00:00">10:00</option>
+                            <option value="11:00:00">11:00</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-12">
+                        <button type="button" value="" name="serviceId" class="savecomputer-btn " style="width:100%;" onclick="Update(this.value)" id="update"><b>Update</b></button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Modal footer -->
+
+
+        </div>
+    </div>
+
+</div>
+
+
+<div class="modal" id="CancelModal">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+
+            <!-- Modal Header -->
+            <div class="modal-header">
+                <h4 class="modal-title" style="color:#646464;"><b>Cancel Service Request</b></h4>
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+            </div>
+
+            <!-- Modal body -->
+            <div class="modal-body">
+                <label style="color:#646464;">Why you want to cancel the service request?</label>
+                <div class="row">
+                    <div class="col-12">
+                        <textarea name="comment" rows="3" style="width: 100%; border-radius: 4px; border-color:#646464;"></textarea>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-12">
+                        <button type="button" id="cancle" value="" class="savecomputer-btn" onclick="CancleNow(this.value);" style="width:100%;"><b>Cancel Now</b></button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Modal footer -->
+
+
+        </div>
+    </div>
+</div>
+
+
+<!--service details modal-->
+<div class="container Servicedetails-modal">
+    <div class="modal ServiceDetails">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content">
+
+                <!-- Modal Header -->
+                <div class="modal-header">
+                    <h4 class="modal-title text-center">Service Details</h4>
+                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+                </div>
+
+                <!-- Modal body -->
+                <div class="modal-body">
+                    <div>
+                        <span id="date"></span>
+                        <span id="time"></span>
+                        <p><b>Duration:</b><span id="duration">&nbsp;</span></p>
+                    </div>
+                    <hr>
+                    <div>
+                        <p><b>ServiceId: </b> <span id="ID"></span></p>
+                        <p><b>Extras: </b> <span id="Extra"></span></p>
+                        <p><b>Net Amount:</b> <span class="amt" id="NetAmount">&nbsp;</span></p>
+                    </div>
+                    <hr>
+                    <div>
+                        <p><b>Service Address:</b> <span id="ServiceAddress">&nbsp;</span></p>
+                        <p><b>Billing Address:</b> <span>&nbsp;Same as Service Address</span></p>
+                        <p><b>Phone: </b> <span id="Phone">&nbsp;</span></p>
+                        <p><b>Email: </b> <span id="Email">&nbsp;</span></p>
+                    </div>
+                    <hr>
+                    <div>
+                        <p><b>Comments</b></p>
+                        <span id="Comments">I don't have Pets at home</span>
+                    </div>
+                    <hr>
+                    <div class="row pt-2">
+
+                        <div class="col-sm-3">
+                            <button type="button" data-toggle="modal" data-target="#RescheduleModal" id="Reschedule_Btn" value="" class="rounded-pill border border-1 text-center reschedulebtn" onclick="Reschedule(this.value)">Reschedule</button>
+                            @*<button type="button" ><a href="#" data-toggle="modal"   data-target="#RescheduleModal" value="" onclick="Reschedule(this.value)" style="color:white">Reschedule</a></button>*@
+                        </div>
+
+
+                        <div class="col-sm-3">
+                            <button type="button" class="rounded-pill border border-1 text-center canclebtn" data-toggle="modal" data-target="#CancelModal" id="Cancel_Btn" value="" onclick="Cancle(this.value);">Cancle</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script type="text/javascript">
+
+    function ShowDetails(ServiceRequestId) {
+
+        $.post("/Customer/CustomerServiceDetail", { Id: parseInt(ServiceRequestId) }, function (data) {
+
+            $("#ID").html(data.id);
+
+            $("#Extra").html(data.extra);
+
+            $("#NetAmount").html(data.netamount);
+            $("#ServiceAddress").html(data.serviceaddress);
+            $("#Phone").html(data.phone);
+            $("#Email").html(data.email);
+            $("#Comments").html(data.comments);
+            $("#date").html(data.servicedate);
+            $("#time").html(data.servicetime);
+            $("#duration").html(data.duration);
+            $("#Reschedule_Btn").prop("value", data.id);
+            $("#Cancel_Btn").prop("value", data.id);
+
+        });
+
+
+    }
+
+    function Reschedule(ServiceRequestId) {
+        $(".ServiceDetails").modal('hide');
+        $("#update").prop("value", ServiceRequestId);
+
+
+
+
+    }
+
+    function Update(val) {
+        if ($("#scheduleddate").val() == "" && $('#scheduledtime').val() == "") {
+            alert("Please Select Date and Time");
+        }
+
+        else {
+
+            var ServiceStartDate = $("#scheduleddate").val() + " " + $("#scheduledtime").val();
+            $.post("/Customer/UpdateService", { Id: parseInt(val), ServiceDateTime: ServiceStartDate }, function (data) {
+
+                if (data) {
+                   // alert("Update Successfully!!");
+                    $("#RescheduleModal").modal('hide');
+                    location.reload();
+
+                }
+
+            });
+        }
+    }
+
+    function Cancle(ServiceRequestId) {
+        $(".ServiceDetails").modal('hide');
+        $("#cancle").prop("value", ServiceRequestId);
+
+    }
+
+    function CancleNow(val) {
+        $.post("/Customer/CancleService", { Id: parseInt(val) }, function (data) {
+
+            if (data) {
+                // alert("Update Successfully!!");
+                $("#CancelModal").modal('hide');
+                location.reload();
+                //$("#tableDashboard").show();
+            }
+
+        });
+    }
+
+
+
+
+</script>

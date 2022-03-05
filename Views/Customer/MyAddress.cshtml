@@ -1,0 +1,243 @@
+﻿
+@model IEnumerable<Helperland.Models.Data.UserAddress>
+
+@{
+    Layout = null;
+}
+<table class="address-table" style="width: 100%;">
+
+    <tr class="address-table-heading">
+        <th class="px-3">Addresses</th>
+        <th>Actions</th>
+    </tr>
+
+    @foreach (var add in Model)
+    {
+        <tr>
+            <td>
+                <span>@Html.DisplayFor(modelitem => add.AddressId)</span>
+                <div class="address">
+                    <p>
+                        <b>Address: </b>@Html.DisplayFor(modelitem => add.AddressLine1) , @Html.DisplayFor(modelitem => add.AddressLine2) , @Html.DisplayFor(modelitem => add.PostalCode) -
+                        @Html.DisplayFor(modelitem => add.City)
+                    </p>
+                    <p><b>Phone Number: </b>&nbsp @Html.DisplayFor(modelitem => add.Mobile)</p>
+                </div>
+            </td>
+
+            <td>
+                <button type="button">
+                    <a href="#" data-toggle="modal" data-target="#Edit" onclick="Edit(@add.AddressId)">
+                        <i class='far fa-edit'
+                           style='font-size:18px; color: grey;'></i>
+                    </a>
+                </button>
+
+                <a href="#" data-toggle="modal" data-target="#Remove" onclick="Delete(@add.AddressId)">
+                    <i class='fas fa-trash-alt px-3' style="color: grey;"></i>
+                </a>
+            </td>
+        </tr>
+    }
+</table>
+
+<!--Edit modal-->
+<div class="container edit-modal">
+    <div class="modal" id="Edit">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content">
+
+                <!-- Modal Header -->
+                <div class="modal-header">
+                    <h4 class="modal-title text-center">Edit Address</h4>
+                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+                </div>
+
+                <!-- Modal body -->
+                <div class="modal-body">
+                    <div id="form" class="address-form">
+                        <form>
+                            <div class="row pt-2">
+                                <div class="col">
+                                    <label for="street-name" class="form-label">Street name</label>
+                                    <input class="form-control street" id="street-name"
+                                           placeholder="Street name" name="street-name">
+                                </div>
+
+                                <div class="col">
+                                    <label for="house-no" class="form-label">House number</label>
+                                    <input type="text" class="form-control house" id="street-name"
+                                           placeholder="House number" name="house-no">
+                                </div>
+                            </div>
+
+                            <div class="row pt-2">
+                                <div class="col">
+                                    <label for="postal code" class="form-label">Postal Code</label>
+                                    <input type="text" class="form-control postal" id="postalcode"
+                                           placeholder="Postal Code" name="postal code">
+                                </div>
+
+                                <div class="col">
+                                    <label for="city" class="form-label">City</label>
+                                    <input type="text" class="form-control city" id="city"
+                                           placeholder="Street name" name="street-name">
+                                </div>
+                            </div>
+
+                            <div class="row pt-2">
+                                <div class="col-sm-6">
+                                    <label for="mobile" class="form-label">Phone Number</label>
+                                    <div class="input-group form12">
+                                        <div class="input-group-prepend">
+                                            <span class="input-group-text" id="basic-addon1" style="height:40px;">+49</span>
+                                        </div>
+                                        <input type="text" class="form-control phone " placeholder="Mobile number" pattern="[0-9]{3}-[0-9]{2}-[0-9]{3}" style="height:40px;">
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="row pt-2">
+                                <div class="col">
+                                    <button type="button" class="edit-btn" value="" onclick="Update(this.value);" id="update">Edit</button>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!--Remove modal-->
+<div class="container remove-modal">
+    <div class="modal" id="Remove">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content">
+
+                <!-- Modal Header -->
+                <div class="modal-header">
+                    <h4 class="modal-title text-center">Remove Address</h4>
+                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+                </div>
+
+                <!-- Modal body -->
+                <div class="modal-body">
+                    <p class="alert">Are You Sure You Wang to Delete Address?</p>
+                    <button type="button" class="remove-btn" value="" onclick="Remove(this.value)" id="delete">Extinguish</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<button type="button" class="add-btn" value="" onclick="Edit(this.value)" data-toggle="modal" data-target="#Edit">Add New Address</button>
+
+<script>
+    function Edit(ServiceRequestId) {
+      // $(".edit-modal").modal('hide');
+        $("#update").prop("value", ServiceRequestId);
+        //$.post("/Customer/ShowAddressDetails", { Id: parseInt(ServiceRequestId) }, function (data) {
+
+        //    $(".street").html(data.line1);
+        //    $(".house").html(data.line2);
+        //    $(".phone").html(data.mobile);
+        //    $(".postal").html(data.zip);
+        //    $(".city").html(data.city);
+        //});
+
+
+
+    }
+    //function AddAddress(ServiceRequestId)
+    //{
+    //    $("#add").prop("value", ServiceRequestId);
+    //}
+    //function Update(val) {
+    //    //if ($("#scheduleddate").val() == "" && $('#scheduledtime').val() == "") {
+    //    //    alert("Please Select Date and Time");
+    //    //}
+
+
+
+    //    var addressline1 = $(".street").val();
+    //    var addressline2 = $(".house").val();
+    //    var mobile = $(".phone").val();
+    //    var zip = $(".postal").val();
+    //    var city = $(".city").val();
+
+    //    $.post("/Customer/UpdateAddress", { Id: parseInt(val), AddressLine1: addressline1, AddressLine2: addressline2 , Mobile:mobile ,Zip:zip , City:city}, function (data) {
+
+    //            if (data) {
+    //                alert("Update Successfully!!");
+    //                //$("#RescheduleModal").modal('hide');
+    //                //location.reload();
+
+    //            }
+
+    //        });
+
+    //}
+
+
+
+    function Update(id) {
+        var data = {};
+
+        data.AddressId = id;
+        data.AddressLine1 = $(".street").val();
+        data.AddressLine2 = $(".house").val();
+        data.Mobile = $(".phone").val();
+        data.PostalCode = $(".postal").val();
+        data.City = $(".city").val();
+
+
+
+
+        $.ajax({
+            type: 'POST',
+            url: '/Customer/UpdateAddress',
+            contentType: 'application/x-www-form-urlencoded; charset=UTF-8',
+
+            data: data,
+            success: function (result) {
+                if (result.value == "true") {
+                   // alert('Successfully!Updated Data!');
+                   
+                    $("#Edit").hide();
+                    location.reload();
+                }
+            },
+            error: function () {
+                alert('Failed to update Data');
+                console.log('Failed ');
+            }
+        })
+
+    }
+
+
+
+    function Delete(id) {
+       // $(".ServiceDetails").modal('hide');
+        $("#delete").prop("value", id);
+
+    }
+
+    function Remove(val) {
+        $.post("/Customer/RemoveAddress", { Id: parseInt(val) }, function (data) {
+
+            if (data) {
+                 //alert("Delete Successfully!!");
+                $("#Remove").hide();
+                location.reload();
+               // $("#tableDashboard").show();
+            }
+
+        });
+    }
+
+</script>
+

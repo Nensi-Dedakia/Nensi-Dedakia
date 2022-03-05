@@ -123,20 +123,22 @@ namespace Helperland.Controllers
         [HttpPost]
         public ActionResult Index(CreateAccountViewModel use)
         {
-           // if (ModelState.IsValid)
-           // {
-                using (HelperlandContext _tc = new HelperlandContext())
+           //  if (ModelState.IsValid)
+            //{
+            using (HelperlandContext _tc = new HelperlandContext())
+            {
+                
+
+                var detail = _helperlandContext.Users.Where(a => a.Email.Equals(use.email)).FirstOrDefault();
+                if (detail == null)
                 {
-                    var detail = _helperlandContext.Users.Where(a => a.Email.Equals(use.email)).FirstOrDefault();
-                    if (detail == null)
-                    {
-                        ViewBag.Message = "Invalid UserName And Password";
-                        return View();
-                    }
-                    HttpContext.Session.SetString("Email", use.email);
-                    HttpContext.Session.SetString("Password", use.Password);
-                    if (detail != null)
-                    {
+                    ViewBag.Message = "Invalid UserName And Password";
+                    return View();
+                }
+                HttpContext.Session.SetString("Email", use.email);
+                HttpContext.Session.SetString("Password", use.Password);
+                if (detail != null)
+                {
                     if (string.Compare(Crypto.Hash(use.Password), detail.Password) == 0)
                     {
                         var check = use.RememberMe;
@@ -151,16 +153,17 @@ namespace Helperland.Controllers
                             Response.Cookies.Append(key, value, options);
 
                         }
-                        if (use.UserTypeId == 1)
+                        if (detail.UserTypeId == 1)
                         {
-                            return RedirectToAction("Index", "Home");
+                            return RedirectToAction("CustomerPage", "Customer");
                         }
-                        if (use.UserTypeId == 2)
+                        if (detail.UserTypeId == 2)
                         {
                             return RedirectToAction("ServiceProviderRegistration", "BecomeAProvider");
                         }
                         //Redirect to page according to use if user is customer then redirect to dashboard, Service Provider then Service Request
                         //If Admin Page then admin page are open
+                        return RedirectToAction("CustomerPage", "Customer");
                     }
                     else
                     {
@@ -168,8 +171,8 @@ namespace Helperland.Controllers
                     }
                 }
 
-                }
-            //   }
+          //  }
+       }
             return View();
            
           
@@ -177,15 +180,17 @@ namespace Helperland.Controllers
         }
         public IActionResult LogeddIn(CreateAccountViewModel use)
         {
-            if (HttpContext.Session.GetString("Email") == null)
-            {
-                string key = use.Password;
-                var CookieValue = Request.Cookies[key];
+           
+            
+                if (HttpContext.Session.GetString("Email") == null)
+                {
+                    string key = use.Password;
+                    var CookieValue = Request.Cookies[key];
 
 
-                return RedirectToAction("Index");
-            }
-
+                    return RedirectToAction("Index");
+                }
+             
             return View();
         }
         public IActionResult LogeddOut()
@@ -195,56 +200,80 @@ namespace Helperland.Controllers
         }
 
 
-        [HttpPost]
-        public ActionResult ForgotPassword(string Email)
-        {
-            string ResetCode = Guid.NewGuid().ToString();
+        //[HttpPost]
+        //public ActionResult ForgotPassword(string Email)
+        //{
+        //    string ResetCode = Guid.NewGuid().ToString();
 
-            var uriBuilder = new UriBuilder
-            {
-                Scheme = Request.Scheme,
-                Host = Request.Host.Host,
-                Port = Request.Host.Port ?? -1, //bydefault -1
-                                                // Path = $"LoginPage/Home/ResetPassword/{ResetCode}"
-                Path = $"LoginPage/Views/Home/ResetPassword/{ResetCode}"
+        //    var uriBuilder = new UriBuilder
+        //    {
+        //        Scheme = Request.Scheme,
+        //        Host = Request.Host.Host,
+        //        Port = Request.Host.Port ?? -1, //bydefault -1
+        //                                        // Path = $"LoginPage/Home/ResetPassword/{ResetCode}"
+        //        Path = $"LoginPage/Views/Home/ResetPassword/{ResetCode}"
 
 
-            };
-            var link = uriBuilder.Uri.AbsoluteUri;
+        //    };
+        //    var link = uriBuilder.Uri.AbsoluteUri;
             
-            using (var context = new HelperlandContext())
-            {
-                var getUser = (from s in context.Users where s.Email == Email select s).FirstOrDefault();
-                if (getUser != null)
-                {
-                    getUser.ResetPasswordCode = ResetCode;
+        //    using (var context = new HelperlandContext())
+        //    {
+        //        var getUser = (from s in context.Users where s.Email == Email select s).FirstOrDefault();
+        //        if (getUser != null)
+        //        {
+        //            getUser.ResetPasswordCode = ResetCode;
 
                     
-                    _helperlandContext.SaveChanges();
+        //            _helperlandContext.SaveChanges();
 
-                    var subject = "Password Reset Request";
-                    var body = "Hi " + getUser.FirstName + ", <br/> You recently requested to reset your password for your account. Click the link below to reset it. " +
+        //            var subject = "Password Reset Request";
+        //            var body = "Hi " + getUser.FirstName + ", <br/> You recently requested to reset your password for your account. Click the link below to reset it. " +
 
-                         " <br/><br/><a href='" + link + "'>" + link + "</a> <br/><br/>" +
-                         "If you did not request a password reset, please ignore this email or reply to let us know.<br/><br/> Thank you";
+        //                 " <br/><br/><a href='" + link + "'>" + link + "</a> <br/><br/>" +
+        //                 "If you did not request a password reset, please ignore this email or reply to let us know.<br/><br/> Thank you";
 
-                    SendEmail(getUser.Email, body, subject);
+        //            SendEmail(getUser.Email, body, subject);
 
-                    ViewBag.Message = "Reset password link has been sent to your email id.";
-                }
-                else
-                {
-                    ViewBag.Message = "User doesn't exists.";
-                    return RedirectToAction("ResetPassword");
-                }
+        //            ViewBag.Message = "Reset password link has been sent to your email id.";
+        //        }
+        //        else
+        //        {
+        //            ViewBag.Message = "User doesn't exists.";
+        //            return RedirectToAction("ResetPassword");
+        //        }
+        //    }
+
+        //    return RedirectToAction("ResetPassword");
+        //}
+        [HttpPost]
+        public IActionResult ForgotPassword(String email)
+        {
+            var user = _helperlandContext.Users.Where(X => X.Email.Equals(email)).FirstOrDefault();
+            if(user != null)
+            {
+                var token = Guid.NewGuid().ToString();
+                var UserID = user.UserId;
+                var ResetLink = Url.Action("ResetPassword", "Home", new { ID = UserID, Email = email, Token = token }, Request.Scheme);
+                var subject = "Password Reset Request";
+                var body = "Hi " + user.FirstName + ", <br/> You recently requested to reset your password for your account. Click the link below to reset it. " +
+
+                               " <br/><br/><a href='" + ResetLink + "'>" + ResetLink+ "</a> <br/><br/>" +
+                             "If you did not request a password reset, please ignore this email or reply to let us know.<br/><br/> Thank you";
+
+               SendEmail(user.Email, body, subject);
+                ViewBag.error = "Reset Password Link has been sent to your email id";
             }
-
-            return RedirectToAction("ResetPassword");
+            else
+            {
+                ViewBag.error = "Invalid Email";
+                return RedirectToAction("Index");
+            }
+            return RedirectToAction("Index");
         }
-
         private void SendEmail(string emailAddress, string body, string subject)
         {
-            using (MailMessage mm = new MailMessage("18comp.kajal.parmar@gmail.com", emailAddress))
+            using (MailMessage mm = new MailMessage("18it.nensi.dedakia@gmail.com", emailAddress))
             {
                 mm.Subject = subject;
                 mm.Body = body;
@@ -258,7 +287,7 @@ namespace Helperland.Controllers
 
 
                 smtp.UseDefaultCredentials = false;
-                NetworkCredential NetworkCred = new System.Net.NetworkCredential("18comp.kajal.parmar@gmail.com", "1907kajal");
+                NetworkCredential NetworkCred = new System.Net.NetworkCredential("18it.nensi.dedakia@gmail.com", "9737012809Jayshri@123");
                 smtp.Credentials = NetworkCred;
                 smtp.EnableSsl = true;
                 smtp.Port = 587;
@@ -267,62 +296,120 @@ namespace Helperland.Controllers
             }
         }
 
-
         [HttpGet]
-        public ActionResult ResetPassword(string id)
+        public IActionResult ResetPassword(int ID , string Email , string Token )
         {
-            
-            if (string.IsNullOrWhiteSpace(id))
+            if(Email == null || Token == null)
             {
-                return NotFound();
+                ViewBag.error = "Invalid Password Reset Token";
             }
+            ViewBag.Email = Email;
+            return View();
 
-            using (var context = new HelperlandContext())
-            {
-                var user = context.Users.Where(a => a.ResetPasswordCode == id).FirstOrDefault();
-                if (user != null)
-                {
-                    ResetPasswordViewModel model = new ResetPasswordViewModel();
-                    model.ResetCode = id;
-                    return View(model);
-                }
-                else
-                {
-                    return NotFound();
-                }
-            }
         }
-
         [HttpPost]
-        [ValidateAntiForgeryToken]
-        public ActionResult ResetPassword(ResetPasswordViewModel model)
+        public IActionResult ResetPassword(ResetPasswordViewModel objuser)
         {
-            var message = "";
-            if (ModelState.IsValid)
-            {
-                using (var context = new HelperlandContext())
+            ViewBag.Email = objuser.Email;
+           if(ModelState.IsValid)
+           {
+                User user = new User();
+                var data = (from userlist in _helperlandContext.Users
+                            where userlist.Email == objuser.Email
+                            select new
+                            {
+                                userlist.UserId,
+                                userlist.FirstName,
+                                userlist.LastName,
+                                userlist.Email,
+                                userlist.Mobile,
+                                userlist.Password
+
+                            }).ToList();
+                if(data.FirstOrDefault() != null)
                 {
-                    var user = context.Users.Where(a => a.ResetPasswordCode == model.ResetCode).FirstOrDefault();
-                    if (user != null)
-                    {
-                        
-                        user.Password = model.NewPassword;
-                       
-                        user.ResetPasswordCode = "";
-                        
-                    
-                        context.SaveChanges();
-                        message = "New password updated successfully";
-                    }
-                }
+                    user.UserId = data[0].UserId;
+
+                    user.Email = data[0].Email;
+                    user.FirstName = data[0].FirstName;
+                    user.LastName = data[0].LastName;
+                    user.Mobile = data[0].Mobile;
+                    user.UserTypeId = 1;
+                    user.IsRegisteredUser = true;
+                    user.WorksWithPets = true;
+                    user.CreatedDate = DateTime.Now;
+                    user.ModifiedDate = DateTime.Now;
+                    user.ModifiedBy = 2;
+                    user.IsApproved = true;
+                    user.IsActive = true;
+                    user.IsDeleted = true;
+                    user.Password = objuser.NewPassword;
+
+                    _helperlandContext.Users.Update(user);
+                    _helperlandContext.SaveChanges();
+                return RedirectToAction("Index", "Home");
+
             }
-            else
-            {
-                message = "Something invalid";
-            }
-            ViewBag.Message = message;
-            return View(model);
+                return View(); 
+           }
+           // return RedirectToAction("Index", "Home");
+             return View();
         }
+        //[HttpGet]
+        //public ActionResult ResetPassword(string id)
+        //{
+
+        //    if (string.IsNullOrWhiteSpace(id))
+        //    {
+        //        return NotFound();
+        //    }
+
+        //    using (var context = new HelperlandContext())
+        //    {
+        //        var user = context.Users.Where(a => a.ResetPasswordCode == id).FirstOrDefault();
+        //        if (user != null)
+        //        {
+        //            ResetPasswordViewModel model = new ResetPasswordViewModel();
+        //            model.ResetCode = id;
+        //            return View(model);
+        //        }
+        //        else
+        //        {
+        //            return NotFound();
+        //        }
+        //    }
+        //}
+
+        //[HttpPost]
+        //[ValidateAntiForgeryToken]
+        //public ActionResult ResetPassword(ResetPasswordViewModel model)
+        //{
+        //    var message = "";
+        //    if (ModelState.IsValid)
+        //    {
+        //        using (var context = new HelperlandContext())
+        //        {
+        //            var user = context.Users.Where(a => a.ResetPasswordCode == model.ResetCode).FirstOrDefault();
+        //            if (user != null)
+        //            {
+
+        //                user.Password = model.NewPassword;
+
+        //                user.ResetPasswordCode = "";
+
+
+        //                context.SaveChanges();
+        //                message = "New password updated successfully";
+        //            }
+        //        }
+        //    }
+        //    else
+        //    {
+        //        message = "Something invalid";
+        //    }
+        //    ViewBag.Message = message;
+        //    return View(model);
+        //}
 
 
 

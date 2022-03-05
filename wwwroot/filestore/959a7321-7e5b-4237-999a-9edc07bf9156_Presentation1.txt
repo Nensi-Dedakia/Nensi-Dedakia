@@ -1,0 +1,91 @@
+Good morning mam, My Name is nensi Dedakia.
+ I am student of vvp engineering college . 
+I am Student of 8 th sem
+I Choose Internship Option as a 8th sem Subject
+.....
+My Company Name Is Tatvasoft.My Role In My Company as an Intern
+Before My Company I visit 2 company one is kevit technolgies and second one is tops technologies but some of reason I dont like regarding this companies...So I am not choose those companies as a internship
+
+Why I choose Tatvasoft?
+Tatvasoft is a one of the largest company in Ahemdabad. Tatvasoft as a software Development Company is committed to provide End-to-End Customize solution to our global customers.
+ - As a full-fledged IT Service Provider , Tatvasoft has marked it global      presence with offices in five countries including US , UK , Canada , Australia and India , with a skilled team specializing in different  technologies.
+
+
+	Customers:
+Customer can enter a zip code and other details to book a service. 
+	Service Providers: 
+These are the main users of the portal. Helperland would get the business if the good number of quality service providers available to serve the customer’s booking.
+	Administration users (Administrators): 
+Admin or Backoffice users would be helping customers or service providers through the admin interface. For example, if any customer is having trouble cancelling or rescheduling the service request then admin can help using the admin interface.
+•	Admin should be able to see all the registered users and should be able to approve first time registered users.
+•	Admin should be able to see all the service requests and they should have ability to reschedule or cancel any service request. 
+
+I complete My frontend  in my project
+I Learn Bootstrap....
+Bootstrap is the most popular HTML, CSS and JavaScript framework for developing a responsive and mobile friendly website.
+It is a front-end framework used for easier and faster web development.
+It includes HTML and CSS based design templates for typography, forms, buttons, tables, navigation, modals, image carousels and many others.
+It can also use JavaScript plug-ins.
+It facilitates you to create responsive designs.
+
+
+I Learn Javascript Basic....
+JavaScript is a dynamic computer programming language. It is lightweight and most commonly used as a part of web pages, whose implementations allow client-side script to interact with the user and make dynamic pages. It is an interpreted programming language with object-oriented capabilities
+
+I Learn Jquery Basic....
+jQuery is a lightweight, "write less, do more", JavaScript library.
+
+The purpose of jQuery is to make it much easier to use JavaScript on your website.
+
+jQuery takes a lot of common tasks that require many lines of JavaScript code to accomplish, and wraps them into methods that you can call with a single line of code.
+
+jQuery also simplifies a lot of the complicated things from JavaScript, like AJAX calls and DOM manipulation.
+
+
+Home Page : This is Homepage of this website. I done this page using bootstrap topics like grid system, card ,d-flex etc
+this page is static page anyone can watch this page
+
+this page many details are shown like why choose helperland? what our customer say about our website...
+
+FAQ : a list of questions and answers relating to a particular subject, especially one giving basic information for users of a website.
+ here two type faq have one for customer which and second one for service provider.....Here I use mainly Accordion concept of bootstrap.
+
+Price and Services : this page is shown regarding price of the service and show about extra service which is provided by service provider.
+customer pay extra for those services
+
+and also show about what we include in cleaning  like which type of cleaning provided for bathroom bed kitchen
+
+
+Contact Us : In this page customer or service provider contact with us by given number or by fill this form.this form detail is submit to admin by email.
+
+About Us : In this page We show regarding our website. A Few Words About us and say our story.
+ 
+Become A Helper : In this page Serivce Provider can do sign up process and In this page also show step regarding how it works
+
+Book Now : In this Page Customer can book service. In this page 4 step of process can do by customer 
+
+
+
+•	First, they need to enter a postal code where they would like to get cleaning job done. 
+•	Once customer enters postal code and presses button Check Availability, the system will check if service providers providing service around this postal code! If any provider found then user should be navigated to the next tab.
+•	In this screen, customer will provide the date on which the cleaning service should be booked in with start time. 
+•	This screen allows customer to provide address detail where the cleaning job to be carried out. 
+
+Upcoming Services:
+•	This screen will show only upcoming service requests assigned to the logged-in service provider. Service provider should be able to cancel the service request.
+
+User Managment:
+This is admin page
+
+•	Admin should be able to activate or deactivate user. 
+•	Only service provider users need to be approved by admin, then only they should be able to login to the system. 
+
+This is all about my project work till today. So using bootstrap mainly I do my all task . After Doing this project's frontend Now I Understand all concept regarding frontend task.
+
+Thank you 
+
+
+
+
+
+

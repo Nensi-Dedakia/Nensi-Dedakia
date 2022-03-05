@@ -1,0 +1,227 @@
+﻿@model IEnumerable<Helperland.Models.Data.ServiceRequest>
+
+<div>
+    <p class="Service-history-heading ">
+        Service History
+        <button type="button" class="export-button">Export</button>
+    </p>
+</div>
+<table class="example table upcoming-table" style="width: 100%;">
+    <thead>
+        <tr>
+            <th>Service Details</th>
+            <th>Service Provider</th>
+            <th>Payment</th>
+            <th>Status</th>
+            <th>Rate SP</th>
+
+        </tr>
+    </thead>
+    <tbody>
+
+        @foreach (var req in Model)
+        {
+            if (req.Status == 1 || req.Status == 3)
+            {
+                DateTime dt = req.ServiceStartDate;               //Gets the current date
+                string datetime = dt.ToString();          //converts the datetime value to string
+                string[] DateTime = datetime.Split(' ');  //splitting the date from time with the help of space delimeter
+                string Date = DateTime[0];                //saving the date value from the string array
+                string Time = DateTime[1];
+                string[] time = Time.Split(':');
+                string clocktime = time[0] + ":" + time[1];
+                var Extratime = req.ServiceHours + req.ExtraHours;
+                string Endtime = Extratime.ToString();
+                string totaltime = clocktime + Endtime;
+                <tr class="customer-table-data">
+                    <td class="service-detail" onclick="ServiceDetails(@req.ServiceRequestId)" data-toggle="modal" data-target=".ServiceHistory-Servicedetails-modal">
+                        <div>
+                            <img src="~/images/calendar.png">
+                            <b>@Html.DisplayFor(modelitem => Date)</b>
+                        </div>
+                        <div>
+                            <b> @Html.DisplayFor(modelitem => clocktime)- @Html.DisplayFor(modelitem => totaltime)</b>
+                        </div>
+                    </td>
+                    <td>
+                        <div>
+                            <img src="~/images/cap.png" class="cap">
+                            Lyum Watson
+                        </div>
+                        <div class="rating-star">
+                            <img src="~/images/star1.png">
+                            <img src="~/images/star1.png">
+                            <img src="~/images/star1.png">
+                            <img src="~/images/star1.png">
+                            <img src="~/images/star2.png"> 4
+
+                        </div>
+
+                    </td>
+
+                    <td>
+                        <p class="euro-currency">€<b class="rupee">@Html.DisplayFor(modelitem => req.TotalCost)</b></p>
+                    </td>
+                    <td>
+                        @if (req.Status == 1)
+                        {
+                            <button type="button" class="completed-button">Completed</button>
+                        }
+                        else
+                        {
+                            <button type="button" class="cancelled-button">Cancelled</button>
+                        }
+
+                    </td>
+                    <td>
+                        @if (req.Status == 1)
+                        {
+                            <button type="button" class="Rate-sp-button" style="background-color: #1d7A8C;">
+                                <a href="#" data-toggle="modal" data-target="#RateSp" style="color:white; ">Rate SP</a>
+                            </button>
+                        }
+                        else
+                        {
+                            <button type="button" class="Rate-sp-button" style="background-color: #6da9b5;" disabled>
+                                <a style="color:white;">Rate SP</a>
+                            </button>
+                        }
+
+                    </td>
+                </tr>
+
+            }
+        }
+    </tbody>
+
+</table>
+
+<div class="container remove-modal">
+    <div class="modal" id="RateSp">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content">
+
+                <!-- Modal Header -->
+                <div class="modal-header">
+
+                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+                </div>
+
+                <!-- Modal body -->
+                <div class="modal-body">
+                    <div>
+                        <img class="cap" src="../images/cap.png" style="float: left;">
+                    </div>
+                    <p>
+                        <strong>Sandip Patel</strong><br><img src="../images/grey-small-star.png"><img src="../images/grey-small-star.png">
+                        <img src="../images/grey-small-star.png"><img src="../images/grey-small-star.png"><img src="../images/grey-small-star.png"><span>&nbsp3.67</span>
+                    </p>
+                    <p>Rate Your Service Provider</p>
+                    <hr>
+
+                    <p>
+                        On Time Arrival<span>
+                            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                            <i class="fa fa-star" aria-hidden="true" id="st1"></i>
+                            <i class="fa fa-star" aria-hidden="true" id="st2"></i>
+                            <i class="fa fa-star" aria-hidden="true" id="st3"></i>
+                            <i class="fa fa-star" aria-hidden="true" id="st4"></i>
+                            <i class="fa fa-star" aria-hidden="true" id="st5"></i>
+                            @*<img src="../images/grey-small-star.png" id="s1" class="rating">
+                                <img src="../images/grey-small-star.png" class="rating">
+                                <img src="../images/grey-small-star.png" class="rating">
+                                <img src="../images/grey-small-star.png" class="rating">
+                                <img src="../images/grey-small-star.png" class="rating">*@
+                        </span>
+                    </p>
+
+                    <p>
+                        Friendly<span>
+                            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<img src="../images/grey-small-star.png"><img src="../images/grey-small-star.png">
+                            <img src="../images/grey-small-star.png"><img src="../images/grey-small-star.png"><img src="../images/grey-small-star.png">
+                        </span>
+                    </p>
+
+                    <p>
+                        Quality Of Service<span>
+                            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<img src="../images/grey-small-star.png"><img src="../images/grey-small-star.png">
+                            <img src="../images/grey-small-star.png"><img src="../images/grey-small-star.png"><img src="../images/grey-small-star.png">
+                        </span>
+                    </p>
+
+                    <p>Feedback on Service Provider</p>
+                    <textarea rows="2" cols="45"></textarea>
+                </div>
+                <button type="button" class="rounded-pill border border-1 text-center reschedulebtn">Submit</button>
+            </div>
+        </div>
+    </div>
+</div>
+<!--service details modal-->
+<div class="container Servicedetails-modal ">
+    <div class="modal ServiceHistory-Servicedetails-modal">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content">
+                <!-- Modal Header -->
+                <div class="modal-header">
+                    <h4 class="modal-title text-center">Service Details</h4>
+                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+                </div>
+                <!-- Modal body -->
+                <div class="modal-body">
+                    <div>
+                        <span id="dates"></span>
+                        <span id="times"></span>
+                        <p><b>Duration:</b><span id="durations">&nbsp;</span></p>
+                    </div>
+                    <hr>
+                    <div>
+                        <p><b>ServiceId: </b> <span id="IDs"></span></p>
+                        <p><b>Extras: </b> <span id="Extras"></span></p>
+                        <p><b>Net Amount:</b> <span class="amt" id="NetAmounts">&nbsp;</span></p>
+                    </div>
+                    <hr>
+                    <div>
+                        <p><b>Service Address:</b> <span id="ServiceAddresss">&nbsp;</span></p>
+                        <p><b>Billing Address:</b> <span>&nbsp;Same as Service Address</span></p>
+                        <p><b>Phone: </b> <span id="Phones">&nbsp;</span></p>
+                        <p><b>Email: </b> <span id="Emails">&nbsp;</span></p>
+                    </div>
+                    <hr>
+                    <div>
+                        <p><b>Comments</b></p>
+                        <span id="Comments">I don't have Pets at home</span>
+                    </div>
+                    <hr>
+
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script type="text/javascript">
+    function ServiceDetails(Id) {
+
+        $.post("/Customer/CustomerServiceDetail", { Id: parseInt(Id) }, function (data) {
+
+            $("#IDs").html(data.id);
+
+            $("#Extras").html(data.extra);
+
+            $("#NetAmounts").html(data.netamount);
+            $("#ServiceAddresss").html(data.serviceaddress);
+            $("#Phones").html(data.phone);
+            $("#Emails").html(data.email);
+            $("#Comments").html(data.comments);
+            $("#dates").html(data.servicedate);
+            $("#times").html(data.servicetime);
+            $("#durations").html(data.duration);
+            //$("#Reschedule_Btn").prop("value", data.cid);
+            //$("#Cancel_Btn").prop("value", data.cid);
+
+        });
+
+
+    }
+</script>

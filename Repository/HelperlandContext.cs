@@ -15,7 +15,7 @@ namespace Helperland.Repository
 
         public HelperlandContext(DbContextOptions<HelperlandContext> options)
             : base(options)
-        {
+         {
         }
 
         public virtual DbSet<City> Cities { get; set; }
