@@ -450,5 +450,14 @@ C:\Users\Nensi Dedakia\source\repos\Helperland\Helperland\obj\Debug\net5.0\Razor
 C:\Users\Nensi Dedakia\source\repos\Helperland\Helperland\obj\Debug\net5.0\Razor\Views\Customer\CustomerDashboard.cshtml.g.cs
 C:\Users\Nensi Dedakia\source\repos\Helperland\Helperland\obj\Debug\net5.0\Razor\Views\Customer\CustomerPage.cshtml.g.cs
 C:\Users\Nensi Dedakia\source\repos\Helperland\Helperland\obj\Debug\net5.0\Razor\Views\Customer\MyProfile.cshtml.g.cs
-C:\Users\Nensi Dedakia\source\repos\Helperland\Helperland\obj\Debug\net5.0\Helperland.csproj.AssemblyReference.cache
 C:\Users\Nensi Dedakia\source\repos\Helperland\Helperland\obj\Debug\net5.0\Razor\Views\Customer\MyAddress.cshtml.g.cs
+C:\Users\Nensi Dedakia\source\repos\Helperland\Helperland\obj\Debug\net5.0\Razor\Views\ServiceProvider\BlockCustomer.cshtml.g.cs
+C:\Users\Nensi Dedakia\source\repos\Helperland\Helperland\obj\Debug\net5.0\Razor\Views\ServiceProvider\ServiceProviderPage.cshtml.g.cs
+C:\Users\Nensi Dedakia\source\repos\Helperland\Helperland\obj\Debug\net5.0\Razor\Views\ServiceProvider\ServiceProviderProfile.cshtml.g.cs
+C:\Users\Nensi Dedakia\source\repos\Helperland\Helperland\obj\Debug\net5.0\Razor\Views\ServiceProvider\spDetails.cshtml.g.cs
+C:\Users\Nensi Dedakia\source\repos\Helperland\Helperland\obj\Debug\net5.0\Razor\Views\ServiceProvider\spMyRating.cshtml.g.cs
+C:\Users\Nensi Dedakia\source\repos\Helperland\Helperland\obj\Debug\net5.0\Razor\Views\ServiceProvider\spNewServiceRequest.cshtml.g.cs
+C:\Users\Nensi Dedakia\source\repos\Helperland\Helperland\obj\Debug\net5.0\Razor\Views\ServiceProvider\spPassword.cshtml.g.cs
+C:\Users\Nensi Dedakia\source\repos\Helperland\Helperland\obj\Debug\net5.0\Razor\Views\ServiceProvider\spServiceHistory.cshtml.g.cs
+C:\Users\Nensi Dedakia\source\repos\Helperland\Helperland\obj\Debug\net5.0\Razor\Views\ServiceProvider\spUpcomingService.cshtml.g.cs
+C:\Users\Nensi Dedakia\source\repos\Helperland\Helperland\obj\Debug\net5.0\Helperland.csproj.AssemblyReference.cache

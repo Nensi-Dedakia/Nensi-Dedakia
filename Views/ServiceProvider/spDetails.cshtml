@@ -1,0 +1,74 @@
+﻿
+@model Helperland.ViewModels.UpcomingViewModel
+@{
+    Layout = null;
+}
+
+<head>
+    <link href="~/lib/bootstrap/bootstrap.min.css" rel="stylesheet" />
+    <link href="~/css/Customer.css" rel="stylesheet" />
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.0/css/all.css" integrity="sha384-lZN37f5QGtY3VHgisS14W3ExzMWZxybE1SJSEsQp9S+oqd12jhcu+A56Ebc1zFSJ" crossorigin="anonymous">
+
+   
+</head>
+
+
+<!-- Modal body -->
+
+<div>
+    <span id="srDate"><b></b></span>
+    <span id="srTime"><b></b></span>
+    <p><b>Duration:</b><span id="srDuration">&nbsp;</span></p>
+</div>
+<hr>
+<div>
+    <p><b>ServiceId: </b> <span id="srID">&nbsp;</span></p>
+    <p><b>Extras: </b> <span>&nbsp;Inside Cabinets</span></p>
+    <p><b>Net Amount:</b> <span id="srNetAmount" class="amt" style="font-size: larger; color: #1d7a8c;">&nbsp;&#128;</span></p>
+</div>
+<hr>
+<div>
+    <p><b>Customer Name:</b> <span id="srCustomerName">&nbsp;</span></p>
+    <p><b>Service Address:</b> <span id="srServiceAddress">&nbsp;</span></p>
+    <p><b>Distance:</b> <span id="srDistance">&nbsp;</span></p>
+</div>
+<hr>
+<div>
+    <p><b>Comments</b></p>
+    <span>I don't have Pets at home</span>
+</div>
+<hr>
+<div class="row pt-2">
+    @*<div class="col-sm-3">
+            <button type="button" class="cancel-button">Cancel</button>
+
+            <button type="button" class="reschedule-button" value="" data-toggle="modal" data-target="#spComplete" onclick="CompleteService(this.value);" id="spCompleteBtn">Complete</button>
+        </div>*@
+</div>
+
+<button type="button" class="rounded-pill border border-1 text-center reschedulebtn" value="" data-toggle="modal" data-target="#AcceptModal" onclick="AcceptReq(this.value)" id="accepted" style="background-color:#1aff1a; color:white; padding:5px 10px 5px 10px;"><i class="fa fa-check" style="color: white;"></i> Accept</button>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<script src="./js/jquery.min.js"></script>
+
+<!-- Popper JS -->
+<script src="./js/popper.min.js"></script>
+
+<!-- Latest compiled JavaScript -->
+
+<script src="https://code.jquery.com/jquery-3.5.1.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.5.2/js/bootstrap.bundle.min.js"></script>
+
+

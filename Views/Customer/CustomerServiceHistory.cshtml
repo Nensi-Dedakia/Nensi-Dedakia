@@ -77,7 +77,7 @@
                         @if (req.Status == 1)
                         {
                             <button type="button" class="Rate-sp-button" style="background-color: #1d7A8C;">
-                                <a href="#" data-toggle="modal" data-target="#RateSp" style="color:white; ">Rate SP</a>
+                                <a href="#" data-toggle="modal" data-target="#RateSp" style="color:white; " onclick="RateSp(@req.ServiceRequestId)">Rate SP</a>
                             </button>
                         }
                         else
@@ -113,8 +113,12 @@
                         <img class="cap" src="../images/cap.png" style="float: left;">
                     </div>
                     <p>
-                        <strong>Sandip Patel</strong><br><img src="../images/grey-small-star.png"><img src="../images/grey-small-star.png">
-                        <img src="../images/grey-small-star.png"><img src="../images/grey-small-star.png"><img src="../images/grey-small-star.png"><span>&nbsp3.67</span>
+                        <strong>Sandip Patel</strong><br>
+                        <i class="fa fa-star" aria-hidden="true" id="16"></i>
+                        <i class="fa fa-star" aria-hidden="true" id="17"></i>
+                        <i class="fa fa-star" aria-hidden="true" id="18"></i>
+                        <i class="fa fa-star" aria-hidden="true" id="19"></i>
+                        <i class="fa fa-star" aria-hidden="true" id="20"></i>
                     </p>
                     <p>Rate Your Service Provider</p>
                     <hr>
@@ -122,41 +126,48 @@
                     <p>
                         On Time Arrival<span>
                             &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-                            <i class="fa fa-star" aria-hidden="true" id="st1"></i>
-                            <i class="fa fa-star" aria-hidden="true" id="st2"></i>
-                            <i class="fa fa-star" aria-hidden="true" id="st3"></i>
-                            <i class="fa fa-star" aria-hidden="true" id="st4"></i>
-                            <i class="fa fa-star" aria-hidden="true" id="st5"></i>
-                            @*<img src="../images/grey-small-star.png" id="s1" class="rating">
-                                <img src="../images/grey-small-star.png" class="rating">
-                                <img src="../images/grey-small-star.png" class="rating">
-                                <img src="../images/grey-small-star.png" class="rating">
-                                <img src="../images/grey-small-star.png" class="rating">*@
+                            <i class="fa fa-star" aria-hidden="true" id="1" onclick="OTA(1)"></i>
+                            <i class="fa fa-star" aria-hidden="true" id="2" onclick="OTA(2)"></i>
+                            <i class="fa fa-star" aria-hidden="true" id="3" onclick="OTA(3)"></i>
+                            <i class="fa fa-star" aria-hidden="true" id="4" onclick="OTA(4)"></i>
+                            <i class="fa fa-star" aria-hidden="true" id="5" onclick="OTA(5)"></i>
+
                         </span>
                     </p>
 
                     <p>
-                        Friendly<span>
-                            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<img src="../images/grey-small-star.png"><img src="../images/grey-small-star.png">
-                            <img src="../images/grey-small-star.png"><img src="../images/grey-small-star.png"><img src="../images/grey-small-star.png">
-                        </span>
+                        Friendly
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                        <i class="fa fa-star" aria-hidden="true" id="6" onclick="Friendly(6)"></i>
+                        <i class="fa fa-star" aria-hidden="true" id="7" onclick="Friendly(7)"></i>
+                        <i class="fa fa-star" aria-hidden="true" id="8" onclick="Friendly(8)"></i>
+                        <i class="fa fa-star" aria-hidden="true" id="9" onclick="Friendly(9)"></i>
+                        <i class="fa fa-star" aria-hidden="true" id="10" onclick="Friendly(10)"></i>
+
+
                     </p>
 
                     <p>
                         Quality Of Service<span>
-                            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<img src="../images/grey-small-star.png"><img src="../images/grey-small-star.png">
-                            <img src="../images/grey-small-star.png"><img src="../images/grey-small-star.png"><img src="../images/grey-small-star.png">
+                            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                            <i class="fa fa-star" aria-hidden="true" id="11" onclick="QOS(11)"></i>
+                            <i class="fa fa-star" aria-hidden="true" id="12" onclick="QOS(12)"></i>
+                            <i class="fa fa-star" aria-hidden="true" id="13" onclick="QOS(13)"></i>
+                            <i class="fa fa-star" aria-hidden="true" id="14" onclick="QOS(14)"></i>
+                            <i class="fa fa-star" aria-hidden="true" id="15" onclick="QOS(15)"></i>
                         </span>
                     </p>
 
                     <p>Feedback on Service Provider</p>
-                    <textarea rows="2" cols="45"></textarea>
+                    <textarea rows="2" cols="45" id="comment"></textarea>
                 </div>
-                <button type="button" class="rounded-pill border border-1 text-center reschedulebtn">Submit</button>
+                <button type="button" class="rounded-pill border border-1 text-center reschedulebtn" value="" id="ratesubmit" onclick="SubmitRating(this.value)">Submit</button>
             </div>
         </div>
     </div>
 </div>
+
+
 <!--service details modal-->
 <div class="container Servicedetails-modal ">
     <div class="modal ServiceHistory-Servicedetails-modal">
@@ -222,6 +233,98 @@
 
         });
 
+
+    }
+
+
+    var rating1 = 0;
+    var rating2 = 0;
+    var rating3 = 0;
+
+    function OTA(id) {
+        for (let i = 1; i <= id; i++) {
+            document.getElementById(i).style.color = "yellow";
+        }
+        for (let i = id + 1; i <= 5; i++) {
+            document.getElementById(i).style.color = "rgba(0,0,0,0.2)";
+        }
+        rating1 = id;
+        TotalRating();
+    }
+
+
+    function Friendly(id) {
+        for (let i = 6; i <= id; i++) {
+            document.getElementById(i).style.color = "yellow";
+        }
+        for (let i = id + 1; i <= 10; i++) {
+            document.getElementById(i).style.color = "rgba(0,0,0,0.2)";
+        }
+        rating2 = id - 5;
+        TotalRating();
+    }
+    function QOS(id) {
+        for (let i = 11; i <= id; i++) {
+            document.getElementById(i).style.color = "yellow";
+        }
+        for (let i = id + 1; i <= 15; i++) {
+            document.getElementById(i).style.color = "rgba(0,0,0,0.2)";
+        }
+        rating3 = id - 10;
+        TotalRating();
+    }
+
+
+    function TotalRating() {
+        var Rating = (rating1 + rating2 + rating3) / 3.0;
+        document.getElementById("avgRating").innerText = Rating.toFixed(2);
+        for (let i = 16; i <= Math.ceil(Rating) + 15; i++) {
+            document.getElementById(i).style.color = "yellow";
+        }
+        for (let i = Math.ceil(Rating) + 16; i <= 20; i++) {
+            document.getElementById(i).style.color = "rgba(0,0,0,0.2)";
+        }
+    }
+
+    function RateSp(id) {
+        $("#ratesubmit").prop("value", id);
+    }
+
+
+    function SubmitRating(val) {
+
+
+
+        if (rating1 == 0 || rating2 == 0 || rating3 == 0) {
+
+            alert("please Give All Type Of Ratings");
+        }
+        else {
+            var data = {};
+            data.id = val;
+            data.Comments = $("#comment").val();
+            data.OnTimeArrival = rating1;
+            data.Friendly = rating2;
+            data.QualityOfService = rating3;
+            data.Ratings = ((rating1 + rating2 + rating3) / 3.0).toFixed(2);
+            $.ajax({
+                type: 'POST',
+                url: '/Customer/Rating',
+                contentType: 'application/x-www-form-urlencoded; charset=UTF-8',
+                data: data,
+                success: function (result) {
+                    if (result.value == "true") {
+
+                        alert("successfully Add Rating");
+
+                    }
+                },
+                error: function () {
+                    alert('Failed ');
+                    console.log('Failed ');
+                }
+            })
+        }
 
     }
 </script>

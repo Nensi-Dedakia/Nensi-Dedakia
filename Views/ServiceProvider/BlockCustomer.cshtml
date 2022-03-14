@@ -1,0 +1,117 @@
+﻿
+
+
+@model IEnumerable<Helperland.ViewModels.UpcomingViewModel>
+@{
+    Layout = null;
+}
+
+<style type="text/css">
+    .block-button {
+        background-color: #ff6b6b;
+        border: 1px solid #ff6b6b;
+        color: white;
+        border-radius: 27px;
+        padding-top: 5px;
+        padding-bottom: 5px;
+        padding-left: 10px;
+        padding-right: 10px;
+    }
+
+        .block-button:hover {
+            text-decoration: none !important;
+            color: white !important;
+            background-color: #fa8072;
+            border: 1px solid #fa8072;
+        }
+
+
+
+    .Avtar {
+        height: 85px;
+        width: 85px;
+        margin-top: 30px;
+        border-radius: 50%;
+        border: 1px solid #C0C0C0;
+        /* justify-content: center!important; */
+        /*margin-left: 140px;
+     margin-right: 40px; */
+    }
+
+        .Avtar img {
+            height: 86px;
+            width: 86px;
+        }
+</style>
+<body>
+    @*<table>*@
+    <table class="table upcoming-table exams" style="width: 100%;">
+        <div class="row mb-4">
+            @foreach (var block in Model)
+            {
+
+                <div class="col-sm-4" id="BlockCustomer">
+                    <div class="card  align-items-center">
+                        <div class="Avtar ">
+                            <img src="../images/default-sp-xlarge.png" class="" alt="Avtar">
+                        </div>
+
+                        <div class="card-body text-center">
+                            <h5 class="card-title mb-3"><b style="font-size: 16px; color: #646464; ">@Html.DisplayFor(modelitem => block.user.FirstName)  @Html.DisplayFor(modelitem => block.user.LastName) </b></h5>
+                            <div id="blockbtn">
+
+                            </div>
+
+
+                            <a href="#" class="block-button rounded-pill" id="@block.user.UserId" onclick="spBlock(@block.user.UserId)">Block</a>
+
+                            <script>
+                                $.post("/ServiceProvider/CheckBlock", { Id: parseInt(@block.user.UserId) }, function (data) {
+                                    if (data == true) {
+                                        var x = "#" + @block.user.UserId ;
+                                        $(x).html("UnBlock");
+                                    }
+                                    else {
+                                        var x = "#" + @block.user.UserId ;
+                                        $(x).html("Block");
+                                    }
+                                });
+                            </script>
+
+                        </div>
+                    </div>
+
+                </div>
+
+            }
+        </div>
+    </table>
+    @*</table>*@
+
+</body>
+
+<script type="text/javascript">
+
+
+    function spBlock(blockid) {
+        $.post("/ServiceProvider/BlockUser", { Id: parseInt(blockid) }, function (data) {
+
+
+            if (data) {
+                alert("You have Blocked Customer!!");
+                spBlockCustomer();
+            }
+
+
+
+        });
+    }
+
+
+
+
+
+</script>
+
+
+

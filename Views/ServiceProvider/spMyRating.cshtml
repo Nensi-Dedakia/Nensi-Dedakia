@@ -1,0 +1,203 @@
+﻿@model IEnumerable<Helperland.ViewModels.UpcomingViewModel>
+@{
+    Layout = null;
+}
+<head>
+    <link href="~/lib/bootstrap/bootstrap.min.css" rel="stylesheet" />
+    <link href="~/css/Customer.css" rel="stylesheet" />
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.0/css/all.css" integrity="sha384-lZN37f5QGtY3VHgisS14W3ExzMWZxybE1SJSEsQp9S+oqd12jhcu+A56Ebc1zFSJ" crossorigin="anonymous">
+
+    <link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.5.2/css/bootstrap.css">
+    <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.11.3/css/dataTables.bootstrap4.min.css">
+    <link rel="stylesheet" href="https://cdn.datatables.net/responsive/2.2.9/css/responsive.bootstrap4.min.css">
+</head>
+<style>
+    span.stars, span.stars span {
+        display: block;
+        background: url(../images/star1.png) 0 -16px repeat-x;
+        width: 170px;
+        height: 16px;
+    }
+
+        span.stars span {
+            background-position: 0 0;
+        }
+</style>
+<table class="table upcoming-table exams" style="width: 100%;">
+
+
+    <tbody>
+        @foreach (var item in Model)
+        {
+            DateTime dt = item.servicerequest.ServiceStartDate;               //Gets the current date
+            string datetime = dt.ToString();          //converts the datetime value to string
+            string[] DateTime = datetime.Split(' ');  //splitting the date from time with the help of space delimeter
+            string Date = DateTime[0];                //saving the date value from the string array
+            string Time = DateTime[1];
+            string[] time = Time.Split(':');
+            string clocktime = time[0] + ":" + time[1];
+
+            var Extrahour = Convert.ToDouble(item.servicerequest.ExtraHours);
+            var Extratime = item.servicerequest.ServiceHours + Extrahour;
+            //  DateTime dts = Convert.ToDateTime(Extratime);
+            DateTime end = Convert.ToDateTime(clocktime);
+            DateTime watch = end.AddHours(Extratime);
+
+            string Endtime = watch.ToString();
+
+            string[] d = Endtime.Split(' ');
+            string endt = d[1];
+            string[] endda = endt.Split(':');
+
+            string totaltime = endda[0] + ":" + endda[1];
+
+            <tr class="table-data">
+                <td>
+                    <div>@Html.DisplayFor(modelitem => item.servicerequest.ServiceRequestId)</div>
+                    <div><b> @Html.DisplayFor(modelitem => item.user.FirstName)  @Html.DisplayFor(modelitem => item.user.LastName)</b></div>
+                </td>
+                <td>
+                    <div>
+                        <img src="../images/calendar2.png">
+                        <b>@Html.DisplayFor(modelitem => Date)</b>
+                    </div>
+                    <div>
+                        <img src="../imams/layer-712.png">
+                        @Html.DisplayFor(modelitem => clocktime)- @Html.DisplayFor(modelitem => totaltime)
+                    </div>
+
+                </td>
+                <td>
+                    <div>
+                        Rating
+                    </div>
+                    <div>
+
+                        <span class="stars">
+                            @Html.DisplayFor(modelitem => item.rating.Ratings)
+                        </span>
+
+
+                    </div>
+
+                </td>
+
+            </tr>
+            <hr style="width:100%" />
+            <tr style="margin-bottom:20px;">
+                <td>
+               <div> Comment </div>
+               <div>@Html.DisplayFor(modelitem => item.rating.Comments)</div>
+                </td>
+                <td></td>
+                <td></td>
+                
+            </tr>
+        }
+    </tbody>
+</table>
+
+
+
+<script>
+    $.fn.stars = function () {
+        return $(this).each(function () {
+            // Get the value
+            var val = parseFloat($(this).html());
+            //val = Math.round(val) ;
+            // Make sure that the value is in 0 - 5 range, multiply to get width
+            var size = Math.max(0, (Math.min(5, val))) * 16;
+            // Create stars holder
+            var $span = $('<span />').width(size);
+            // Replace the numerical value with stars
+            $(this).html($span);
+        });
+    }
+
+    $(function () {
+        $('span.stars').stars();
+    });
+</script>
+
+@*<table class="table upcoming-table exams" style="width: 100%;">
+        <thead>
+            <tr>
+                <th>Service ID</th>
+                <th>Service date </th>
+                <th>Customer details </th>
+                <th>Distance </th>
+                <th>Actions</th>
+
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td>323436</td>
+                <td>
+                    <div>
+                        <img src="./images/calendar2.png">
+                        <b>09/04/2018</b>
+                    </div>
+                    <div>
+                        <img src="./images/layer-712.png">
+                        12:00 - 18:00
+                    </div>
+                </td>
+                <td>
+                    <div>
+                        David Bough
+                    </div>
+                    <div>
+                        <img src="./images/layer-719.png">
+                        Musterstrabe 5,12345 Bonn
+                    </div>
+                </td>
+                <td>15 km</td>
+                <td><button type="button" class="cancel-button">Cancel</button></td>
+
+            </tr>
+        </tbody>
+    </table>*@
+
+<script src="./js/jquery.min.js"></script>
+
+<!-- Popper JS -->
+<script src="./js/popper.min.js"></script>
+<script src="https://code.jquery.com/jquery-3.5.1.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.5.2/js/bootstrap.bundle.min.js"></script>
+<script type="text/javascript" src="https://cdn.datatables.net/1.11.3/js/jquery.dataTables.min.js"></script>
+<script type="text/javascript" src="https://cdn.datatables.net/1.11.3/js/dataTables.bootstrap4.min.js"></script>
+<script src="https://cdn.datatables.net/responsive/2.2.9/js/dataTables.responsive.min.js"></script>
+<script src="https://cdn.datatables.net/responsive/2.2.9/js/responsive.bootstrap4.min.js"></script>
+<script type="text/javascript">
+    $(document).ready(function () {
+        $('.exams').DataTable({
+            searching: false,
+            info: false,
+            dom: '<"float-left"B><"float-right"f>rt<"row"<"col-sm-4"l><"col-sm-4"i><"col-sm-4"p>>',
+            "sPaginationType": "full_numbers",
+            language: {
+                paginate: {
+                    first: '<img src="./images/first-page.png">',
+                    next: '<i class="fas fa-angle-right"></i>',
+                    previous: '<i class="fas fa-angle-left"></i>',
+                    last: '<img src="./images/first-page.png" style="transform:rotate(180deg);">'
+                },
+            },
+            responsive: {
+                details: {
+                    display: $.fn.dataTable.Responsive.display.modal({
+                        header: function (row) {
+                            var data = row.data();
+                            return 'Details for ' + data[0] + ' ' + data[1];
+                        }
+                    }),
+                    renderer: $.fn.dataTable.Responsive.renderer.tableAll({
+                        tableClass: 'table'
+                    })
+                }
+            }
+        });
+});
+
+</script>

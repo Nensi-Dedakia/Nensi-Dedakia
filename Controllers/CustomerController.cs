@@ -254,65 +254,148 @@ namespace Helperland.Controllers
 
         }
 
-        [HttpPost]
-        public IActionResult UpdatePassword(ProfileViewModel pvm)
-        {
-            var olddetails = _helperlandContext.Users.Where(b => b.Email.Equals(HttpContext.Session.GetString("Email"))).FirstOrDefault();
-            var oldpwd = olddetails.Password;
-            //pvm.Password = Crypto.Hash(pvm.Password);
-            // var pass = Crypto.Hash(pvm.Password);
-            int ID = olddetails.UserId;
+        //[HttpPost]
+        //public IActionResult UpdatePassword(ProfileViewModel pvm)
+        //{
+        //    var olddetails = _helperlandContext.Users.Where(b => b.Email.Equals(HttpContext.Session.GetString("Email"))).FirstOrDefault();
+        //    var oldpwd = olddetails.Password;
+        //    //pvm.Password = Crypto.Hash(pvm.Password);
+        //    // var pass = Crypto.Hash(pvm.Password);
+        //    int ID = olddetails.UserId;
 
-            if (string.Compare(Crypto.Hash(pvm.OldPassword), oldpwd) == 0)
+        //    if (string.Compare(Crypto.Hash(pvm.OldPassword), oldpwd) == 0)
 
-            {
-                User view = new User();
+        //    {
+        //        User view = new User();
 
-                var pwd = (from userlist in _helperlandContext.Users
-                           where userlist.Email == HttpContext.Session.GetString("Email")
-                           select new
-                           {
+        //        var pwd = (from userlist in _helperlandContext.Users
+        //                   where userlist.Email == HttpContext.Session.GetString("Email")
+        //                   select new
+        //                   {
                                
-                               userlist.FirstName,
-                               userlist.LastName,
-                               userlist.Email,
-                               userlist.Mobile,
-                               userlist.DateOfBirth,
-                               userlist.Password,
-                               userlist.CreatedDate
+        //                       userlist.FirstName,
+        //                       userlist.LastName,
+        //                       userlist.Email,
+        //                       userlist.Mobile,
+        //                       userlist.DateOfBirth,
+        //                       userlist.Password,
+        //                       userlist.CreatedDate
 
-                           }).ToList();
-                view.UserId = ID;
-                view.FirstName = pwd[0].FirstName;
-                view.LastName = pwd[0].LastName;
-                view.Mobile = pwd[0].Mobile;
-                view.DateOfBirth = pwd[0].DateOfBirth;
-                view.Email = pwd[0].Email;
-                view.UserTypeId = 1;
-                view.IsRegisteredUser = true;
-                view.WorksWithPets = true;
-                view.CreatedDate = pwd[0].CreatedDate;
-                view.ModifiedDate = DateTime.Now;
-                view.ModifiedBy = 1;
-                view.IsApproved = true;
-                view.IsActive = true;
-                view.IsDeleted = true;
-                view.Password = pvm.Password;
+        //                   }).ToList();
+        //        view.UserId = ID;
+        //        view.FirstName = pwd[0].FirstName;
+        //        view.LastName = pwd[0].LastName;
+        //        view.Mobile = pwd[0].Mobile;
+        //        view.DateOfBirth = pwd[0].DateOfBirth;
+        //        view.Email = pwd[0].Email;
+        //        view.UserTypeId = 1;
+        //        view.IsRegisteredUser = true;
+        //        view.WorksWithPets = true;
+        //        view.CreatedDate = pwd[0].CreatedDate;
+        //        view.ModifiedDate = DateTime.Now;
+        //        view.ModifiedBy = 1;
+        //        view.IsApproved = true;
+        //        view.IsActive = true;
+        //        view.IsDeleted = true;
+        //        view.Password = pvm.Password;
 
 
-                _helperlandContext.Users.Update(view);
+        //        _helperlandContext.Users.Update(view);
+        //        _helperlandContext.SaveChanges();
+
+        //        // return RedirectToAction("MyProfile", "Customer");
+        //        return Ok(Json("true"));
+        //    }
+
+        //    else
+        //    {
+        //        ViewBag.Message = "Invalid Old Password";
+        //        return RedirectToAction("MyProfile", "Customer");
+        //    }
+
+
+        //}
+
+        [HttpPost]
+        public IActionResult UpdatePassword(ProfileViewModel pv)
+        {
+            if (ModelState.IsValid)
+            {
+                User use = _helperlandContext.Users.Where(b => b.Email.Equals(HttpContext.Session.GetString("Email"))).FirstOrDefault();
+                var oldpwd = use.Password;
+                var userid = use.UserId;
+
+                if (string.Compare(Crypto.Hash(pv.OldPassword), oldpwd) == 0)
+                {
+                    if (pv.Password == pv.ConfirmPassword)
+                    {
+                        pv.Password = Crypto.Hash(pv.Password);
+                        use.Password = pv.Password;
+                        use.ModifiedDate = DateTime.Now;
+
+                        _helperlandContext.Users.Update(use);
+                        _helperlandContext.SaveChanges();
+                        // return Ok(Json("true"));
+                        TempData["Message"] = "Password Update Successfully";
+                    }
+                    else
+                    {
+                        TempData["Message"] = "Does not match confirm password and New Password!";
+                        // return Ok(Json("false"));
+                    }
+                }
+                else
+                {
+                    // ViewBag.Pass = "Plz Enter Valid Old Password";
+                    TempData["Message"] = "Old Password is invalid";
+                    //return Ok(Json("false"));
+                }
+
+            }
+                return View("MyProfile");
+            
+        }
+
+
+
+        public JsonResult Rating(int id, int OnTimeArrival, int Friendly, int QualityOfService, decimal Ratings, string Comments)
+        {
+            var sr = _helperlandContext.ServiceRequests.Where(a => a.ServiceRequestId.Equals(id)).FirstOrDefault();
+            //var serviceprovider = sr.ServiceProviderId;
+            // var customer = sr.UserId;
+            Rating ratingtable = _helperlandContext.Ratings.Where(a => a.ServiceRequestId.Equals(id)).FirstOrDefault();
+            if (ratingtable != null)
+            {
+
+                ratingtable.OnTimeArrival = OnTimeArrival;
+                ratingtable.Friendly = Friendly;
+                ratingtable.QualityOfService = QualityOfService;
+                ratingtable.RatingDate = DateTime.Now;
+                ratingtable.Ratings = Ratings;
+                _helperlandContext.Ratings.Update(ratingtable);
                 _helperlandContext.SaveChanges();
-                // return RedirectToAction("MyProfile", "Customer");
-                return Ok(Json("true"));
+
+
             }
 
             else
             {
-                ViewBag.Message = "Invalid Old Password";
-                return RedirectToAction("MyProfile", "Customer");
+
+                Rating rate = new Rating();
+                rate.ServiceRequestId = sr.ServiceRequestId;
+                rate.RatingFrom = sr.UserId;
+                rate.RatingTo = Convert.ToInt32(sr.ServiceProviderId);
+                rate.Ratings = Ratings;
+                rate.OnTimeArrival = OnTimeArrival;
+                rate.Friendly = Friendly;
+                rate.QualityOfService = QualityOfService;
+                rate.RatingDate = DateTime.Now;
+                rate.Comments = Comments;
+
+                _helperlandContext.Ratings.Add(rate);
+                _helperlandContext.SaveChanges();
             }
-
-
+            return Json(true);
         }
 
     }

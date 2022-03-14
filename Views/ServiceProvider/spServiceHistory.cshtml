@@ -1,0 +1,157 @@
+﻿@model IEnumerable<Helperland.ViewModels.UpcomingViewModel>
+<table class="table upcoming-table example" style="width: 100%;">
+    <thead>
+        <tr>
+            <th>Service ID</th>
+            <th>Service date </th>
+            <th>Customer details </th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+            @if (item.servicerequest.Status == 1)
+            {
+
+                DateTime dt = item.servicerequest.ServiceStartDate;               //Gets the current date
+                string datetime = dt.ToString();          //converts the datetime value to string
+                string[] DateTime = datetime.Split(' ');  //splitting the date from time with the help of space delimeter
+                string Date = DateTime[0];                //saving the date value from the string array
+                string Time = DateTime[1];
+                string[] time = Time.Split(':');
+                string clocktime = time[0] + ":" + time[1];
+
+                var Extrahour = Convert.ToDouble(item.servicerequest.ExtraHours);
+                var Extratime = item.servicerequest.ServiceHours + Extrahour;
+                //  DateTime dts = Convert.ToDateTime(Extratime);
+                DateTime end = Convert.ToDateTime(clocktime);
+                DateTime watch = end.AddHours(Extratime);
+
+                string Endtime = watch.ToString();
+
+                string[] d = Endtime.Split(' ');
+                string endt = d[1];
+                string[] endda = endt.Split(':');
+
+                string totaltime = endda[0] + ":" + endda[1];
+
+                <tr>
+
+
+                    <td>@Html.DisplayFor(modelitem => item.servicerequest.ServiceRequestId)</td>
+                    <td data-toggle="modal" data-target="#spDetails" onclick="ShowSpDetails( @item.servicerequest.ServiceRequestId);">
+                        <div>
+                            <img src="../images/calendar2.png">
+                            <b>@Html.DisplayFor(modelitem => Date)</b>
+                        </div>
+                        <div>
+                            <img src="../images/layer-712.png">
+                            @Html.DisplayFor(modelitem => clocktime)- @Html.DisplayFor(modelitem => totaltime)
+                        </div>
+                    </td>
+
+
+
+                    <td>
+
+
+                        <div>
+                            @Html.DisplayFor(modelitem => item.user.FirstName)  @Html.DisplayFor(modelitem => item.user.LastName)
+                        </div>
+
+
+
+                        <div>
+                            <img src="../images/layer-719.png">
+                            @Html.DisplayFor(modelitem => item.servicerequestaddress.AddressLine1) , @Html.DisplayFor(modelitem => item.servicerequestaddress.AddressLine2) ,
+                            @Html.DisplayFor(modelitem => item.servicerequestaddress.City),@Html.DisplayFor(modelitem => item.servicerequestaddress.PostalCode)
+                        </div>
+                    </td>
+
+                </tr>
+            }
+        }
+
+    </tbody>
+
+</table>
+
+<div class="container remove-modal">
+    <div class="modal" id="spDetails">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content">
+
+                <!-- Modal Header -->
+                <div class="modal-header">
+                    <h4 class="modal-title text-center">Service Details</h4>
+                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+                </div>
+
+                <!-- Modal body -->
+                <div class="modal-body">
+                    <div>
+                        <span id="spDate"><b></b></span>
+                        <span id="spTime"><b></b></span>
+                        <p><b>Duration:</b><span id="spDuration">&nbsp;</span></p>
+                    </div>
+                    <hr>
+                    <div>
+                        <p><b>ServiceId: </b> <span id="spID">&nbsp;</span></p>
+                        <p><b>Extras: </b> <span>&nbsp;Inside Cabinets</span></p>
+                        <p><b>Net Amount:</b> <span id="spNetAmount" class="amt" style="font-size: larger; color: #1d7a8c;">&nbsp;&#128;</span></p>
+                    </div>
+                    <hr>
+                    <div>
+                        <p><b>Customer Name:</b> <span id="spCustomerName">&nbsp;</span></p>
+                        <p><b>Service Address:</b> <span id="spServiceAddress">&nbsp;</span></p>
+                        <p><b>Distance:</b> <span id="spDistance">&nbsp;</span></p>
+                    </div>
+                    <hr>
+                    <div>
+                        <p><b>Comments</b></p>
+                        <span>I don't have Pets at home</span>
+                    </div>
+                    <hr>
+                    @*<div class="row pt-2">
+                            <div class="col-sm-3">
+                                <button type="button" class="cancel-button">Cancel</button>
+
+                                <button type="button" class="reschedule-button" value="" data-toggle="modal" data-target="#spComplete" onclick="CompleteService(this.value);" id="spCompleteBtn">Complete</button>
+                            </div>
+                        </div>*@
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    function ShowSpDetails(ServiceRequestId) {
+
+        $.post("/ServiceProvider/UpcomingServiceDetail", { Id: parseInt(ServiceRequestId) }, function (data) {
+
+            $("#spID").html(data.id);
+
+
+
+            $("#spNetAmount").html(data.netamount);
+            $("#spServiceAddress").html(data.serviceaddress);
+
+
+            $("#spComments").html(data.comments);
+            $("#spDate").html(data.servicedate);
+            $("#spTime").html(data.servicetime);
+            $("#spDuration").html(data.duration);
+           /* $("#CompleteBtn").prop("value", data.id);*/
+            // $("#Cancel_Btn").prop("value", data.id);
+            $("#spCustomerName").html(data.fname);
+
+        });
+
+
+    }
+</script>
+
+
+
+

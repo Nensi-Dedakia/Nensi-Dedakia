@@ -1,0 +1,272 @@
+﻿@model IEnumerable<Helperland.ViewModels.UpcomingViewModel>
+<table class="table upcoming-table example" style="width: 100%;">
+    <thead>
+        <tr>
+            <th>Service ID</th>
+            <th>Service date </th>
+            <th>Customer details </th>
+            <th>Payment</th>
+            <th>Distance </th>
+            <th>Actions</th>
+
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+            if (item.servicerequest.Status != 3)
+            {
+
+                DateTime dt = item.servicerequest.ServiceStartDate;               //Gets the current date
+                string datetime = dt.ToString();          //converts the datetime value to string
+                string[] DateTime = datetime.Split(' ');  //splitting the date from time with the help of space delimeter
+                string Date = DateTime[0];                //saving the date value from the string array
+                string Time = DateTime[1];
+                string[] time = Time.Split(':');
+                string clocktime = time[0] + ":" + time[1];
+
+                var Extrahour = Convert.ToDouble(item.servicerequest.ExtraHours);
+                var Extratime = item.servicerequest.ServiceHours + Extrahour;
+                //  DateTime dts = Convert.ToDateTime(Extratime);
+                DateTime end = Convert.ToDateTime(clocktime);
+                DateTime watch = end.AddHours(Extratime);
+
+                string Endtime = watch.ToString();
+
+                string[] d = Endtime.Split(' ');
+                string endt = d[1];
+                string[] endda = endt.Split(':');
+
+                string totaltime = endda[0] + ":" + endda[1];
+
+                <tr>
+
+
+                    <td>@Html.DisplayFor(modelitem => item.servicerequest.ServiceRequestId)</td>
+                    <td onclick="ShowDetails(@item.servicerequest.ServiceRequestId);" data-toggle="modal" data-target="#CustomerServiceDetail">
+                        <div>
+                            <img src="../images/calendar2.png">
+                            <b>@Html.DisplayFor(modelitem => Date)</b>
+                        </div>
+                        <div>
+                            <img src="../images/layer-712.png">
+                            @Html.DisplayFor(modelitem => clocktime)- @Html.DisplayFor(modelitem => totaltime)
+                        </div>
+                    </td>
+
+
+
+                    <td>
+
+
+                        <div>
+                            @Html.DisplayFor(modelitem => item.user.FirstName)  @Html.DisplayFor(modelitem => item.user.LastName)
+                        </div>
+
+
+
+                        <div>
+                            <img src="../images/layer-719.png">
+                            @Html.DisplayFor(modelitem => item.servicerequestaddress.AddressLine1) , @Html.DisplayFor(modelitem => item.servicerequestaddress.AddressLine2) ,
+                            @Html.DisplayFor(modelitem => item.servicerequestaddress.City),@Html.DisplayFor(modelitem => item.servicerequestaddress.PostalCode)
+                        </div>
+                    </td>
+                    <td>@Html.DisplayFor(modelitem => item.servicerequest.TotalCost)&#128;</td>
+                    <td>15 km</td>
+                    <td>
+                        @if (item.servicerequest.Status == 1)
+                        {
+                            <button type="button" class="reschedule-button">Complete</button>
+                        }
+                        else
+                        {
+                            <button type="button" class="cancel-button" data-toggle="modal" data-target="#Remove" onclick="Cancle(@item.servicerequest.ServiceRequestId)">Cancel</button>
+                        }
+
+                    </td>
+
+                </tr>
+            }
+        }
+
+    </tbody>
+
+</table>
+
+
+<div class="container remove-modal">
+    <div class="modal" id="CustomerServiceDetail">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content">
+
+                <!-- Modal Header -->
+                <div class="modal-header">
+                    <h4 class="modal-title text-center">Service Details</h4>
+                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+                </div>
+
+                <!-- Modal body -->
+                <div class="modal-body">
+                    <div>
+                        <span id="date"><b></b></span>
+                        <span id="time"><b></b></span>
+                        <p><b>Duration:</b><span id="duration">&nbsp;</span></p>
+                    </div>
+                    <hr>
+                    <div>
+                        <p><b>ServiceId: </b> <span id="ID">&nbsp;</span></p>
+                        <p><b>Extras: </b> <span>&nbsp;Inside Cabinets</span></p>
+                        <p><b>Net Amount:</b> <span id="NetAmount" class="amt" style="font-size: larger; color: #1d7a8c;">&nbsp;&#128;</span></p>
+                    </div>
+                    <hr>
+                    <div>
+                        <p><b>Customer Name:</b> <span id="CustomerName">&nbsp;</span></p>
+                        <p><b>Service Address:</b> <span id="ServiceAddress">&nbsp;</span></p>
+                        <p><b>Distance:</b> <span id="Distance">&nbsp;</span></p>
+                    </div>
+                    <hr>
+                    <div>
+                        <p><b>Comments</b></p>
+                        <span>I don't have Pets at home</span>
+                    </div>
+                    <hr>
+                    <div class="row pt-2">
+                        <div class="col-sm-3">
+                            <button type="button" class="cancel-button">Cancel</button>
+
+                            <button type="button" class="reschedule-button" value="" data-toggle="modal" data-target="#Complete" onclick="CompleteService(this.value);" id="CompleteBtn">Complete</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+@*@if (ViewBag.Complete != null)
+    {
+        <script type="text/javascript">
+
+                window.onload = function () {
+                    alert("@ViewBag.Complete");
+                };
+        </script>
+
+    }*@
+<!------------------------Cancel Modal-------------------------------------->
+
+<div class="container remove-modal">
+    <div class="modal" id="Remove">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content">
+
+                <!-- Modal Header -->
+                <div class="modal-header">
+                    <h4 class="modal-title text-center">Cancel Service</h4>
+                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+                </div>
+
+                <!-- Modal body -->
+                <div class="modal-body">
+                    <p class="alert">Are You Sure You Wang to Delete Address?</p>
+                    <button type="button" class="remove-btn" value="" onclick="CancleNow(this.value)" id="cancle">Extinguish</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-----------------------Commplete Modal----------------->
+<div class="container remove-modal">
+    <div class="modal" id="Complete">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content">
+
+                <!-- Modal Header -->
+                <div class="modal-header">
+                    <h4 class="modal-title text-center">Complete Service</h4>
+                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+                </div>
+
+                <!-- Modal body -->
+                <div class="modal-body">
+                    <p class="alert">Do you want to change your action cancle to complete?</p>
+                    <button type="button" class="remove-btn" value="" onclick="CompleteNow(this.value)" id="complete">Complete</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<script>
+    function ShowDetails(ServiceRequestId) {
+
+        $.post("/ServiceProvider/UpcomingServiceDetail", { Id: parseInt(ServiceRequestId) }, function (data) {
+
+            $("#ID").html(data.id);
+
+
+
+            $("#NetAmount").html(data.netamount);
+            $("#ServiceAddress").html(data.serviceaddress);
+
+
+            $("#Comments").html(data.comments);
+            $("#date").html(data.servicedate);
+            $("#time").html(data.servicetime);
+            $("#duration").html(data.duration);
+            $("#CompleteBtn").prop("value", data.id);
+            // $("#Cancel_Btn").prop("value", data.id);
+            $("#CustomerName").html(data.fname);
+
+        });
+
+
+    }
+
+    function Cancle(ServiceRequestId) {
+        $(".ServiceDetail").modal('hide');
+        $("#cancle").prop("value", ServiceRequestId);
+
+    }
+
+    function CancleNow(val) {
+        $.post("/ServiceProvider/CancleUpcomingService", { Id: parseInt(val) }, function (data) {
+
+            if (data) {
+                // alert("Update Successfully!!");
+                $("#Remove").modal('hide');
+                // $("#tableDashboard").show();
+            }
+
+        });
+    }
+
+
+
+
+    function CompleteService(ServiceRequestId) {
+        $("#CustomerServiceDetail").modal('hide');
+        $("#complete").prop("value", ServiceRequestId);
+
+    }
+
+    function CompleteNow(val) {
+        $.post("/ServiceProvider/CompleteUpcomingService", { Id: parseInt(val) }, function (data) {
+            $("#Complete").modal('hide');
+            if (data)
+            {
+
+                alert("Your Service Is Complete.");
+            }
+
+            else {
+               // $("#Complete").modal('hide');
+                alert("Your End Time of the service  still not complete.");
+            }
+
+        });
+    }
+
+</script>

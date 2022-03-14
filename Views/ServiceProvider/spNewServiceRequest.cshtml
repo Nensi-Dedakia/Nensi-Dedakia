@@ -1,0 +1,290 @@
+﻿@model IEnumerable<Helperland.ViewModels.UpcomingViewModel>
+@{
+    Layout = null;
+}
+
+<head>
+    <link href="~/lib/bootstrap/bootstrap.min.css" rel="stylesheet" />
+    <link href="~/css/Customer.css" rel="stylesheet" />
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.0/css/all.css" integrity="sha384-lZN37f5QGtY3VHgisS14W3ExzMWZxybE1SJSEsQp9S+oqd12jhcu+A56Ebc1zFSJ" crossorigin="anonymous">
+
+    <link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.5.2/css/bootstrap.css">
+    <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.11.3/css/dataTables.bootstrap4.min.css">
+    <link rel="stylesheet" href="https://cdn.datatables.net/responsive/2.2.9/css/responsive.bootstrap4.min.css">
+</head>
+<table class="table upcoming-table exam" style="width: 100%;">
+    <thead>
+        <tr>
+            <th>Service ID</th>
+            <th>Service date </th>
+            <th>Customer details </th>
+            <th>Payment</th>
+            <th>Time Conflict </th>
+            <th>Actions</th>
+
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+
+
+            if (item.servicerequest.Status != 1 && item.servicerequest.Status != 2)
+            {
+
+                DateTime dt = item.servicerequest.ServiceStartDate;               //Gets the current date
+                string datetime = dt.ToString();          //converts the datetime value to string
+                string[] DateTime = datetime.Split(' ');  //splitting the date from time with the help of space delimeter
+                string Date = DateTime[0];                //saving the date value from the string array
+                string Time = DateTime[1];
+                string[] time = Time.Split(':');
+                string clocktime = time[0] + ":" + time[1];
+
+                var Extrahour = Convert.ToDouble(item.servicerequest.ExtraHours);
+                var Extratime = item.servicerequest.ServiceHours + Extrahour;
+                //  DateTime dts = Convert.ToDateTime(Extratime);
+                DateTime end = Convert.ToDateTime(clocktime);
+                DateTime watch = end.AddHours(Extratime);
+
+                string Endtime = watch.ToString();
+
+                string[] d = Endtime.Split(' ');
+                string endt = d[1];
+                string[] endda = endt.Split(':');
+
+                string totaltime = endda[0] + ":" + endda[1];
+
+                <tr>
+
+
+                    <td>@Html.DisplayFor(modelitem => item.servicerequest.ServiceRequestId)</td>
+                    <td onclick="ShowSrDetails(@item.servicerequest.ServiceRequestId);" data-toggle="modal" data-target="#srDetails">
+                        <div>
+
+                            <img src="../images/calendar2.png">
+                            <b>@Html.DisplayFor(modelitem => Date)</b>
+                        </div>
+                        <div>
+                            <img src="../images/layer-712.png">
+                            @Html.DisplayFor(modelitem => clocktime)- @Html.DisplayFor(modelitem => totaltime)
+                        </div>
+                    </td>
+
+
+
+                    <td>
+
+
+                        <div>
+                            @Html.DisplayFor(modelitem => item.user.FirstName)  @Html.DisplayFor(modelitem => item.user.LastName)
+                        </div>
+
+
+
+                        <div>
+                            <img src="../images/layer-719.png">
+                            @Html.DisplayFor(modelitem => item.servicerequestaddress.AddressLine1) , @Html.DisplayFor(modelitem => item.servicerequestaddress.AddressLine2) ,
+                            @Html.DisplayFor(modelitem => item.servicerequestaddress.City),@Html.DisplayFor(modelitem => item.servicerequestaddress.PostalCode)
+                        </div>
+                    </td>
+                    <td>@Html.DisplayFor(modelitem => item.servicerequest.TotalCost)&#128;</td>
+                    <td>15 km</td>
+                    <td>
+
+                        <button type="button" class="reschedule-button" id="Acceptting" data-toggle="modal" data-target="#AcceptModal" onclick="AcceptReq(@item.servicerequest.ServiceRequestId)">Accept</button>
+
+
+                    </td>
+
+                </tr>
+            }
+        }
+
+    </tbody>
+
+</table>
+
+
+<div id="map"></div>
+
+<div class="container remove-modal">
+    <div class="modal" id="srDetails">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content">
+
+                <!-- Modal Header -->
+                <div class="modal-header">
+                    <h4 class="modal-title text-center">Service Details</h4>
+                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+                </div>
+
+
+
+                <!-- Modal body -->
+                <div class="modal-body">
+                    
+                   <div>
+                         <span id="srDate"><b></b></span>
+                         <span id="srTime"><b></b></span>
+                         <p><b>Duration:</b><span id="srDuration">&nbsp;</span></p>
+                     </div>
+                     <hr>
+                     <div>
+                         <p><b>ServiceId: </b> <span id="srID">&nbsp;</span></p>
+                         <p><b>Extras: </b> <span>&nbsp;Inside Cabinets</span></p>
+                         <p><b>Net Amount:</b> <span id="srNetAmount" class="amt" style="font-size: larger; color: #1d7a8c;">&nbsp;&#128;</span></p>
+                     </div>
+                     <hr>
+                     <div>
+                         <p><b>Customer Name:</b> <span id="srCustomerName">&nbsp;</span></p>
+                         <p><b>Service Address:</b> <span id="srServiceAddress">&nbsp;</span></p>
+                         <p><b>Distance:</b> <span id="srDistance">&nbsp;</span></p>
+                     </div>
+                     <hr>
+                     <div>
+                         <p><b>Comments</b></p>
+                         <span>I don't have Pets at home</span>
+                     </div>
+                     <hr>
+                     <div class="row pt-2">-->
+                    @*<div class="col-sm-3">
+                            <button type="button" class="cancel-button">Cancel</button>
+
+                            <button type="button" class="reschedule-button" value="" data-toggle="modal" data-target="#spComplete" onclick="CompleteService(this.value);" id="spCompleteBtn">Complete</button>
+                        </div>*@
+                    </div>
+
+                                <button type="button" class="rounded-pill border border-1 text-center reschedulebtn" value="" data-toggle="modal" data-target="#AcceptModal" onclick="AcceptReq(this.value)" id="accepted" style="background-color:#1aff1a; color:white; padding:5px 10px 5px 10px;"><i class="fa fa-check" style="color: white;"></i> Accept</button>
+
+
+
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<!-------------------------------Accept Popup------------------------------------>
+<div class="container remove-modal">
+    <div class="modal" id="AcceptModal">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content">
+
+                <!-- Modal Header -->
+                <div class="modal-header">
+                    <h4 class="modal-title text-center">Accept Service</h4>
+                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+                </div>
+
+                <!-- Modal body -->
+                <div class="modal-body">
+                    <p class="alert">Do you want to Accept this request?</p>
+                    <button type="button" class="remove-btn" value="" onclick="AcceptNow(this.value)" id="accept">Accept</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    function ShowSrDetails(ServiceRequestId) {
+       
+
+        $.post("/ServiceProvider/UpcomingServiceDetail", { Id: parseInt(ServiceRequestId) }, function (data) {
+
+            $("#srID").html(data.id);
+
+
+
+            $("#srNetAmount").html(data.netamount);
+            $("#srServiceAddress").html(data.serviceaddress);
+
+
+            $("#srComments").html(data.comments);
+            $("#srDate").html(data.servicedate);
+            $("#srTime").html(data.servicetime);
+            $("#srDuration").html(data.duration);
+            /* $("#CompleteBtn").prop("value", data.id);*/
+            $("#accepted").prop("value", data.id);
+            $("#srCustomerName").html(data.fname);
+        });
+
+
+
+
+
+
+
+
+
+
+    }
+
+
+    
+
+    function AcceptReq(ServiceRequestId) {
+        $("#srDetails").modal('hide');
+        $("#accept").prop("value", ServiceRequestId);
+
+    }
+
+    function AcceptNow(val) {
+        $.post("/ServiceProvider/AcceptNewServiceRequest", { Id: parseInt(val) }, function (data) {
+            //  $("#Complete").modal('hide');
+            if (data) {
+
+                alert("You Accept this service.");
+            }
+
+            //else {
+            //    // $("#Complete").modal('hide');
+            //    alert("Your End Time of the service  still not complete.");
+            //}
+
+        });
+    }
+</script>
+<script src="./js/jquery.min.js"></script>
+
+<!-- Popper JS -->
+<script src="./js/popper.min.js"></script>
+<script src="https://code.jquery.com/jquery-3.5.1.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.5.2/js/bootstrap.bundle.min.js"></script>
+<script type="text/javascript" src="https://cdn.datatables.net/1.11.3/js/jquery.dataTables.min.js"></script>
+<script type="text/javascript" src="https://cdn.datatables.net/1.11.3/js/dataTables.bootstrap4.min.js"></script>
+<script src="https://cdn.datatables.net/responsive/2.2.9/js/dataTables.responsive.min.js"></script>
+<script src="https://cdn.datatables.net/responsive/2.2.9/js/responsive.bootstrap4.min.js"></script>
+<script type="text/javascript">
+    $(document).ready(function () {
+        $('.exam').DataTable({
+            searching: false,
+            info: false,
+            dom: '<"float-left"B><"float-right"f>rt<"row"<"col-sm-4"l><"col-sm-4"i><"col-sm-4"p>>',
+            "sPaginationType": "full_numbers",
+            language: {
+                paginate: {
+                    first: '<img src="./images/first-page.png">',
+                    next: '<i class="fas fa-angle-right"></i>',
+                    previous: '<i class="fas fa-angle-left"></i>',
+                    last: '<img src="./images/first-page.png" style="transform:rotate(180deg);">'
+                },
+            },
+            responsive: {
+                details: {
+                    display: $.fn.dataTable.Responsive.display.modal({
+                        header: function (row) {
+                            var data = row.data();
+                            return 'Details for ' + data[0] + ' ' + data[1];
+                        }
+                    }),
+                    renderer: $.fn.dataTable.Responsive.renderer.tableAll({
+                        tableClass: 'table'
+                    })
+                }
+            }
+        });
+});
+
+</script>

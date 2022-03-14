@@ -159,11 +159,11 @@ namespace Helperland.Controllers
                         }
                         if (detail.UserTypeId == 2)
                         {
-                            return RedirectToAction("ServiceProviderRegistration", "BecomeAProvider");
+                            return RedirectToAction("ServiceProviderPage", "ServiceProvider");
                         }
                         //Redirect to page according to use if user is customer then redirect to dashboard, Service Provider then Service Request
                         //If Admin Page then admin page are open
-                        return RedirectToAction("CustomerPage", "Customer");
+                        return RedirectToAction("ServiceProviderPage", "ServiceProvider");
                     }
                     else
                     {

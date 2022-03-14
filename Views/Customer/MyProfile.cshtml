@@ -246,11 +246,14 @@
                         </div>
                         <div id="tabContent3" style="display: none ;">
                             <form method="post" asp-action="UpdatePassword" asp-controller="Customer">
+                                <div asp-validation-summary="ModelOnly" class="text-danger"></div>
                                 <div class="row">
                                     <div class="col-sm-5">
                                         <label class="add-new-button-label">Old Password:</label>
                                         <input type="Password" asp-for="OldPassword" placeholder="Current Password" id="op" class="form11">
-                                        <span class="text-danger">@ViewBag.Message</span>
+                                        <span asp-validation-for="OldPassword" class="text-danger"></span>
+
+
                                     </div>
                                 </div>
 
@@ -258,13 +261,16 @@
                                     <div class="col-sm-5">
                                         <label class="add-new-button-label">New Password:</label>
                                         <input type="Password" asp-for="Password" placeholder="Password" id="np" class="form11">
+                                        <span asp-validation-for="Password" class="text-danger"></span>
                                     </div>
                                 </div>
 
                                 <div class="row">
                                     <div class="col-sm-5">
                                         <label class="add-new-button-label">Repeat Password:</label>
-                                        <input type="Password" name="" placeholder="Repeat Password" class="form11">
+                                        <input type="Password" asp-for="ConfirmPassword" placeholder="Repeat Password" class="form11">
+                                        <span asp-validation-for="ConfirmPassword" class="text-danger"></span>
+                                        <span class="text-danger">@TempData["Message"]</span>
                                     </div>
                                 </div>
 
