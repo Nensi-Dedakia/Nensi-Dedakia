@@ -1,330 +1,355 @@
 ﻿@model IEnumerable<Helperland.Models.Data.ServiceRequest>
+    <style>
+        .export {
+            color: white;
+            font-size: 14px;
+            width: 70px;
+            height: 34px;
+            border-radius: 17px;
+            border: none;
+            background-color: #146371;
+            float: right;
+        }
+    </style>
+    <div>
+        <p class="Service-history-heading ">
+            Service History
+            <a class="btn export" asp-action="DownloadExcel">Export</a>
+        </p>
+    </div>
+    <table class="example table upcoming-table" style="width: 100%;">
+        <thead>
+            <tr>
+                <th>Service Details</th>
+                <th>Service Provider</th>
+                <th>Payment</th>
+                <th>Status</th>
+                <th>Rate SP</th>
 
-<div>
-    <p class="Service-history-heading ">
-        Service History
-        <button type="button" class="export-button">Export</button>
-    </p>
-</div>
-<table class="example table upcoming-table" style="width: 100%;">
-    <thead>
-        <tr>
-            <th>Service Details</th>
-            <th>Service Provider</th>
-            <th>Payment</th>
-            <th>Status</th>
-            <th>Rate SP</th>
+            </tr>
+        </thead>
+        <tbody>
 
-        </tr>
-    </thead>
-    <tbody>
-
-        @foreach (var req in Model)
-        {
-            if (req.Status == 1 || req.Status == 3)
+            @foreach (var req in Model)
             {
-                DateTime dt = req.ServiceStartDate;               //Gets the current date
-                string datetime = dt.ToString();          //converts the datetime value to string
-                string[] DateTime = datetime.Split(' ');  //splitting the date from time with the help of space delimeter
-                string Date = DateTime[0];                //saving the date value from the string array
-                string Time = DateTime[1];
-                string[] time = Time.Split(':');
-                string clocktime = time[0] + ":" + time[1];
-                var Extratime = req.ServiceHours + req.ExtraHours;
-                string Endtime = Extratime.ToString();
-                string totaltime = clocktime + Endtime;
-                <tr class="customer-table-data">
-                    <td class="service-detail" onclick="ServiceDetails(@req.ServiceRequestId)" data-toggle="modal" data-target=".ServiceHistory-Servicedetails-modal">
+                if (req.Status == 1 || req.Status == 3)
+                {
+                    DateTime dt = req.ServiceStartDate;               //Gets the current date
+                    string datetime = dt.ToString();          //converts the datetime value to string
+                    string[] DateTime = datetime.Split(' ');  //splitting the date from time with the help of space delimeter
+                    string Date = DateTime[0];                //saving the date value from the string array
+                    string Time = DateTime[1];
+                    string[] time = Time.Split(':');
+                    string clocktime = time[0] + ":" + time[1];
+                    var Extrahour = Convert.ToDouble(req.ExtraHours);
+                    var Extratime = req.ServiceHours + Extrahour;
+                    //  DateTime dts = Convert.ToDateTime(Extratime);
+                    DateTime end = Convert.ToDateTime(clocktime);
+                    DateTime watch = end.AddHours(Extratime);
+
+                    string Endtime = watch.ToString();
+
+                    string[] d = Endtime.Split(' ');
+                    string endt = d[1];
+                    string[] endda = endt.Split(':');
+
+                    string totaltime = endda[0] + ":" + endda[1];
+                    <tr class="customer-table-data">
+                        <td class="service-detail" onclick="ServiceDetails(@req.ServiceRequestId)" data-toggle="modal" data-target=".ServiceHistory-Servicedetails-modal">
+                            <div>
+                                <img src="~/images/calendar.png">
+                                <b>@Html.DisplayFor(modelitem => Date)</b>
+                            </div>
+                            <div>
+                                <b> @Html.DisplayFor(modelitem => clocktime)- @Html.DisplayFor(modelitem => totaltime)</b>
+                            </div>
+                        </td>
+                        <td>
+                            @if (req.ServiceProviderId != null)
+                            {
+                                <div>
+                                    <img src="~/images/cap.png" class="cap">
+                                    @Html.DisplayFor(modelitem => req.ServiceProvider.FirstName) @Html.DisplayFor(modelitem => req.ServiceProvider.LastName)
+                                </div>
+                                <div class="rating-star">
+                                    <img src="~/images/star1.png">
+                                    <img src="~/images/star1.png">
+                                    <img src="~/images/star1.png">
+                                    <img src="~/images/star1.png">
+                                    <img src="~/images/star2.png"> 4
+
+                                </div>
+                            }
+
+
+                        </td>
+
+                        <td>
+                            <p class="euro-currency">€<b class="rupee">@Html.DisplayFor(modelitem => req.TotalCost)</b></p>
+                        </td>
+                        <td>
+                            @if (req.Status == 1)
+                            {
+                                <button type="button" class="completed-button">Completed</button>
+                            }
+                            else
+                            {
+                                <button type="button" class="cancelled-button">Cancelled</button>
+                            }
+
+                        </td>
+                        <td>
+                            @if (req.Status == 1)
+                            {
+                                <button type="button" class="Rate-sp-button" style="background-color: #1d7A8C;">
+                                    <a href="#" data-toggle="modal" data-target="#RateSp" style="color:white; " onclick="RateSp(@req.ServiceRequestId)">Rate SP</a>
+                                </button>
+                            }
+                            else
+                            {
+                                <button type="button" class="Rate-sp-button" style="background-color: #6da9b5;" disabled>
+                                    <a style="color:white;">Rate SP</a>
+                                </button>
+                            }
+
+                        </td>
+                    </tr>
+
+                }
+            }
+        </tbody>
+
+    </table>
+
+    <div class="container remove-modal">
+        <div class="modal" id="RateSp">
+            <div class="modal-dialog modal-dialog-centered">
+                <div class="modal-content">
+
+                    <!-- Modal Header -->
+                    <div class="modal-header">
+
+                        <button type="button" class="close" data-dismiss="modal">&times;</button>
+                    </div>
+
+                    <!-- Modal body -->
+                    <div class="modal-body">
                         <div>
-                            <img src="~/images/calendar.png">
-                            <b>@Html.DisplayFor(modelitem => Date)</b>
+                            <img class="cap" src="../images/cap.png" style="float: left;">
                         </div>
+                        <p>
+                            <strong>Sandip Patel</strong><br>
+                            <i class="fa fa-star" aria-hidden="true" id="16"></i>
+                            <i class="fa fa-star" aria-hidden="true" id="17"></i>
+                            <i class="fa fa-star" aria-hidden="true" id="18"></i>
+                            <i class="fa fa-star" aria-hidden="true" id="19"></i>
+                            <i class="fa fa-star" aria-hidden="true" id="20"></i>
+                        </p>
+                        <p>Rate Your Service Provider</p>
+                        <hr>
+
+                        <p>
+                            On Time Arrival<span>
+                                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                                <i class="fa fa-star" aria-hidden="true" id="1" onclick="OTA(1)"></i>
+                                <i class="fa fa-star" aria-hidden="true" id="2" onclick="OTA(2)"></i>
+                                <i class="fa fa-star" aria-hidden="true" id="3" onclick="OTA(3)"></i>
+                                <i class="fa fa-star" aria-hidden="true" id="4" onclick="OTA(4)"></i>
+                                <i class="fa fa-star" aria-hidden="true" id="5" onclick="OTA(5)"></i>
+
+                            </span>
+                        </p>
+
+                        <p>
+                            Friendly
+                            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                            <i class="fa fa-star" aria-hidden="true" id="6" onclick="Friendly(6)"></i>
+                            <i class="fa fa-star" aria-hidden="true" id="7" onclick="Friendly(7)"></i>
+                            <i class="fa fa-star" aria-hidden="true" id="8" onclick="Friendly(8)"></i>
+                            <i class="fa fa-star" aria-hidden="true" id="9" onclick="Friendly(9)"></i>
+                            <i class="fa fa-star" aria-hidden="true" id="10" onclick="Friendly(10)"></i>
+
+
+                        </p>
+
+                        <p>
+                            Quality Of Service<span>
+                                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                                <i class="fa fa-star" aria-hidden="true" id="11" onclick="QOS(11)"></i>
+                                <i class="fa fa-star" aria-hidden="true" id="12" onclick="QOS(12)"></i>
+                                <i class="fa fa-star" aria-hidden="true" id="13" onclick="QOS(13)"></i>
+                                <i class="fa fa-star" aria-hidden="true" id="14" onclick="QOS(14)"></i>
+                                <i class="fa fa-star" aria-hidden="true" id="15" onclick="QOS(15)"></i>
+                            </span>
+                        </p>
+
+                        <p>Feedback on Service Provider</p>
+                        <textarea rows="2" cols="45" id="comment"></textarea>
+                    </div>
+                    <button type="button" class="rounded-pill border border-1 text-center reschedulebtn" value="" id="ratesubmit" onclick="SubmitRating(this.value)">Submit</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+    <!--service details modal-->
+    <div class="container Servicedetails-modal ">
+        <div class="modal ServiceHistory-Servicedetails-modal">
+            <div class="modal-dialog modal-dialog-centered">
+                <div class="modal-content">
+                    <!-- Modal Header -->
+                    <div class="modal-header">
+                        <h4 class="modal-title text-center">Service Details</h4>
+                        <button type="button" class="close" data-dismiss="modal">&times;</button>
+                    </div>
+                    <!-- Modal body -->
+                    <div class="modal-body">
                         <div>
-                            <b> @Html.DisplayFor(modelitem => clocktime)- @Html.DisplayFor(modelitem => totaltime)</b>
+                            <span id="dates"></span>
+                            <span id="times"></span>
+                            <p><b>Duration:</b><span id="durations">&nbsp;</span></p>
                         </div>
-                    </td>
-                    <td>
+                        <hr>
                         <div>
-                            <img src="~/images/cap.png" class="cap">
-                            Lyum Watson
+                            <p><b>ServiceId: </b> <span id="IDs"></span></p>
+                            <p><b>Extras: </b> <span id="Extras"></span></p>
+                            <p><b>Net Amount:</b> <span class="amt" id="NetAmounts">&nbsp;</span></p>
                         </div>
-                        <div class="rating-star">
-                            <img src="~/images/star1.png">
-                            <img src="~/images/star1.png">
-                            <img src="~/images/star1.png">
-                            <img src="~/images/star1.png">
-                            <img src="~/images/star2.png"> 4
-
+                        <hr>
+                        <div>
+                            <p><b>Service Address:</b> <span id="ServiceAddresss">&nbsp;</span></p>
+                            <p><b>Billing Address:</b> <span>&nbsp;Same as Service Address</span></p>
+                            <p><b>Phone: </b> <span id="Phones">&nbsp;</span></p>
+                            <p><b>Email: </b> <span id="Emails">&nbsp;</span></p>
                         </div>
+                        <hr>
+                        <div>
+                            <p><b>Comments</b></p>
+                            <span id="Comments">I don't have Pets at home</span>
+                        </div>
+                        <hr>
 
-                    </td>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
 
-                    <td>
-                        <p class="euro-currency">€<b class="rupee">@Html.DisplayFor(modelitem => req.TotalCost)</b></p>
-                    </td>
-                    <td>
-                        @if (req.Status == 1)
-                        {
-                            <button type="button" class="completed-button">Completed</button>
-                        }
-                        else
-                        {
-                            <button type="button" class="cancelled-button">Cancelled</button>
-                        }
+    <script type="text/javascript">
+        function ServiceDetails(Id) {
 
-                    </td>
-                    <td>
-                        @if (req.Status == 1)
-                        {
-                            <button type="button" class="Rate-sp-button" style="background-color: #1d7A8C;">
-                                <a href="#" data-toggle="modal" data-target="#RateSp" style="color:white; " onclick="RateSp(@req.ServiceRequestId)">Rate SP</a>
-                            </button>
-                        }
-                        else
-                        {
-                            <button type="button" class="Rate-sp-button" style="background-color: #6da9b5;" disabled>
-                                <a style="color:white;">Rate SP</a>
-                            </button>
-                        }
+            $.post("/Customer/CustomerServiceDetail", { Id: parseInt(Id) }, function (data) {
 
-                    </td>
-                </tr>
+                $("#IDs").html(data.id);
 
+                $("#Extras").html(data.extra);
+
+                $("#NetAmounts").html(data.netamount);
+                $("#ServiceAddresss").html(data.serviceaddress);
+                $("#Phones").html(data.phone);
+                $("#Emails").html(data.email);
+                $("#Comments").html(data.comments);
+                $("#dates").html(data.servicedate);
+                $("#times").html(data.servicetime);
+                $("#durations").html(data.duration);
+                //$("#Reschedule_Btn").prop("value", data.cid);
+                //$("#Cancel_Btn").prop("value", data.cid);
+
+            });
+
+
+        }
+
+
+        var rating1 = 0;
+        var rating2 = 0;
+        var rating3 = 0;
+
+        function OTA(id) {
+            for (let i = 1; i <= id; i++) {
+                document.getElementById(i).style.color = "yellow";
+            }
+            for (let i = id + 1; i <= 5; i++) {
+                document.getElementById(i).style.color = "rgba(0,0,0,0.2)";
+            }
+            rating1 = id;
+            TotalRating();
+        }
+
+
+        function Friendly(id) {
+            for (let i = 6; i <= id; i++) {
+                document.getElementById(i).style.color = "yellow";
+            }
+            for (let i = id + 1; i <= 10; i++) {
+                document.getElementById(i).style.color = "rgba(0,0,0,0.2)";
+            }
+            rating2 = id - 5;
+            TotalRating();
+        }
+        function QOS(id) {
+            for (let i = 11; i <= id; i++) {
+                document.getElementById(i).style.color = "yellow";
+            }
+            for (let i = id + 1; i <= 15; i++) {
+                document.getElementById(i).style.color = "rgba(0,0,0,0.2)";
+            }
+            rating3 = id - 10;
+            TotalRating();
+        }
+
+
+        function TotalRating() {
+            var Rating = (rating1 + rating2 + rating3) / 3.0;
+            document.getElementById("avgRating").innerText = Rating.toFixed(2);
+            for (let i = 16; i <= Math.ceil(Rating) + 15; i++) {
+                document.getElementById(i).style.color = "yellow";
+            }
+            for (let i = Math.ceil(Rating) + 16; i <= 20; i++) {
+                document.getElementById(i).style.color = "rgba(0,0,0,0.2)";
             }
         }
-    </tbody>
 
-</table>
-
-<div class="container remove-modal">
-    <div class="modal" id="RateSp">
-        <div class="modal-dialog modal-dialog-centered">
-            <div class="modal-content">
-
-                <!-- Modal Header -->
-                <div class="modal-header">
-
-                    <button type="button" class="close" data-dismiss="modal">&times;</button>
-                </div>
-
-                <!-- Modal body -->
-                <div class="modal-body">
-                    <div>
-                        <img class="cap" src="../images/cap.png" style="float: left;">
-                    </div>
-                    <p>
-                        <strong>Sandip Patel</strong><br>
-                        <i class="fa fa-star" aria-hidden="true" id="16"></i>
-                        <i class="fa fa-star" aria-hidden="true" id="17"></i>
-                        <i class="fa fa-star" aria-hidden="true" id="18"></i>
-                        <i class="fa fa-star" aria-hidden="true" id="19"></i>
-                        <i class="fa fa-star" aria-hidden="true" id="20"></i>
-                    </p>
-                    <p>Rate Your Service Provider</p>
-                    <hr>
-
-                    <p>
-                        On Time Arrival<span>
-                            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-                            <i class="fa fa-star" aria-hidden="true" id="1" onclick="OTA(1)"></i>
-                            <i class="fa fa-star" aria-hidden="true" id="2" onclick="OTA(2)"></i>
-                            <i class="fa fa-star" aria-hidden="true" id="3" onclick="OTA(3)"></i>
-                            <i class="fa fa-star" aria-hidden="true" id="4" onclick="OTA(4)"></i>
-                            <i class="fa fa-star" aria-hidden="true" id="5" onclick="OTA(5)"></i>
-
-                        </span>
-                    </p>
-
-                    <p>
-                        Friendly
-                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-                        <i class="fa fa-star" aria-hidden="true" id="6" onclick="Friendly(6)"></i>
-                        <i class="fa fa-star" aria-hidden="true" id="7" onclick="Friendly(7)"></i>
-                        <i class="fa fa-star" aria-hidden="true" id="8" onclick="Friendly(8)"></i>
-                        <i class="fa fa-star" aria-hidden="true" id="9" onclick="Friendly(9)"></i>
-                        <i class="fa fa-star" aria-hidden="true" id="10" onclick="Friendly(10)"></i>
-
-
-                    </p>
-
-                    <p>
-                        Quality Of Service<span>
-                            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-                            <i class="fa fa-star" aria-hidden="true" id="11" onclick="QOS(11)"></i>
-                            <i class="fa fa-star" aria-hidden="true" id="12" onclick="QOS(12)"></i>
-                            <i class="fa fa-star" aria-hidden="true" id="13" onclick="QOS(13)"></i>
-                            <i class="fa fa-star" aria-hidden="true" id="14" onclick="QOS(14)"></i>
-                            <i class="fa fa-star" aria-hidden="true" id="15" onclick="QOS(15)"></i>
-                        </span>
-                    </p>
-
-                    <p>Feedback on Service Provider</p>
-                    <textarea rows="2" cols="45" id="comment"></textarea>
-                </div>
-                <button type="button" class="rounded-pill border border-1 text-center reschedulebtn" value="" id="ratesubmit" onclick="SubmitRating(this.value)">Submit</button>
-            </div>
-        </div>
-    </div>
-</div>
-
-
-<!--service details modal-->
-<div class="container Servicedetails-modal ">
-    <div class="modal ServiceHistory-Servicedetails-modal">
-        <div class="modal-dialog modal-dialog-centered">
-            <div class="modal-content">
-                <!-- Modal Header -->
-                <div class="modal-header">
-                    <h4 class="modal-title text-center">Service Details</h4>
-                    <button type="button" class="close" data-dismiss="modal">&times;</button>
-                </div>
-                <!-- Modal body -->
-                <div class="modal-body">
-                    <div>
-                        <span id="dates"></span>
-                        <span id="times"></span>
-                        <p><b>Duration:</b><span id="durations">&nbsp;</span></p>
-                    </div>
-                    <hr>
-                    <div>
-                        <p><b>ServiceId: </b> <span id="IDs"></span></p>
-                        <p><b>Extras: </b> <span id="Extras"></span></p>
-                        <p><b>Net Amount:</b> <span class="amt" id="NetAmounts">&nbsp;</span></p>
-                    </div>
-                    <hr>
-                    <div>
-                        <p><b>Service Address:</b> <span id="ServiceAddresss">&nbsp;</span></p>
-                        <p><b>Billing Address:</b> <span>&nbsp;Same as Service Address</span></p>
-                        <p><b>Phone: </b> <span id="Phones">&nbsp;</span></p>
-                        <p><b>Email: </b> <span id="Emails">&nbsp;</span></p>
-                    </div>
-                    <hr>
-                    <div>
-                        <p><b>Comments</b></p>
-                        <span id="Comments">I don't have Pets at home</span>
-                    </div>
-                    <hr>
-
-                </div>
-            </div>
-        </div>
-    </div>
-</div>
-
-<script type="text/javascript">
-    function ServiceDetails(Id) {
-
-        $.post("/Customer/CustomerServiceDetail", { Id: parseInt(Id) }, function (data) {
-
-            $("#IDs").html(data.id);
-
-            $("#Extras").html(data.extra);
-
-            $("#NetAmounts").html(data.netamount);
-            $("#ServiceAddresss").html(data.serviceaddress);
-            $("#Phones").html(data.phone);
-            $("#Emails").html(data.email);
-            $("#Comments").html(data.comments);
-            $("#dates").html(data.servicedate);
-            $("#times").html(data.servicetime);
-            $("#durations").html(data.duration);
-            //$("#Reschedule_Btn").prop("value", data.cid);
-            //$("#Cancel_Btn").prop("value", data.cid);
-
-        });
-
-
-    }
-
-
-    var rating1 = 0;
-    var rating2 = 0;
-    var rating3 = 0;
-
-    function OTA(id) {
-        for (let i = 1; i <= id; i++) {
-            document.getElementById(i).style.color = "yellow";
+        function RateSp(id) {
+            $("#ratesubmit").prop("value", id);
         }
-        for (let i = id + 1; i <= 5; i++) {
-            document.getElementById(i).style.color = "rgba(0,0,0,0.2)";
-        }
-        rating1 = id;
-        TotalRating();
-    }
 
 
-    function Friendly(id) {
-        for (let i = 6; i <= id; i++) {
-            document.getElementById(i).style.color = "yellow";
-        }
-        for (let i = id + 1; i <= 10; i++) {
-            document.getElementById(i).style.color = "rgba(0,0,0,0.2)";
-        }
-        rating2 = id - 5;
-        TotalRating();
-    }
-    function QOS(id) {
-        for (let i = 11; i <= id; i++) {
-            document.getElementById(i).style.color = "yellow";
-        }
-        for (let i = id + 1; i <= 15; i++) {
-            document.getElementById(i).style.color = "rgba(0,0,0,0.2)";
-        }
-        rating3 = id - 10;
-        TotalRating();
-    }
-
-
-    function TotalRating() {
-        var Rating = (rating1 + rating2 + rating3) / 3.0;
-        document.getElementById("avgRating").innerText = Rating.toFixed(2);
-        for (let i = 16; i <= Math.ceil(Rating) + 15; i++) {
-            document.getElementById(i).style.color = "yellow";
-        }
-        for (let i = Math.ceil(Rating) + 16; i <= 20; i++) {
-            document.getElementById(i).style.color = "rgba(0,0,0,0.2)";
-        }
-    }
-
-    function RateSp(id) {
-        $("#ratesubmit").prop("value", id);
-    }
-
-
-    function SubmitRating(val) {
+        function SubmitRating(val) {
 
 
 
-        if (rating1 == 0 || rating2 == 0 || rating3 == 0) {
+            if (rating1 == 0 || rating2 == 0 || rating3 == 0) {
 
-            alert("please Give All Type Of Ratings");
-        }
-        else {
-            var data = {};
-            data.id = val;
-            data.Comments = $("#comment").val();
-            data.OnTimeArrival = rating1;
-            data.Friendly = rating2;
-            data.QualityOfService = rating3;
-            data.Ratings = ((rating1 + rating2 + rating3) / 3.0).toFixed(2);
-            $.ajax({
-                type: 'POST',
-                url: '/Customer/Rating',
-                contentType: 'application/x-www-form-urlencoded; charset=UTF-8',
-                data: data,
-                success: function (result) {
-                    if (result.value == "true") {
+                alert("please Give All Type Of Ratings");
+            }
+            else {
+                var data = {};
+                data.id = val;
+                data.Comments = $("#comment").val();
+                data.OnTimeArrival = rating1;
+                data.Friendly = rating2;
+                data.QualityOfService = rating3;
+                data.Ratings = ((rating1 + rating2 + rating3) / 3.0).toFixed(2);
+                $.ajax({
+                    type: 'POST',
+                    url: '/Customer/Rating',
+                    contentType: 'application/x-www-form-urlencoded; charset=UTF-8',
+                    data: data,
+                    success: function (result) {
+                        if (result.value == "true") {
 
-                        alert("successfully Add Rating");
+                            alert("successfully Add Rating");
 
+                        }
+                    },
+                    error: function () {
+                        alert('Failed ');
+                        console.log('Failed ');
                     }
-                },
-                error: function () {
-                    alert('Failed ');
-                    console.log('Failed ');
-                }
-            })
-        }
+                })
+            }
 
-    }
-</script>
+        }
+    </script>

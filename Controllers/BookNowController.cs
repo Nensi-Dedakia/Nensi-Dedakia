@@ -184,22 +184,39 @@ namespace Helperland.Controllers
 
             List<User> user = new List<User>();
             var sp = _helperlandContext.FavoriteAndBlockeds.Where(a => a.TargetUserId.Equals(ID) && a.IsBlocked == true).ToList();
-            foreach (var item in sp)
+            if (sp != null)
             {
-                user.AddRange(_helperlandContext.Users.Where(a => a.UserId != item.UserId && a.UserTypeId == 2 && a.ZipCode == AddressData.PostalCode).ToList()); ;
-            }
+                foreach (var item in sp)
+                {
+                    user.AddRange(_helperlandContext.Users.Where(a => a.UserId != item.UserId && a.UserTypeId == 2 && a.ZipCode == AddressData.PostalCode).ToList()); ;
+                }
 
-            foreach (var EmailMessage in user)
+
+                foreach (var EmailMessage in user)
+                {
+                    var subject = "New Request Arrived";
+                    var body = "Hi " + EmailMessage.FirstName + ", <br/> Customer Wants to book a service on this aera .Can you take this service ? " + "<br> Thank you";
+
+
+
+
+                    SendEmail(EmailMessage.Email, body, subject);
+                }
+            }
+            else
             {
-                var subject = "New Request Arrived";
-                var body = "Hi " + EmailMessage.FirstName + ", <br/> Customer Wants to book a service on this aera .Can you take this service ? " + "<br> Thank you";
+                var emailmessage = _helperlandContext.Users.Where(b => b.ZipCode.Equals(AddressData.PostalCode) && b.UserTypeId == 2).ToList();
+                foreach (var EmailMessage in emailmessage)
+                {
+                    var subject = "New Request Arrived";
+                    var body = "Hi " + EmailMessage.FirstName + ", <br/> Customer Wants to book a service on this aera .Can you take this service ? " + "<br> Thank you";
 
 
 
 
-                SendEmail(EmailMessage.Email, body, subject);
+                    SendEmail(EmailMessage.Email, body, subject);
+                }
             }
-
             return Ok(Json("true"));
 
 

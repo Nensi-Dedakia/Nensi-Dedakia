@@ -15,7 +15,7 @@
     {
         <tr>
             <td>
-                <span>@Html.DisplayFor(modelitem => add.AddressId)</span>
+                @*<span>@Html.DisplayFor(modelitem => add.AddressId)</span>*@
                 <div class="address">
                     <p>
                         <b>Address: </b>@Html.DisplayFor(modelitem => add.AddressLine1) , @Html.DisplayFor(modelitem => add.AddressLine2) , @Html.DisplayFor(modelitem => add.PostalCode) -
@@ -26,12 +26,12 @@
             </td>
 
             <td>
-                <button type="button">
+                
                     <a href="#" data-toggle="modal" data-target="#Edit" onclick="Edit(@add.AddressId)">
                         <i class='far fa-edit'
                            style='font-size:18px; color: grey;'></i>
                     </a>
-                </button>
+                
 
                 <a href="#" data-toggle="modal" data-target="#Remove" onclick="Delete(@add.AddressId)">
                     <i class='fas fa-trash-alt px-3' style="color: grey;"></i>

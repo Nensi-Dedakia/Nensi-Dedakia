@@ -1,0 +1,569 @@
+﻿@{
+    Layout = null;
+}
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Service Request</title>
+
+    <link href="~/lib/bootstrap/bootstrap.min.css" rel="stylesheet" />
+    <link href="~/css/Admin.css" rel="stylesheet" />
+
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.0/css/all.css" integrity="sha384-lZN37f5QGtY3VHgisS14W3ExzMWZxybE1SJSEsQp9S+oqd12jhcu+A56Ebc1zFSJ" crossorigin="anonymous">
+    <link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.5.2/css/bootstrap.css">
+    <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.11.3/css/dataTables.bootstrap4.min.css">
+    <link rel="stylesheet" href="https://cdn.datatables.net/responsive/2.2.9/css/responsive.bootstrap4.min.css">
+</head>
+<style>
+    body {
+        overflow-x: hidden;
+    }
+</style>
+<style>
+    .export {
+        color: white;
+        font-size: 14px;
+        width: 70px;
+        height: 34px;
+        border-radius: 17px;
+        border: none;
+        background-color: #146371;
+        float: right;
+    }
+</style>
+<body>
+    <header>
+        <nav class="navbar navbar-expand-sm admin-navbar ">
+            <div class="admin-header">helperland</div>
+            <!-- <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNavDropdown" aria-controls="navbarNavDropdown" aria-expanded="false" aria-label="Toggle navigation"> <span class="navbar-toggler-icon"></span> </button>
+             <div class="collapse navbar-collapse " id="navbarNavDropdown">-->
+            <ul class="nav navbar-nav ml-auto">
+                <li class="nav-item admin-user">
+
+                    <img src="../images/admin-user.png" alt=""> <span class="admin-name">James Smith</span>
+
+                </li>
+                <li class="nav-item dropdown logout">
+
+                    <a class="nav-link" href="#" id="navbarDropdown" role="button" aria-expanded="false">
+                        <img src="../images/logout.png" alt="">
+                    </a>
+
+                </li>
+            </ul>
+        </nav>
+    </header>
+
+    <section class="side-toggle-bar">
+        <nav class="navbar navbar-expand-xl">
+            <button class="navbar-toggler navbar-light" type="button" data-toggle="collapse" data-target="#navbarNavDropdown" aria-controls="navbarNavDropdown" aria-expanded="false" aria-label="Toggle navigation" id="collapse-button"> <span class="navbar-toggler-icon"></span> </button>
+            <div class="collapse navbar-collapse  " id="navbarNavDropdown">
+                <ul class="nav flex-column " id="navbarNavDropdown">
+                    <li class="nav-item ">
+                        <a class="nav-link  admin-side-menu-content" href="#">Service Managment</a>
+                    </li>
+                    <hr class="admin-side-menu-line">
+                    <li class="nav-item">
+                        <a class="nav-link  admin-side-menu-content" href="#">Role Managment</a>
+                    </li>
+
+                    <hr class="admin-side-menu-line">
+                    <div id="accordion">
+                        <div class="card">
+                            <div class="card-header">
+                                <a class="card-link" data-toggle="collapse" href="#collapseOne">
+                                    Coupon Code Management<img src="images/admin-arrow.png" onclick="rotateimg1()" id="img1" alt="" class="admin-arrow">
+                                </a>
+                            </div>
+                            <div id="collapseOne" class="collapse" data-parent="#accordion">
+                                <div class="card-body">
+                                    <p><a href="#" class="text-secondary">Coupon Codes</a></p>
+                                    <p><a href="#" class="text-secondary">Usage History</a></p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <hr class="admin-side-menu-line">
+                    <li class="nav-item ">
+                        <a class="nav-link  admin-side-menu-content " href="#">Escalation Management</a>
+                    </li>
+                    <hr class="admin-side-menu-line">
+                    <li class="nav-item">
+                        <a class="nav-link  admin-side-menu-content " href="#">Service Requests</a>
+                    </li>
+                    <hr class="admin-side-menu-line">
+                    <li class="nav-item">
+                        <a class="nav-link  admin-side-menu-content " href="#">Service Providers</a>
+                    </li>
+                    <hr class="admin-side-menu-line">
+                    <li class="nav-item ">
+                        <a class="nav-link  admin-side-menu-content " href="#user-managment">User Management</a>
+                    </li>
+                    <hr class="admin-side-menu-line">
+                    <div id="accordion">
+                        <div class="card">
+                            <div class="card-header">
+                                <a class="card-link" data-toggle="collapse" href="#collapseTwo">
+                                    Finance Module<img src="images/admin-arrow.png" onclick="rotateimg1()" id="img1" alt="" class="admin-arrow">
+                                </a>
+                            </div>
+                            <div id="collapseTwo" class="collapse" data-parent="#accordion">
+                                <div class="card-body">
+                                    <p><a href="#" class="text-secondary">All Transaction</a></p>
+                                    <p><a href="#" class="text-secondary">Genrate Payment</a></p>
+                                    <p><a href="#" class="text-secondary">Customer Invoice</a></p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <hr class="admin-side-menu-line">
+                    <li class="nav-item ">
+                        <a class="nav-link  admin-side-menu-content " href="#">Zip Code Management </a>
+                    </li>
+                    <hr class="admin-side-menu-line">
+                    <li class="nav-item">
+                        <a class="nav-link  admin-side-menu-content " href="#">Rating Management </a>
+                    </li>
+                    <hr class="admin-side-menu-line">
+                    <li class="nav-item">
+                        <a class="nav-link  admin-side-menu-content " href="#">Inquiry Management</a>
+                    </li>
+                    <hr class="admin-side-menu-line">
+                    <li class="nav-item ">
+                        <a class="nav-link  admin-side-menu-content " href="#">Newsletter Management </a>
+                    </li>
+                    <hr class="admin-side-menu-line">
+                    <div id="accordion">
+                        <div class="card">
+                            <div class="card-header">
+                                <a class="card-link" data-toggle="collapse" href="#collapseThree">
+                                    Content Management<img src="images/admin-arrow.png" onclick="rotateimg1()" id="img1" alt="" class="admin-arrow">
+                                </a>
+                            </div>
+                            <div id="collapseThree" class="collapse" data-parent="#accordion">
+                                <div class="card-body">
+                                    <p><a href="#" class="text-secondary">Blog</a></p>
+                                    <p><a href="#" class="text-secondary">FAQs</a></p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <hr class="admin-side-menu-line">
+                </ul>
+
+
+            </div>
+        </nav>
+    </section>
+
+    <section>
+        <div class="container-fluid">
+            <div class="row">
+                <div class=" col-xl-2 admin-side-menu">
+
+                    <ul class="nav flex-column ">
+                        <li class="nav-item ">
+                            <a class="nav-link  admin-side-menu-content" href="#">Service Managment</a>
+                        </li>
+                        <hr class="admin-side-menu-line">
+                        <li class="nav-item">
+                            <a class="nav-link  admin-side-menu-content" href="#">Role Managment</a>
+                        </li>
+
+                        <hr class="admin-side-menu-line">
+                        <div id="accordion">
+                            <div class="card">
+                                <div class="card-header">
+                                    <a class="card-link" data-toggle="collapse" href="#collapseOne">
+                                        Coupon Code Management<img src="../images/admin-arrow.png" onclick="rotateimg1()" id="img1" alt="" class="admin-arrow">
+                                    </a>
+                                </div>
+                                <div id="collapseOne" class="collapse" data-parent="#accordion">
+                                    <div class="card-body">
+                                        <p><a href="#" class="text-secondary">Coupon Codes</a></p>
+                                        <p><a href="#" class="text-secondary">Usage History</a></p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <hr class="admin-side-menu-line">
+                        <li class="nav-item ">
+                            <a class="nav-link  admin-side-menu-content " href="#">Escalation Management</a>
+                        </li>
+                        <hr class="admin-side-menu-line">
+                        <li class="nav-item">
+                            <a class="nav-link  admin-side-menu-content " href="#">Service Requests</a>
+                        </li>
+                        <hr class="admin-side-menu-line">
+                        <li class="nav-item">
+                            <a class="nav-link  admin-side-menu-content " href="#">Service Providers</a>
+                        </li>
+                        <hr class="admin-side-menu-line">
+                        <li class="nav-item ">
+                            <a class="nav-link  admin-side-menu-content " href="#user-managment">User Management</a>
+                        </li>
+                        <hr class="admin-side-menu-line">
+                        <div id="accordion">
+                            <div class="card">
+                                <div class="card-header">
+                                    <a class="card-link" data-toggle="collapse" href="#collapseTwo">
+                                        Finance Module<img src="../images/admin-arrow.png" onclick="rotateimg1()" id="img1" alt="" class="admin-arrow">
+                                    </a>
+                                </div>
+                                <div id="collapseTwo" class="collapse" data-parent="#accordion">
+                                    <div class="card-body">
+                                        <p><a href="#" class="text-secondary">All Transaction</a></p>
+                                        <p><a href="#" class="text-secondary">Genrate Payment</a></p>
+                                        <p><a href="#" class="text-secondary">Customer Invoice</a></p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <hr class="admin-side-menu-line">
+                        <li class="nav-item ">
+                            <a class="nav-link  admin-side-menu-content " href="#">Zip Code Management </a>
+                        </li>
+                        <hr class="admin-side-menu-line">
+                        <li class="nav-item">
+                            <a class="nav-link  admin-side-menu-content " href="#">Rating Management </a>
+                        </li>
+                        <hr class="admin-side-menu-line">
+                        <li class="nav-item">
+                            <a class="nav-link  admin-side-menu-content " href="#">Inquiry Management</a>
+                        </li>
+                        <hr class="admin-side-menu-line">
+                        <li class="nav-item ">
+                            <a class="nav-link  admin-side-menu-content " href="#">Newsletter Management </a>
+                        </li>
+                        <hr class="admin-side-menu-line">
+
+                        <div id="accordion">
+                            <div class="card">
+                                <div class="card-header">
+                                    <a class="card-link" data-toggle="collapse" href="#collapseThree">
+                                        Content Management<img src="../images/admin-arrow.png" onclick="rotateimg1()" id="img1" alt="" class="admin-arrow">
+                                    </a>
+                                </div>
+                                <div id="collapseThree" class="collapse" data-parent="#accordion">
+                                    <div class="card-body">
+                                        <p><a href="#" class="text-secondary">Blog</a></p>
+                                        <p><a href="#" class="text-secondary">FAQs</a></p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <hr class="admin-side-menu-line">
+                    </ul>
+
+                </div>
+
+                <div class=" col-xl-10 admin-main " style="background-color:  #f2f4f5; " id="user-managment">
+                    <div class="row " style="margin-top: 29px; max-width: 1100px;">
+                        <div class="col-md-8 User-managment-heading">User Managment</div>
+                        <div class="col-md-4">
+                            <button class="add-new-user-btn ">
+                                <img src="images/add.png" alt="" style="padding-right: 7px;">
+                                Add New User
+                            </button>
+                        </div>
+                    </div>
+
+                    <!--horizontal form starts-->
+                    <div class="form">
+                        <div class="row g-3" style="background-color:white; margin-left:10px; padding-bottom : 20px;">
+                            <div class="col-auto">
+                                <input type="text" class="form-control second-col Customer-form" id="userName" placeholder="User Name" />
+                            </div>
+                            <div class="col-auto">
+                                <select class="form-select second-col Customer-form" id="userType" style="width:220px; height:38px;">
+                                    <option selected value="">User Type</option>
+                                    <option value="1">Customer</option>
+                                    <option value="2">Service Provider</option>
+                                    <option value="3">Admin</option>
+                                </select>
+                            </div>
+                            <div class="col-auto">
+                                <div class="input-group" style="height:38px; width:auto; margin-top : 20px;">
+                                    <span class="input-group-text">+49</span>
+                                    <input type="text" class="form-control  " placeholder="Phone number" id="phoneNumber">
+                                </div>
+                            </div>
+                            <div class="col-auto">
+                                <input type="text" class="form-control second-col Customer-form" id="postalCode" placeholder="Postal Code" />
+                            </div>
+                            <div class="col-auto">
+                                <input type="email" class="form-control second-col Customer-form" id="email" placeholder="Email" />
+                            </div>
+                            <div class="col-auto">
+                                <input type="date" class="form-control second-col Customer-form" id="fromDate" placeholder="From Date" />
+                            </div>
+                            <div class="col-auto">
+                                <input type="date" class="form-control second-col Customer-form" id="toDate" placeholder="To Date" />
+                            </div>
+                            <div class="col-auto">
+                                <button id="searchBtn" class="first-col user-search-button">Search</button>
+                                @*</div>
+                                    <div class="col-auto">*@
+                                <button id="clearBtn" class="first-col user-clear-button">Clear</button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="d-flex flex-wrap mb-3">
+                        @*<button id="export" class="ms-auto  user-search-button" style="height:30px; float:right; border:none;">Export</button>*@
+                        <a class="btn export" asp-action="DownloadExcel">Export</a>
+                    </div>
+
+                    <!--responsive table starts-->
+                    <table id="table_id" class="table table-borderless display nowrap">
+                        <thead>
+                            <tr>
+                                <th>User Name</th>
+
+                                <th>Date of Registration</th>
+                                <th>User Type</th>
+                                <th>Phone</th>
+                                <th>Postal code</th>
+                                <th>Status</th>
+                                <th>Action</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                        </tbody>
+                    </table>
+                    <!--responsive table ends-->
+                    <!--footer copyright-->
+                    <p>©2018 Helperland. All rights reserved.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+
+
+    <script src="~/js/jquery.min.js"></script>
+    <script src="~/js/popper.min.js"></script>
+    <script src="~/js/bootstrap.min.js"></script>
+
+
+    <script src="~/lib/bootstrap/dist/js/bootstrap.js"></script>
+    <script src="~/lib/jquery/dist/jquery.js"></script>
+    <script src="~/lib/jquery-validation/dist/jquery.validate.js"></script>
+    <script src="~/lib/jquery-validation-unobtrusive/jquery.validate.unobtrusive.js"></script>
+    <script src="~/jquery-ajax-unobtrusive/jquery.unobtrusive-ajax.js"></script>
+
+    <script src="https://code.jquery.com/jquery-3.5.1.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.5.2/js/bootstrap.bundle.min.js"></script>
+    <script type="text/javascript" src="https://cdn.datatables.net/1.11.3/js/jquery.dataTables.min.js"></script>
+    <script type="text/javascript" src="https://cdn.datatables.net/1.11.3/js/dataTables.bootstrap4.min.js"></script>
+    <script src="https://cdn.datatables.net/responsive/2.2.9/js/dataTables.responsive.min.js"></script>
+    <script src="https://cdn.datatables.net/responsive/2.2.9/js/responsive.bootstrap4.min.js"></script>
+    <script type="text/javascript">
+
+        $(document).ready(function () {
+            findParameters();
+
+        });
+
+
+        function findParameters() {
+            var table = $("#table_id").DataTable({
+                info: false,
+                buttons: ["excelHtml5"],
+                processing: true,
+                responsive: true,
+                serverSide: true,
+                ajax: {
+                    url: "/Admin/UserManagementData",
+                    type: "POST",
+                    datatype: "json",
+                },
+
+
+
+                columnDefs: [
+                    {
+                        targets: 0,
+                        name: "User Name",
+                        render: function (data, type, row, meta) {
+                            return row.firstName + " " + row.lastName;
+                        },
+                    },
+
+                    {
+                        targets: 1,
+                        name: "Registration Date",
+                        className: "createdDate",
+                        render: function (data, type, row, meta) {
+                            return getDateColumnData(row);
+                        },
+                    },
+                    {
+                        targets: 2,
+                        orderable: false,
+                        render: function (data, type, row, meta) {
+                            return getUserTypeColumnData(row);
+                        },
+                    },
+                    {
+                        targets: 3,
+                        name: "Phone",
+                        render: function (data, type, row, meta) {
+                            return row.mobile;
+                        },
+                    },
+                    {
+                        targets: 4,
+                        orderable: false,
+                        render: function (data, type, row, meta) {
+                            return row.zipCode;
+                        },
+                    },
+                    {
+                        targets: 5,
+                        orderable: false,
+                        render: function (data, type, row, meta) {
+                            return getStatusColumnData(row);
+                        },
+                    },
+                    {
+                        targets: 6,
+                        orderable: false,
+                        render: function (data, type, row, meta) {
+                            return getActionColumnData(row);
+                        },
+                    },
+                ],
+                stripeClasses: [],
+                aLengthMenu: [
+                    [5, 10, 15, -1],
+                    [5, 10, 25, "All"],
+                ],
+                dom: '<"float-left"B><"float-right"f>rt<"row"<"col-sm-4"l><"col-sm-4"i><"col-sm-4"p>>',
+                pageLength: 10,
+                paging: "true",
+                pagingType: "simple_numbers",
+                language: {
+                    paginate: {
+                        first: '<img src="./images/first-page.png">',
+                        next: '<i class="fas fa-angle-right"></i>',
+                        previous: '<i class="fas fa-angle-left"></i>',
+                        last: '<img src="./images/first-page.png" style="transform:rotate(180deg);">'
+                    },
+                },
+
+                responsive: {
+                    details: {
+                        display: $.fn.dataTable.Responsive.display.modal({
+                            header: function (row) {
+                                var data = row.data();
+                                return 'Details for ' + data[0] + ' ' + data[1];
+                            }
+                        }),
+                        renderer: $.fn.dataTable.Responsive.renderer.tableAll({
+                            tableClass: 'table'
+                        })
+                    }
+                }
+
+            });
+
+
+
+            $(".buttons-excel").hide();
+            $("#table_id_filter").hide();
+            $.fn.dataTable.ext.errMode = "none";
+            $("#table_id").on("error.dt", function (e, settings, techNote, message) {
+                console.log("An error occurred: ", message);
+            });
+            oTable = $("#table_id").DataTable();
+            $("#searchBtn").click(function () {
+                oTable.search([
+                    $("#userName").val(),
+                    $("#userType").val(),
+                    $("#phoneNumber").val(),
+                    $("#postalCode").val(),
+                    $("#email").val(),
+                    $("#fromDate").val(),
+                    $("#toDate").val(),
+                ]);
+                oTable.draw();
+            });
+
+            $("#clearBtn").click(function () {
+                $("input,#userType").val("");
+                $("#searchBtn").trigger("click");
+            });
+
+            $("#export").on("click", function () {
+                $(".buttons-excel").trigger("click");
+            });
+        }
+
+        function getDateColumnData(row) {
+            var date = row.createdDate.split("T");
+            var array = date[0].split("-");
+            return (
+                '<img src="/images/calendar2.png"/>' +
+                " " +
+                array[2] +
+                "/" +
+                array[1] +
+                "/" +
+                array[0]
+            );
+        }
+
+        function getUserTypeColumnData(row) {
+            var userType = "";
+            if (row.userTypeId == 1) {
+                userType = "Customer";
+            } else if (row.userTypeId == 2) {
+                userType = "Service Provider";
+            } else if (row.userTypeId == 3) {
+                userType = "Admin";
+            }
+            return "<span>" + userType + "</span>";
+        }
+
+        function getStatusColumnData(row) {
+            if (row.isActive) {
+                return '<button type="button" class="active user-active-button" >Active</button>';
+            } else {
+                return '<button type="button" class="inactive user-inactive-button">Inactive</button>';
+            }
+        }
+
+        function getActionColumnData(row) {
+            var deactiveOprion = "";
+            if (row.isActive) {
+                deactiveOprion =
+                    '<a class="dropdown-item" onclick="onDeactivateLinkClick(' +
+                    row.userId +
+                    ')">Deactivate</a>';
+            } else {
+                deactiveOprion =
+                    '<a class="dropdown-item" onclick="onActivateLinkClick(' +
+                    row.userId +
+                    ')">Activate</a>';
+            }
+
+            return (
+                '<div class="dropdown">' +
+                '<a class="btn threedots" role="button" id="dropdownMenuLink" data-toggle="dropdown" aria-expanded="false">' +
+                '<img src="/images/group-38.png"/>' +
+                "</a>" +
+                '<ul class="dropdown-menu" aria-labelledby="dropdownMenuLink">' +
+                '<li><a class="dropdown-item" onclick="onDeleteLinkClick(' +
+                row.userId +
+                ')">Delete</a></li>' +
+                deactiveOprion +
+                "</ul >" +
+                "</div >"
+            );
+        }
+    </script>
+</body>
+</html>

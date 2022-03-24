@@ -1,11 +1,17 @@
-﻿using Helperland.Models.Data;
+﻿using Helperland.Enum;
+using Helperland.Models.Data;
 using Helperland.Repository;
 using Helperland.ViewModels;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
+using OfficeOpenXml;
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
+using System.Net;
+using System.Net.Mail;
 using System.Threading.Tasks;
 
 namespace Helperland.Controllers
@@ -26,10 +32,11 @@ namespace Helperland.Controllers
                 var firstname = Customer.FirstName;
                 ViewBag.Message = firstname;
             var ID = Customer.UserId;
-
+            IEnumerable<ServiceRequest> use = _helperlandContext.ServiceRequests.Include(x => x.ServiceProvider).ThenInclude(x=>x.RatingRatingToNavigations).Where(x => x.UserId.Equals(ID)).ToList();
+            var User = _helperlandContext.ServiceRequests.Where(address => address.UserId.Equals(ID)).ToList();
             System.Threading.Thread.Sleep(2000);
-            return View(_helperlandContext.ServiceRequests.Where(address => address.UserId.Equals(ID)).ToList());
-
+            return View(use);
+            
 
            
         }
@@ -48,6 +55,8 @@ namespace Helperland.Controllers
         public IActionResult MyProfile()
         {
             var Customer = _helperlandContext.Users.Where(b => b.Email.Equals(HttpContext.Session.GetString("Email"))).FirstOrDefault();
+            var FirstName = Customer.FirstName;
+            ViewBag.FirstName = FirstName;
             ProfileViewModel mymodel = new ProfileViewModel();
             var ID = Customer.UserId;
             ViewBag.ID = ID;
@@ -147,14 +156,57 @@ namespace Helperland.Controllers
 
         public JsonResult CancleService(int Id)
         {
+            var subject = "";
+            var body = "";
             var details = _helperlandContext.ServiceRequests.Where(b => b.ServiceRequestId.Equals(Id)).FirstOrDefault();
-            var detail = _helperlandContext.ServiceRequestAddresses.Where(b => b.ServiceRequestId.Equals(Id)).FirstOrDefault();
-            _helperlandContext.ServiceRequests.Remove(details);
-            _helperlandContext.ServiceRequestAddresses.Remove(detail);
+            User s = _helperlandContext.Users.Where(a => a.UserId.Equals(details.ServiceProviderId)).FirstOrDefault();
+            var sname = s.FirstName;
+            details.Status =(int) ServiceStatus.Cancelled;
+            details.ModifiedDate = DateTime.Now;
+            details.ModifiedBy = (int)UserTypeEnum.Customer;
+            _helperlandContext.ServiceRequests.Update(details);
+            //_helperlandContext.ServiceRequestAddresses.Remove(detail);
             _helperlandContext.SaveChanges();
             return Json(true);
 
+            if (details.ServiceProviderId != null)
+            {
+                subject = "Detail Update";
+                body = "Hi " + "<b>" + sname + "</b>" + ", <br/>" +
+                    " Service Request Id :" + Id + "This Service is cancelled by customer";
+                   
+                SendEmail(s.Email, body, subject);
+            }
+
+
         }
+
+
+        private void SendEmail(string emailAddress, string body, string subject)
+        {
+            using (MailMessage mm = new MailMessage("18it.nensi.dedakia@gmail.com", emailAddress))
+            {
+                mm.Subject = subject;
+                mm.Body = body;
+
+                mm.IsBodyHtml = true;
+                SmtpClient smtp = new SmtpClient();
+
+                smtp.Host = "smtp.gmail.com";
+
+
+
+
+                smtp.UseDefaultCredentials = false;
+                NetworkCredential NetworkCred = new System.Net.NetworkCredential("18it.nensi.dedakia@gmail.com", "9737012809Jayshri@123");
+                smtp.Credentials = NetworkCred;
+                smtp.EnableSsl = true;
+                smtp.Port = 587;
+                smtp.Send(mm);
+
+            }
+        }
+
 
 
         [HttpPost]
@@ -396,6 +448,51 @@ namespace Helperland.Controllers
                 _helperlandContext.SaveChanges();
             }
             return Json(true);
+        }
+
+
+
+
+        public FileResult DownloadExcel()
+        {
+            var Customer = _helperlandContext.Users.Where(b => b.Email.Equals(HttpContext.Session.GetString("Email"))).FirstOrDefault();
+            var ID = Customer.UserId;
+            IEnumerable<ServiceRequest> use = _helperlandContext.ServiceRequests.Include(x => x.ServiceProvider).ThenInclude(x => x.RatingRatingToNavigations).Where(x => x.UserId.Equals(ID) && (x.Status==1 || x.Status == 3)).ToList();
+
+           
+            ExcelPackage Ep = new ExcelPackage();
+            ExcelWorksheet Sheet = Ep.Workbook.Worksheets.Add("Report");
+            Sheet.Cells["A1"].Value = "Service Details";
+            Sheet.Cells["B1"].Value = "Service Provider";
+            Sheet.Cells["C1"].Value = "Payment";
+            Sheet.Cells["D1"].Value = "Status";
+            int row = 2;
+            foreach (var item in use)
+            {
+                Sheet.Cells[String.Format("A{0}", row)].Value = item.ServiceStartDate.ToShortDateString() + "\n" + item.ServiceStartDate.ToShortTimeString() + " - " + item.ServiceStartDate.AddHours(Convert.ToDouble(item.SubTotal)).ToShortTimeString();
+                Sheet.Cells[String.Format("B{0}", row)].Value = item.ServiceProvider.FirstName + item.ServiceProvider.LastName;
+                Sheet.Cells[String.Format("C{0}", row)].Value = item.SubTotal;
+                if(item.Status == 1)
+                {
+                    Sheet.Cells[String.Format("D{0}", row)].Value = "Completed";
+                }
+                if(item.Status == 3)
+                {
+                    Sheet.Cells[String.Format("D{0}", row)].Value = "Cancelled";
+                }
+               
+                row++;
+            }
+             
+            Sheet.Cells["A:AZ"].AutoFitColumns();
+            using (MemoryStream stream = new MemoryStream())
+            {
+                Ep.SaveAs(stream);
+                return File(stream.ToArray(), "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet", "CustomerServiceHistory.xlsx");
+            }
+
+
+
         }
 
     }

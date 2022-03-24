@@ -1,0 +1,156 @@
+﻿@model Helperland.ViewModels.AdminViewModel
+@{
+    Layout = null;
+}
+
+<head>
+
+    <link href="~/lib/bootstrap/bootstrap.min.css" rel="stylesheet" />
+    <link href="~/css/Admin.css" rel="stylesheet" />
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.0/css/all.css" integrity="sha384-lZN37f5QGtY3VHgisS14W3ExzMWZxybE1SJSEsQp9S+oqd12jhcu+A56Ebc1zFSJ" crossorigin="anonymous">
+
+    <link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.5.2/css/bootstrap.css">
+</head>
+
+
+<form class="">
+    <div class="row pt-2 mb-3">
+        <div class="col">
+            <label for="Date" class="form-label"> Date  </label>
+            <input type="datetime" asp-for="Date" class="form-control" id="servicedate">
+        </div>
+
+        <div class="col">
+            <label for="time" class="form-label"> Time  </label><br>
+            <select id="servicetime" asp-for="Time" class="form-control">
+                <option value="02:00">2:00</option>
+                <option value="03:00">3:00</option>
+                <option value="04:00">4:00</option>
+                <option value="05:00">5:00</option>
+            </select>
+        </div>
+    </div>
+
+    <p style="color: #4f4f4f; font-family: 'roboto';">Service Address</p>
+    <div class="row pt-2">
+        <div class="col">
+            <label for="street-name" class="form-label"> Street name  </label>
+            <input asp-for="AddressLine1" class="form-control" id="address1"
+                   placeholder="Street name">
+        </div>
+
+        <div class="col">
+            <label for="house-no" class="form-label"> House number  </label>
+            <input asp-for="AddressLine2" class="form-control" id="address2"
+                   placeholder="House number">
+        </div>
+    </div>
+
+
+    <div class="row pt-2 mb-3">
+        <div class="col">
+            <label for="postal code" class="form-label"> Postal Code  </label>
+            <input asp-for="PostalCode" class="form-control" id="postalcode"
+                   placeholder="Postal Code">
+        </div>
+
+        <div class="col">
+            <label for="city" class="form-label"> City  </label>
+            <input asp-for="City" class="form-control" id="city"
+                   placeholder="Street name">
+        </div>
+    </div>
+
+
+    <p style="color: #4f4f4f; font-family: 'roboto';">Invoice Address</p>
+    <div class="row pt-2">
+        <div class="col">
+            <label for="street-name" class="form-label"> Street name  </label>
+            <input type="text" class="form-control" id="street-name"
+                   placeholder="Street name" name="street-name">
+        </div>
+
+        <div class="col">
+            <label for="house-no" class="form-label"> House number  </label>
+            <input type="text" class="form-control" id="street-name"
+                   placeholder="House number" name="house-no">
+        </div>
+    </div>
+
+
+    <div class="row pt-2">
+        <div class="col">
+            <label for="postal code" class="form-label"> Postal Code  </label>
+            <input type="text" class="form-control" id="postalcode"
+                   placeholder="Postal Code" name="postal code">
+        </div>
+
+        <div class="col">
+            <label for="city" class="form-label"> City  </label>
+            <input type="text" class="form-control" id="city"
+                   placeholder="Street name" name="street-name">
+        </div>
+    </div>
+
+
+
+    <div class="row pt-2">
+        <div class="col">
+            <label for="mobile" class="form-label"> Why do you want to reschedule service request?  </label>
+            <textarea cols="49" rows="3" class="form-control" aria-placeholder="Why do you want to reschedule service request?">
+
+                                              </textarea>
+        </div>
+    </div>
+
+    <div class="row pt-2">
+        <div class="col">
+            <label for="mobile" class="form-label"> Call Center EMP Notes  </label>
+            <textarea cols="49" rows="3" class="form-control" aria-placeholder="Why do you want to reschedule service request?">
+
+                                            </textarea>
+        </div>
+    </div>
+
+    <div class="row pt-2">
+        <div class="col">
+            <button type="button" class="update-btn mt-2" id="upd" value="" onclick="UpdateData(this.value)">Update</button>
+        </div>
+    </div>
+</form>
+<script>
+ function UpdateData(id) {
+            debugger;
+            var data = {};
+            data.date = $("#servicedate").val();
+            data.time = $("#servicetime").val();
+
+            data.AddressLine1 = $("#address1").val();
+            data.AddressLine2 = $("#address2").val();
+            data.PostalCode = $("#postalcode").val();
+            data.City = $("#city").val();
+            data.id = id;
+            $.ajax({
+                type: 'POST',
+                url: '/Admin/UpdateDetails',
+                contentType: 'application/x-www-form-urlencoded; charset=UTF-8',
+
+                data: data,
+                success: function (result) {
+                    if (result.value == "true") {
+                        alert('Successfully! Updated');
+                    }
+                },
+                error: function () {
+                    alert('Failed to  Data');
+                    console.log('Failed ');
+                }
+            })
+
+            
+        }
+
+</script>
+<script src="~/js/jquery.min.js"></script>
+<script src="~/js/popper.min.js"></script>
+<script src="~/js/bootstrap.min.js"></script>

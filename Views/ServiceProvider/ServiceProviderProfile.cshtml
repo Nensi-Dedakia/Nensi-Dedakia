@@ -95,7 +95,7 @@
     </header>
 
     <section class="Welcome-section">
-        <h1 class="Welcome-section-heading">Welcome,<b> Gaurang!</b></h1>
+        <h1 class="Welcome-section-heading">Welcome,<b>@ViewBag.Name</b></h1>
         <div class="Welcome-section-line">
             <hr>
         </div>
@@ -159,10 +159,10 @@
                                     <hr style="color: #4f4f4f;">
                                 </div>
                                 <div class="col-sm-2">
-                                    <img src="../images/avatar-female.png">
+                                   <img src="../images/@Model.UserProfilePicture">
                                 </div>
                             </div>
-                            <form method="post" asp-controller="ServiceProvider" asp-action="ServiceProviderProfileDetail">
+                            <form>
                                 <div class="row">
                                     <div class="col-sm-4">
                                         <label class="add-new-button-label">First Name:</label>
@@ -253,25 +253,25 @@
                                     <div class="col" style="margin-bottom: 10px;">
                                         <label class="add-new-button-label" asp-for="UserProfilePicture">Select Avtar:</label>
                                         <br />
-                                        <div style="display: inline; margin-right:10px ;">
-                                            <label asp-for="UserProfilePicture"></label>
-                                            <img src="../images/avatar-hat.png" asp-append-version="true">
+                                        <div style="display: inline;  margin-right: 10px;" id="image10" onclick="AvtarClick(this)">
+
+                                            <img class="avtar_image" style="border-radius:50%;" src="../images/avatar-hat.png" asp-append-version="true" id="avtarimage10">
                                         </div>
-                                        <div style="display: inline; margin-right:10px ;">
-                                            <label asp-for="UserProfilePicture"></label>
-                                            <img src="../images/avatar-female.png" asp-append-version="true">
+                                        <div style="display: inline; margin-right:10px ;" id="image20" onclick="AvtarClick(this)">
+
+                                            <img class="avtar_image" style="border-radius:50%;" src="../images/avatar-female.png" asp-append-version="true" id="avtarimage20">
                                         </div>
-                                        <div style="display: inline; margin-right:10px ;">
-                                            <label asp-for="UserProfilePicture"></label>
-                                            <img src="../images/avatar-iron.png" asp-append-version="true">
+                                        <div style="display: inline; margin-right:10px ;" id="image30" onclick="AvtarClick(this)">
+
+                                            <img class="avtar_image" style="border-radius:50%;" src="../images/avatar-iron.png" asp-append-version="true" id="avtarimage30">
                                         </div>
-                                        <div style="display: inline; margin-right:10px ;">
-                                            <label asp-for="UserProfilePicture"></label>
-                                            <img src="../images/avatar-ship.png" asp-append-version="true">
+                                        <div style="display: inline; margin-right:10px ;" id="image40" onclick="AvtarClick(this)">
+
+                                            <img class="avtar_image" style="border-radius:50%;" src="../images/avatar-ship.png" asp-append-version="true" id="avtarimage40">
                                         </div>
-                                        <div style="display: inline; margin-right:10px ;">
-                                            <label asp-for="UserProfilePicture"></label>
-                                            <img src="../images/avatar-male.png" asp-append-version="true">
+                                        <div style="display: inline; margin-right:10px ;" id="image50" onclick="AvtarClick(this)">
+
+                                            <img class="avtar_image" style="border-radius:50%;" src="../images/avatar-male.png" asp-append-version="true" id="avtarimage50">
                                         </div>
 
                                     </div>
@@ -283,15 +283,15 @@
                                 <div class="row">
                                     <div class="col-sm-4">
                                         <label for="street-name" class="form-label add-new-button-label">Street name</label>
-                                        <input asp-for="AddressLine1" placeholder="Street Name" class="form11">
+                                        <input asp-for="AddressLine1" placeholder="Street Name" class="form11" id="a1">
                                     </div>
                                     <div class="col-sm-4">
                                         <label class="add-new-button-label">House Number:</label>
-                                        <input asp-for="AddressLine2" placeholder="House Number" class="form11">
+                                        <input asp-for="AddressLine2" placeholder="House Number" class="form11" id="a2">
                                     </div>
                                     <div class="col-sm-4">
                                         <label class="add-new-button-label">Postal Code:</label>
-                                        <input asp-for="PostalCode" placeholder="Postal Code" class="form11">
+                                        <input asp-for="PostalCode" placeholder="Postal Code" class="form11" id="zippcode">
                                     </div>
                                 </div>
 
@@ -299,11 +299,11 @@
                                 <div class="row">
                                     <div class="col-sm-4">
                                         <label for="street-name" class="form-label add-new-button-label">City</label>
-                                        <input asp-for="City" placeholder="City" class="form11">
+                                        <input asp-for="City" placeholder="City" class="form11" id="city">
                                     </div>
                                 </div>
                                 <div>
-                                    <button type="submit" class="savecomputer-btn" style="width: 100px;">Save</button>
+                                    <button type="button" class="savecomputer-btn" value="" onclick="submitedavtar(this.value);" id="savepicture" style="width: 100px;">Save</button>
                                 </div>
                             </form>
                         </div>
@@ -317,6 +317,7 @@
     </section>
 
     <script type="text/javascript">
+        var selectedavtar;
         function Tab1Click() {
 
 
@@ -402,6 +403,72 @@
                 success: function (result) {
                     if (result.value == "true") {
                         alert("Updated Password");
+
+                        //$("#tabContent3").show();
+                    }
+                    if (result.value == "false") {
+                        alert("Plz Enter Valid Password");
+                    }
+                },
+                error: function () {
+                    alert('Failed to update Data');
+                    console.log('Failed ');
+                }
+            })
+        }
+
+
+
+
+
+        function AvtarClick(val) {
+
+            const ex = document.getElementsByClassName("avtar_image");
+            for (let i = 0; i < ex.length; i++) {
+
+                ex[i].style.border = "1px solid #e0e0e0";
+
+
+            }
+
+           
+
+
+            var imageid = "#avtar" + val.id;
+            var imgid = "avtar" + val.id;
+            document.getElementById(imgid).style.border = "3px solid #1d7a8c";
+
+            var part = $(imageid).attr("src").split('/');
+            var imgname = part[part.length - 1];
+            selectedavtar = imgname;
+            $("#savepicture").prop("value", selectedavtar);
+
+        }
+
+        function submitedavtar(val) {
+            var data = {};
+            data.UserProfilePicture = selectedavtar;
+            data.FirstName = $("#firstname").val();
+            data.LastName = $("#lastname").val();
+            data.Email = $("#email").val();
+            data.Mobile = $("#mobile").val();
+            /* data.Gender = $("#firstname").val();*/
+            data.BirthDate = $("#birthdate").val();
+            data.BirthMonth = $("#birthmonth").val();
+            data.BirthYear = $("#birthyear").val();
+            data.AddressLine1 = $("#a1").val();
+            data.AddressLine2 = $("#a2").val();
+            data.City = $("#city").val();
+            data.PostalCode = $("#zippcode").val();
+            $.ajax({
+                type: 'POST',
+                url: '/ServiceProvider/ServiceProviderProfileDetail',
+                contentType: 'application/x-www-form-urlencoded; charset=UTF-8',
+
+                data: data,
+                success: function (result) {
+                    if (result.value == "true") {
+                        alert("Updated Avtar");
 
                         //$("#tabContent3").show();
                     }

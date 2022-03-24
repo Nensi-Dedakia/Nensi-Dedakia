@@ -1,4 +1,5 @@
-﻿@model IEnumerable<Helperland.Models.Data.ServiceRequest>
+﻿@using Helperland.Models.Data;
+@model IEnumerable<ServiceRequest>
 
 <div>
 
@@ -22,16 +23,36 @@
     <tbody>
         @foreach (var add in Model)
         {
-            DateTime dt = add.ServiceStartDate;               //Gets the current date
-            string datetime = dt.ToString();          //converts the datetime value to string
-            string[] DateTime = datetime.Split(' ');  //splitting the date from time with the help of space delimeter
-            string Date = DateTime[0];                //saving the date value from the string array
-            string Time = DateTime[1];
-            string[] time = Time.Split(':');
-            string clocktime = time[0] + ":" + time[1];
-            var Extratime = add.ServiceHours + add.ExtraHours;
-            string Endtime = Extratime.ToString();
-            string totaltime = clocktime + Endtime;
+            @if (add.Status != 3)
+            {
+
+
+                DateTime dt = add.ServiceStartDate;               //Gets the current date
+                string datetime = dt.ToString();          //converts the datetime value to string
+                string[] DateTime = datetime.Split(' ');  //splitting the date from time with the help of space delimeter
+                string Date = DateTime[0];                //saving the date value from the string array
+                string Time = DateTime[1];
+                string[] time = Time.Split(':');
+                string clocktime = time[0] + ":" + time[1];
+
+
+                var Extrahour = Convert.ToDouble(add.ExtraHours);
+                var Extratime = add.ServiceHours + Extrahour;
+                //  DateTime dts = Convert.ToDateTime(Extratime);
+                DateTime end = Convert.ToDateTime(clocktime);
+                DateTime watch = end.AddHours(Extratime);
+
+                string Endtime = watch.ToString();
+
+                string[] d = Endtime.Split(' ');
+                string endt = d[1];
+                string[] endda = endt.Split(':');
+
+                string totaltime = endda[0] + ":" + endda[1];
+
+                //var Extratime = add.ServiceHours + add.ExtraHours;
+                //string Endtime = Extratime.ToString();
+                //string totaltime = clocktime + Endtime;
             <tr class="customer-table-data" id="serviceid">
 
                 <td onclick="ShowDetails(@add.ServiceRequestId);" data-toggle="modal" data-target=".ServiceDetails" id="SrId">@Html.DisplayFor(modelitem => add.ServiceRequestId)</td>
@@ -45,17 +66,26 @@
                     </div>
                 </td>
                 <td onclick="ShowDetails(@add.ServiceRequestId);" data-toggle="modal" data-target=".ServiceDetails">
-                    <div>
-                        <img src="~/images/cap.png" class="cap">
-                        Lyum Watson
-                    </div>
-                    <div class="rating-star">
-                        <img src="~/images/star1.png">
-                        <img src="~/images/star1.png">
-                        <img src="~/images/star1.png">
-                        <img src="~/images/star1.png">
-                        <img src="~/images/star2.png"> 4
-                    </div>
+                    @if (add.ServiceProviderId != null)
+                    {
+                        <div>
+                            <img src="~/images/cap.png" class="cap">
+                            @Html.DisplayFor(modelitem => add.ServiceProvider.FirstName) @Html.DisplayFor(modelitem => add.ServiceProvider.LastName)
+                        </div>
+                        <div class="rating-star">
+                            <img src="~/images/star1.png">
+                            <img src="~/images/star1.png">
+                            <img src="~/images/star1.png">
+                            <img src="~/images/star1.png">
+                            <img src="~/images/star2.png">
+                            @*@Html.DisplayFor(modelitem => add.ServiceProvider.RatingRatingToNavigations.Average(x => x.Ratings))*@
+                        </div>
+                    }
+                    else
+                    {
+                    <p></p>
+                    }
+
 
                 </td>
 
@@ -63,13 +93,13 @@
                     <p class="euro-currency">€<b class="rupee">@Html.DisplayFor(modelitem => add.TotalCost)</b></p>
                 </td>
                 <td class="row">
-                    <button type="button" class="reschedule-button col-6 ">
+                    <button type="button" class="reschedule-button">
                         @*@Html.HiddenFor(modelItme => add.ServiceRequestId)*@
                         <a href="#" data-toggle="modal" data-target="#RescheduleModal" onclick="Reschedule(@add.ServiceRequestId)" style="color:white">Reschedule</a>
 
                     </button>
-                    <button type="button" class="cancel-button col-6">
-                        <a href="#" data-toggle="modal" data-target="#CancelModal" onclick="Cancle(@add.ServiceRequestId)" style="color:white">Cancel</a>
+                    <button type="button" class="cancel-button" style=" margin-top:20px; width : 80px; margin-left:5px;">
+                        <a href="#" data-toggle="modal" data-target="#CancelModal" onclick="Cancle(@add.ServiceRequestId)" style="color:white; ">Cancel</a>
                     </button>
                 </td>
 
@@ -77,10 +107,10 @@
 
             </tr>
 
+            }
+
+
         }
-
-
-
 
 
 
