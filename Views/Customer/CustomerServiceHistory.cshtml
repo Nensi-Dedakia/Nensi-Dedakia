@@ -54,66 +54,82 @@
                     string[] endda = endt.Split(':');
 
                     string totaltime = endda[0] + ":" + endda[1];
-                    <tr class="customer-table-data">
-                        <td class="service-detail" onclick="ServiceDetails(@req.ServiceRequestId)" data-toggle="modal" data-target=".ServiceHistory-Servicedetails-modal">
-                            <div>
-                                <img src="~/images/calendar.png">
-                                <b>@Html.DisplayFor(modelitem => Date)</b>
-                            </div>
-                            <div>
-                                <b> @Html.DisplayFor(modelitem => clocktime)- @Html.DisplayFor(modelitem => totaltime)</b>
-                            </div>
-                        </td>
-                        <td>
-                            @if (req.ServiceProviderId != null)
-                            {
-                                <div>
-                                    <img src="~/images/cap.png" class="cap">
-                                    @Html.DisplayFor(modelitem => req.ServiceProvider.FirstName) @Html.DisplayFor(modelitem => req.ServiceProvider.LastName)
-                                </div>
-                                <div class="rating-star">
-                                    <img src="~/images/star1.png">
-                                    <img src="~/images/star1.png">
-                                    <img src="~/images/star1.png">
-                                    <img src="~/images/star1.png">
-                                    <img src="~/images/star2.png"> 4
+            <tr class="customer-table-data">
+                <td class="service-detail" onclick="ServiceDetails(@req.ServiceRequestId)" data-toggle="modal" data-target=".ServiceHistory-Servicedetails-modal">
+                    <div>
+                        <img src="~/images/calendar.png">
+                        <b>@Html.DisplayFor(modelitem => Date)</b>
+                    </div>
+                    <div>
+                        <b> @Html.DisplayFor(modelitem => clocktime)- @Html.DisplayFor(modelitem => totaltime)</b>
+                    </div>
+                </td>
+                <td>
+                    @if (req.ServiceProviderId != null)
+                    {
+                    <div>
+                        <img src="~/images/@req.ServiceProvider.UserProfilePicture" style="width : 50px !important; height : 50px !important;">
+                        @Html.DisplayFor(modelitem => req.ServiceProvider.FirstName) @Html.DisplayFor(modelitem => req.ServiceProvider.LastName)
+                        <span id="@req.ServiceRequestId"></span>
+                    </div>
+                        <script>
+                              $.post("Customer/RatingFetch", { Id:parseInt( @req.ServiceProvider.UserId )}, function (data) {
+                                  if (data != null) {
+                                      $("#" + @req.ServiceRequestId).stars(data);
+                                  }
+                              });
 
-                                </div>
+                            $.fn.stars = function (rating) {
+                                return $(this).each(function () {
+                                    var rating = $(this).data("rating");
+                                    var fullStar = new Array(Math.floor(rating + 1)).join('<i class="fas fa-star" style="color : #FFD700"></i>');
+                                    var halfStar = ((rating % 1) !== 0) ? '<i class="fas fa-star-half-alt" style="color : #FFD700"></i>' : '';
+                                    var noStar = new Array(Math.floor($(this).data("numStars") + 1 - rating)).join('<i class="fas fa-star" style="color : #e0e0e0"></i>');
+                                    $(this).html(fullStar + halfStar + noStar);
+                                });
                             }
 
 
-                        </td>
+                        </script>
+                    }
 
-                        <td>
-                            <p class="euro-currency">€<b class="rupee">@Html.DisplayFor(modelitem => req.TotalCost)</b></p>
-                        </td>
-                        <td>
-                            @if (req.Status == 1)
-                            {
-                                <button type="button" class="completed-button">Completed</button>
-                            }
-                            else
-                            {
-                                <button type="button" class="cancelled-button">Cancelled</button>
-                            }
 
-                        </td>
-                        <td>
-                            @if (req.Status == 1)
-                            {
-                                <button type="button" class="Rate-sp-button" style="background-color: #1d7A8C;">
-                                    <a href="#" data-toggle="modal" data-target="#RateSp" style="color:white; " onclick="RateSp(@req.ServiceRequestId)">Rate SP</a>
-                                </button>
-                            }
-                            else
-                            {
-                                <button type="button" class="Rate-sp-button" style="background-color: #6da9b5;" disabled>
-                                    <a style="color:white;">Rate SP</a>
-                                </button>
-                            }
 
-                        </td>
-                    </tr>
+
+
+                </td>
+                
+
+                <td>
+                    <p class="euro-currency">€<b class="rupee">@Html.DisplayFor(modelitem => req.TotalCost)</b></p>
+                </td>
+                <td>
+                    @if (req.Status == 1)
+                    {
+                        <button type="button" class="completed-button">Completed</button>
+                    }
+                    else
+                    {
+                        <button type="button" class="cancelled-button">Cancelled</button>
+                    }
+
+                </td>
+                <td>
+                    @if (req.Status == 1)
+                    {
+                        <button type="button" class="Rate-sp-button" style="background-color: #1d7A8C;">
+                            <a href="#" data-toggle="modal" data-target="#RateSp" style="color:white; " onclick="RateSp(@req.ServiceRequestId)">Rate SP</a>
+                        </button>
+                    }
+                    else
+                    {
+                        <button type="button" class="Rate-sp-button" style="background-color: #6da9b5;" disabled>
+                            <a style="color:white;">Rate SP</a>
+                        </button>
+                    }
+
+                </td>
+            </tr>
 
                 }
             }

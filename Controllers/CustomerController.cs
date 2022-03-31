@@ -52,6 +52,20 @@ namespace Helperland.Controllers
             return View();
         }
 
+        
+        public IActionResult abcdef(int? Id)
+        {
+            if(Id != null)
+            {
+                var ratingdata = _helperlandContext.Ratings.Where(x => x.RatingTo.Equals(Id)).ToList();
+                if(ratingdata != null)
+                {
+                    var ratingavg = ratingdata.Average(x => x.Ratings);
+                    return Json(ratingavg);
+                }
+            }
+            return Json(null);
+        }
         public IActionResult MyProfile()
         {
             var Customer = _helperlandContext.Users.Where(b => b.Email.Equals(HttpContext.Session.GetString("Email"))).FirstOrDefault();
@@ -65,6 +79,21 @@ namespace Helperland.Controllers
             mymodel.lastname = Customer.LastName;
             mymodel.email = Customer.Email;
             mymodel.Mobile = Customer.Mobile;
+           
+           
+            string datetime = Customer.DateOfBirth.ToString();
+            string[] DateTime = datetime.Split(' ');
+            string Date = DateTime[0];
+            string[] dob = Date.Split('-');
+            if(Customer.DateOfBirth != null)
+            {
+                mymodel.BirthYear = Int32.Parse(dob[2]);
+                mymodel.BirthMonth = dob[1];
+                mymodel.BirthDate = Int32.Parse(dob[0]);
+
+            }
+           
+
             return View(mymodel);
 
             
@@ -75,8 +104,9 @@ namespace Helperland.Controllers
 
         public ActionResult MyProfile(ProfileViewModel vm)
         {
-
-
+            if (ModelState.IsValid)
+            { 
+            vm.DateOfBirth = Convert.ToDateTime(vm.BirthDate + "-" + vm.BirthMonth + "-" + vm.BirthYear);
             User profiledetails = new User();
 
             var data = (from userlist in _helperlandContext.Users
@@ -117,13 +147,16 @@ namespace Helperland.Controllers
 
 
 
-
-
-            return Ok(Json("true"));
-
         }
 
+            return View();
 
+        }
+        public IActionResult MyPassword()
+        {
+            return View();
+        }
+        
 
 
 
@@ -144,14 +177,98 @@ namespace Helperland.Controllers
             System.Threading.Thread.Sleep(2000);
             return View(_helperlandContext.UserAddresses.Where(address => address.UserId.Equals(ID)).ToList());
         }
+
+        public JsonResult RescheduleGetDetail(int Id)
+        {
+            
+            var servicerequest = _helperlandContext.ServiceRequests.Where(b => b.ServiceRequestId.Equals(Id)).FirstOrDefault();
+
+            var servicedate = servicerequest.ServiceStartDate.ToShortDateString();
+            var servicetime = servicerequest.ServiceStartDate.ToLongTimeString();
+
+            string[] times = servicetime.Split(' ');
+            return Json(new
+            {
+                date = servicedate,
+                time = times[0],
+               
+            });
+
+        }
+        //public JsonResult UpdateService(int Id, string ServiceDateTime)
+        //{
+        //    DateTime Date = DateTime.Parse(ServiceDateTime);
+        //    var details = _helperlandContext.ServiceRequests.Where(b => b.ServiceRequestId.Equals(Id)).FirstOrDefault();
+        //    details.ServiceStartDate = Date;
+        //    _helperlandContext.ServiceRequests.Update(details);
+        //    _helperlandContext.SaveChanges();
+        //    return Json(true);
+        //}
         public JsonResult UpdateService(int Id, string ServiceDateTime)
         {
-            DateTime Date = DateTime.Parse(ServiceDateTime);
-            var details = _helperlandContext.ServiceRequests.Where(b => b.ServiceRequestId.Equals(Id)).FirstOrDefault();
-            details.ServiceStartDate = Date;
-            _helperlandContext.ServiceRequests.Update(details);
-            _helperlandContext.SaveChanges();
-            return Json(true);
+            bool conflictService = false;
+            ServiceRequest serviceRequest = _helperlandContext.ServiceRequests.Include(x => x.ServiceProvider).FirstOrDefault(x => x.ServiceRequestId.Equals(Id));
+            DateTime newdate = DateTime.Parse(ServiceDateTime);
+            if (serviceRequest.ServiceProvider == null)
+            {
+                serviceRequest.ServiceStartDate = newdate;
+                serviceRequest.ModifiedDate = DateTime.Now;
+                _helperlandContext.ServiceRequests.Update(serviceRequest);
+                _helperlandContext.SaveChanges();
+                return Json(true);
+            }
+            else
+            {
+                var newstarttime = newdate;
+                var extra = Convert.ToDouble(serviceRequest.ExtraHours);
+                var newendtime = newstarttime.AddHours(serviceRequest.ServiceHours + extra);
+                IEnumerable<ServiceRequest> service = _helperlandContext.ServiceRequests.Where(x => x.ServiceProviderId == serviceRequest.ServiceProviderId && x.Status == 2 && x.ServiceRequestId != serviceRequest.ServiceRequestId).ToList();
+                foreach (var request in service)
+                {
+                    var oldStartTime = request.ServiceStartDate;
+                    var oldextra = Convert.ToDouble(request.ExtraHours);
+                    var oldEndTime = oldStartTime.AddHours(request.ServiceHours + oldextra);
+                    conflictService = false;
+                    //check time conflicts
+                    if ((request.ServiceStartDate == newdate) || (((newstarttime > oldStartTime) && (newstarttime < oldEndTime)) || ((newendtime > oldStartTime) && (newendtime < oldEndTime))))
+                    {
+                        conflictService = true;
+                        break;
+                    }
+                }
+
+
+
+                if (conflictService)
+                {
+
+                    return Json(false);
+                }
+                else
+                {
+                    serviceRequest.ServiceStartDate = newdate;
+                    serviceRequest.ModifiedDate = DateTime.Now;
+
+                    _helperlandContext.ServiceRequests.Update(serviceRequest);
+                    _helperlandContext.SaveChanges();
+
+                    var subject = "";
+                    var body = "";
+
+                    if (serviceRequest.ServiceProviderId != null)
+                    {
+                        subject = "Detail Update";
+                        body = "Hi " + "<b>" + serviceRequest.ServiceProvider.FirstName + "</b>" + ", <br/>" +
+                            " Service Request Id :" + Id + "This Service is Rescheduled by customer";
+
+                        SendEmail(serviceRequest.ServiceProvider.Email, body, subject);
+                    }
+                    return Json(true);
+
+                }
+            }
+
+
         }
 
         public JsonResult CancleService(int Id)
@@ -160,24 +277,24 @@ namespace Helperland.Controllers
             var body = "";
             var details = _helperlandContext.ServiceRequests.Where(b => b.ServiceRequestId.Equals(Id)).FirstOrDefault();
             User s = _helperlandContext.Users.Where(a => a.UserId.Equals(details.ServiceProviderId)).FirstOrDefault();
-            var sname = s.FirstName;
+            
             details.Status =(int) ServiceStatus.Cancelled;
             details.ModifiedDate = DateTime.Now;
             details.ModifiedBy = (int)UserTypeEnum.Customer;
             _helperlandContext.ServiceRequests.Update(details);
             //_helperlandContext.ServiceRequestAddresses.Remove(detail);
             _helperlandContext.SaveChanges();
-            return Json(true);
+            
 
             if (details.ServiceProviderId != null)
             {
                 subject = "Detail Update";
-                body = "Hi " + "<b>" + sname + "</b>" + ", <br/>" +
+                body = "Hi " + "<b>"  + "</b>" + ", <br/>" +
                     " Service Request Id :" + Id + "This Service is cancelled by customer";
                    
                 SendEmail(s.Email, body, subject);
             }
-
+            return Json(true);
 
         }
 
@@ -248,7 +365,27 @@ namespace Helperland.Controllers
 
         }
 
+        public JsonResult GetAddressDetails(int Id)
+        {
+            var Useraddress = _helperlandContext.UserAddresses.Where(b => b.AddressId.Equals(Id)).FirstOrDefault();
 
+            var Address1 = Useraddress.AddressLine1;
+            var Address2 = Useraddress.AddressLine2;
+            var Mobile = Useraddress.Mobile;
+            var Postal = Useraddress.PostalCode;
+            var City = Useraddress.City;
+
+            return Json(new
+            {
+                line1 = Address1,
+                line2 = Address2,
+                mobile = Mobile,
+                zip = Postal,
+                city = City,
+               
+            });
+
+        }
 
 
 
@@ -369,7 +506,7 @@ namespace Helperland.Controllers
         //}
 
         [HttpPost]
-        public IActionResult UpdatePassword(ProfileViewModel pv)
+        public IActionResult UpdatePassword(CustomerPasswordViewModel pv)
         {
             if (ModelState.IsValid)
             {

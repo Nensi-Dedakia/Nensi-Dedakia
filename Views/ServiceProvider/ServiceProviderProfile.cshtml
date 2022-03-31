@@ -159,7 +159,7 @@
                                     <hr style="color: #4f4f4f;">
                                 </div>
                                 <div class="col-sm-2">
-                                   <img src="../images/@Model.UserProfilePicture">
+                                    <img src="../images/@ViewBag.Imageprofile">
                                 </div>
                             </div>
                             <form>
@@ -167,14 +167,17 @@
                                     <div class="col-sm-4">
                                         <label class="add-new-button-label">First Name:</label>
                                         <input asp-for="FirstName" id="firstname" placeholder="First Name" class="form11">
+                                        <span id="first" class="text-danger"></span>
                                     </div>
                                     <div class="col-sm-4">
                                         <label class="add-new-button-label">Last Name:</label>
                                         <input asp-for="LastName" id="lastname" placeholder="Last Name" class="form11">
+                                        <span id="last" class="text-danger"></span>
                                     </div>
                                     <div class="col-sm-4">
                                         <label class="add-new-button-label">Email Address:</label>
                                         <input asp-for="Email" id="email" placeholder="Email" class="form11">
+                                        <span id="ema" class="text-danger"></span>
                                     </div>
                                 </div>
 
@@ -185,8 +188,10 @@
                                             <div class="input-group-prepend">
                                                 <span class="input-group-text" id="basic-addon1" style="height:46px;">+49</span>
                                             </div>
-                                            <input asp-for="Mobile" id="mobile" class="form-control " placeholder="Mobile number" pattern="[0-9]{3}-[0-9]{2}-[0-9]{3}" style="height:46px;">
+                                            <input asp-for="Mobile" id="mobile" class="form-control " placeholder="Mobile number" style="height:46px;">
+
                                         </div>
+                                        <span id="mob" class="text-danger"></span>
                                     </div>
                                     <div class="col-sm-4">
                                         <label class="add-new-button-label">Birthdate:</label>
@@ -194,10 +199,15 @@
                                             <div class="col-sm-3">
                                                 <div>
                                                     <select asp-for="BirthDate" id="birthdate" class="birthdate">
-                                                        <option value="10">10</option>
-                                                        <option value="20">20</option>
-                                                        <option value="30">30</option>
-                                                        <option value="40">40</option>
+                                                        <option value="-1" selected>
+                                                            Day
+                                                        </option>
+                                                        @for (int i = 1; i < 32; i++)
+                                                        {
+                                                            <option value=@i>
+                                                                @i
+                                                            </option>
+                                                        }
                                                     </select>
 
                                                 </div>
@@ -205,10 +215,18 @@
                                             <div class="col-sm-5">
                                                 <div>
                                                     <select asp-for="BirthMonth" id="birthmonth" class="birthdate">
+                                                        <option value="01">January</option>
+                                                        <option value="02">February</option>
+                                                        <option value="03">March</option>
+                                                        <option value="04">April</option>
+                                                        <option value="05">May</option>
                                                         <option value="06">June</option>
                                                         <option value="07">July</option>
                                                         <option value="08">August</option>
                                                         <option value="09">September</option>
+                                                        <option value="10">October</option>
+                                                        <option value="11">November</option>
+                                                        <option value="12">December</option>
                                                     </select>
 
                                                 </div>
@@ -216,10 +234,15 @@
                                             <div class="col-sm-4">
                                                 <div>
                                                     <select asp-for="BirthYear" id="birthyear" class="birthdate">
-                                                        <option value="1991">1991</option>
-                                                        <option value="1992">1992</option>
-                                                        <option value="1993">1993</option>
-                                                        <option value="1994">1994</option>
+                                                        <option value="0" selected>
+                                                            Year
+                                                        </option>
+                                                        @for (int i = DateTime.Now.Year; i > (DateTime.Now.Year - 117); i--)
+                                                        {
+                                                            <option value=@i>
+                                                                @i
+                                                            </option>
+                                                        }
                                                     </select>
 
                                                 </div>
@@ -228,9 +251,10 @@
                                     </div>
                                     <div class="col-sm-4">
                                         <label class="add-new-button-label">Nationality:</label>
-                                        <select asp-for="NationalityId" class="birthdate">
-                                            <option value="Indian">Indian</option>
-                                            <option value="German">German</option>
+                                        <select asp-for="NationalityId" class="birthdate" id="nationality">
+                                            <option value="1">Indian</option>
+                                            <option value="2">Germany</option>
+                                            <option value="3">USA</option>
                                         </select>
                                     </div>
                                 </div>
@@ -240,11 +264,11 @@
                                     <div class="col-sm-6">
                                         <label class="add-new-button-label">Gender:</label>
                                         <br />
-                                        <input type="radio" id="male" value="1" asp-for="Gender">
+                                        <input type="radio" id="male" value="1" asp-for="Gender" name="Gender">
                                         <label for="male" class="add-new-button-label" style="font-weight:normal; " asp-for="Gender">Male</label>&nbsp;&nbsp;
-                                        <input type="radio" id="female" value="2" asp-for="Gender">
+                                        <input type="radio" id="female" value="2" asp-for="Gender" name="Gender">
                                         <label for="female" class="add-new-button-label" style="font-weight:normal; " asp-for="Gender">Female</label>&nbsp;&nbsp;
-                                        <input type="radio" id="rather-not-to-say" value="3" asp-for="Gender">
+                                        <input type="radio" id="rather-not-to-say" value="3" asp-for="Gender" name="Gender">
                                         <label for="rather-not-to-say" class="add-new-button-label" style="font-weight:normal; " asp-for="Gender">Rather Not To Say</label>
                                     </div>
                                 </div>
@@ -284,14 +308,17 @@
                                     <div class="col-sm-4">
                                         <label for="street-name" class="form-label add-new-button-label">Street name</label>
                                         <input asp-for="AddressLine1" placeholder="Street Name" class="form11" id="a1">
+                                        <span id="add1" class="text-danger"></span>
                                     </div>
                                     <div class="col-sm-4">
                                         <label class="add-new-button-label">House Number:</label>
                                         <input asp-for="AddressLine2" placeholder="House Number" class="form11" id="a2">
+                                        <span id="add2" class="text-danger"></span>
                                     </div>
                                     <div class="col-sm-4">
                                         <label class="add-new-button-label">Postal Code:</label>
                                         <input asp-for="PostalCode" placeholder="Postal Code" class="form11" id="zippcode">
+                                        <span id="posta" class="text-danger"></span>
                                     </div>
                                 </div>
 
@@ -300,6 +327,7 @@
                                     <div class="col-sm-4">
                                         <label for="street-name" class="form-label add-new-button-label">City</label>
                                         <input asp-for="City" placeholder="City" class="form11" id="city">
+                                        <span id="cit" class="text-danger"></span>
                                     </div>
                                 </div>
                                 <div>
@@ -446,41 +474,69 @@
         }
 
         function submitedavtar(val) {
-            var data = {};
-            data.UserProfilePicture = selectedavtar;
-            data.FirstName = $("#firstname").val();
-            data.LastName = $("#lastname").val();
-            data.Email = $("#email").val();
-            data.Mobile = $("#mobile").val();
-            /* data.Gender = $("#firstname").val();*/
-            data.BirthDate = $("#birthdate").val();
-            data.BirthMonth = $("#birthmonth").val();
-            data.BirthYear = $("#birthyear").val();
-            data.AddressLine1 = $("#a1").val();
-            data.AddressLine2 = $("#a2").val();
-            data.City = $("#city").val();
-            data.PostalCode = $("#zippcode").val();
-            $.ajax({
-                type: 'POST',
-                url: '/ServiceProvider/ServiceProviderProfileDetail',
-                contentType: 'application/x-www-form-urlencoded; charset=UTF-8',
 
-                data: data,
-                success: function (result) {
-                    if (result.value == "true") {
-                        alert("Updated Avtar");
+            if ($("#firstname").val() == "") {
+                document.getElementById("first").innerHTML = "plz enter first name";
+            }
+            if ($("#lastname").val() == "") {
+                document.getElementById("last").innerHTML = "plz enter lastname";
+            }
+            if ($("#email").val() == "") {
+                document.getElementById("ema").innerHTML = "plz enter Email";
+            }
+            if ($("#mobile").val() == "") {
+                document.getElementById("mob").innerHTML = "plz enter Mobile";
+            }
+            if ($("#a1").val() == "") {
+                document.getElementById("add1").innerHTML = "plz enter AddressLine1";
+            }
+            if ($("#a2").val() == "") {
+                document.getElementById("add2").innerHTML = "plz enter AddressLine2";
+            }
+            if ($("#city").val() == "") {
+                document.getElementById("cit").innerHTML = "plz enter City";
+            }
+            if ($("#zippcode").val() == "") {
+                document.getElementById("posta").innerHTML = "plz enter PostalCode";
+            }
+            else {
+                var data = {};
+                data.UserProfilePicture = selectedavtar;
+                data.FirstName = $("#firstname").val();
+                data.LastName = $("#lastname").val();
+                data.Email = $("#email").val();
+                data.Mobile = $("#mobile").val();
+                data.Gender = parseInt($("input[type='radio'][name = 'Gender']:Checked").val());
+                data.BirthDate = $("#birthdate").val();
+                data.BirthMonth = $("#birthmonth").val();
+                data.BirthYear = $("#birthyear").val();
+                data.AddressLine1 = $("#a1").val();
+                data.AddressLine2 = $("#a2").val();
+                data.City = $("#city").val();
+                data.PostalCode = $("#zippcode").val();
+                data.NationalityId = $("#nationality").val();
+                $.ajax({
+                    type: 'POST',
+                    url: '/ServiceProvider/ServiceProviderProfileDetail',
+                    contentType: 'application/x-www-form-urlencoded; charset=UTF-8',
 
-                        //$("#tabContent3").show();
+                    data: data,
+                    success: function (result) {
+                        if (result.value == "true") {
+                            alert("Updated Successfully");
+
+                            //$("#tabContent3").show();
+                        }
+                        if (result.value == "false") {
+                            alert("Plz Enter Valid Detail");
+                        }
+                    },
+                    error: function () {
+                        alert('Failed to update Data');
+                        console.log('Failed ');
                     }
-                    if (result.value == "false") {
-                        alert("Plz Enter Valid Password");
-                    }
-                },
-                error: function () {
-                    alert('Failed to update Data');
-                    console.log('Failed ');
-                }
-            })
+                })
+            }
         }
     </script>
 

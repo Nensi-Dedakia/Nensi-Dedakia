@@ -5,12 +5,10 @@ using System.Threading.Tasks;
 
 namespace Helperland.Enum
 {
-    public enum ServiceStatus
+    public enum NationalityEnum
     {
-        Completed = 1,
-        Accepted = 2,
-        Cancelled = 3,
-        New = 4,
-       
+        India = 1,
+        Germany = 2,
+        USA = 3
     }
 }

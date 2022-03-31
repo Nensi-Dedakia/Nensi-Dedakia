@@ -76,7 +76,26 @@
                         <span class="stars">
                             @Html.DisplayFor(modelitem => item.rating.Ratings)
                         </span>
-
+                        @if (item.rating.Ratings > 0 && item.rating.Ratings <= 1)
+                        {
+                            <span>very Poor</span>
+                        }
+                        else if (item.rating.Ratings > 1 && item.rating.Ratings <= 2)
+                        {
+                            <span>Poor</span>
+                        }
+                        else if (item.rating.Ratings > 2 && item.rating.Ratings <= 3)
+                        {
+                            <span>Good</span>
+                        }
+                        else if (item.rating.Ratings > 3 && item.rating.Ratings <= 4)
+                        {
+                          <span>very Good</span>
+                        }
+                        else if (item.rating.Ratings > 4 && item.rating.Ratings <= 5)
+                        {
+                          <span>Excellent</span>
+                        }
 
                     </div>
 

@@ -1,11 +1,31 @@
 ﻿@using Helperland.Models.Data;
 @model IEnumerable<ServiceRequest>
+<head>
+    @*<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.0/css/all.css" integrity="sha384-lZN37f5QGtY3VHgisS14W3ExzMWZxybE1SJSEsQp9S+oqd12jhcu+A56Ebc1zFSJ" crossorigin="anonymous">*@
+    <link href="~/lib/bootstrap/bootstrap.min.css" rel="stylesheet" />
+    @*<link href="~/css/Admin.css" rel="stylesheet" />*@
 
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.0/css/all.css" integrity="sha384-lZN37f5QGtY3VHgisS14W3ExzMWZxybE1SJSEsQp9S+oqd12jhcu+A56Ebc1zFSJ" crossorigin="anonymous">
+    <link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.5.2/css/bootstrap.css">
+
+</head>
+<style>
+    span.stars, span.stars span {
+        display: block;
+        background: url(../images/star1.png) 0 -16px repeat-x;
+        width: 170px;
+        height: 16px;
+    }
+
+        span.stars span {
+            background-position: 0 0;
+        }
+</style>
 <div>
 
     <p class="Service-history-heading ">
         Current Service Request
-        <button type="button" class="export-button" style="width:180px;">Add New Request</button>
+        <button type="button" class="export-button" style="width:180px;" onclick="rats();">Add New Request</button>
     </p>
 </div>
 <table class="example table upcoming-table" id="tableDashboard" style="width: 100%;">
@@ -23,7 +43,7 @@
     <tbody>
         @foreach (var add in Model)
         {
-            @if (add.Status != 3)
+            @if (add.Status != 3 && add.Status != 1 && add.ServiceStartDate > System.DateTime.Now)
             {
 
 
@@ -53,59 +73,61 @@
                 //var Extratime = add.ServiceHours + add.ExtraHours;
                 //string Endtime = Extratime.ToString();
                 //string totaltime = clocktime + Endtime;
-            <tr class="customer-table-data" id="serviceid">
+                <tr class="customer-table-data" id="serviceid">
 
-                <td onclick="ShowDetails(@add.ServiceRequestId);" data-toggle="modal" data-target=".ServiceDetails" id="SrId">@Html.DisplayFor(modelitem => add.ServiceRequestId)</td>
-                <td class="service-detail" onclick="ShowDetails(@add.ServiceRequestId);" data-toggle="modal" data-target=".ServiceDetails">
-                    <div>
-                        <img src="~/images/calendar.png">
-                        <b>@Html.DisplayFor(modelitem => Date)</b>
-                    </div>
-                    <div>
-                        @Html.DisplayFor(modelitem => clocktime)- @Html.DisplayFor(modelitem => totaltime)
-                    </div>
-                </td>
-                <td onclick="ShowDetails(@add.ServiceRequestId);" data-toggle="modal" data-target=".ServiceDetails">
-                    @if (add.ServiceProviderId != null)
-                    {
+                    <td onclick="ShowDetails(@add.ServiceRequestId);" data-toggle="modal" data-target=".ServiceDetails" id="SrId">@Html.DisplayFor(modelitem => add.ServiceRequestId)</td>
+                    <td class="service-detail" onclick="ShowDetails(@add.ServiceRequestId);" data-toggle="modal" data-target=".ServiceDetails">
                         <div>
-                            <img src="~/images/cap.png" class="cap">
-                            @Html.DisplayFor(modelitem => add.ServiceProvider.FirstName) @Html.DisplayFor(modelitem => add.ServiceProvider.LastName)
+                            <img src="~/images/calendar.png">
+                            <b>@Html.DisplayFor(modelitem => Date)</b>
                         </div>
-                        <div class="rating-star">
-                            <img src="~/images/star1.png">
-                            <img src="~/images/star1.png">
-                            <img src="~/images/star1.png">
-                            <img src="~/images/star1.png">
-                            <img src="~/images/star2.png">
-                            @*@Html.DisplayFor(modelitem => add.ServiceProvider.RatingRatingToNavigations.Average(x => x.Ratings))*@
+                        <div>
+                            @Html.DisplayFor(modelitem => clocktime)- @Html.DisplayFor(modelitem => totaltime)
                         </div>
-                    }
-                    else
-                    {
-                    <p></p>
-                    }
+                    </td>
+                    <td>
+                        @if (add.ServiceProvider != null)
+                        {
+                            <div>
+                                <img src="~/images/@add.ServiceProvider.UserProfilePicture"  style="width : 50px !important; height : 50px !important;">
+                                @Html.DisplayFor(modelitem => add.ServiceProvider.FirstName) @Html.DisplayFor(modelitem => add.ServiceProvider.LastName)
+                            </div>
+                            <div class="stars" data-rating="3" data-num-stars="5"></div>
+                                
+                                @*<span>@add.ServiceProvider.RatingRatingToNavigations.Average(x => x.Ratings)</span>*@
+                          
+                        }
 
 
-                </td>
-
-                <td data-toggle="modal" data-target=".ServiceDetails" onclick="ShowDetails(@add.ServiceRequestId);">
-                    <p class="euro-currency">€<b class="rupee">@Html.DisplayFor(modelitem => add.TotalCost)</b></p>
-                </td>
-                <td class="row">
-                    <button type="button" class="reschedule-button">
-                        @*@Html.HiddenFor(modelItme => add.ServiceRequestId)*@
-                        <a href="#" data-toggle="modal" data-target="#RescheduleModal" onclick="Reschedule(@add.ServiceRequestId)" style="color:white">Reschedule</a>
-
-                    </button>
-                    <button type="button" class="cancel-button" style=" margin-top:20px; width : 80px; margin-left:5px;">
-                        <a href="#" data-toggle="modal" data-target="#CancelModal" onclick="Cancle(@add.ServiceRequestId)" style="color:white; ">Cancel</a>
-                    </button>
-                </td>
+                        else
+                        {
+                            <p></p>
+                        }
 
 
 
-            </tr>
+
+
+
+                    </td>
+
+                    <td data-toggle="modal" data-target=".ServiceDetails" onclick="ShowDetails(@add.ServiceRequestId);">
+                        <p class="euro-currency">€<b class="rupee">@Html.DisplayFor(modelitem => add.TotalCost)</b></p>
+                    </td>
+                    <td class="row">
+                        <button type="button" class="reschedule-button">
+                            @*@Html.HiddenFor(modelItme => add.ServiceRequestId)*@
+                            <a href="#" data-toggle="modal" data-target="#RescheduleModal" onclick="Reschedule(@add.ServiceRequestId)" style="color:white">Reschedule</a>
+
+                        </button>
+                        <button type="button" class="cancel-button" style=" margin-top:20px; width : 80px; margin-left:5px;">
+                            <a href="#" data-toggle="modal" data-target="#CancelModal" onclick="Cancle(@add.ServiceRequestId)" style="color:white; ">Cancel</a>
+                        </button>
+                    </td>
+
+
+
+                </tr>
 
             }
 
@@ -138,10 +160,10 @@
                     </div>
                     <div class="col-6">
                         <select id="scheduledtime" name="RescheduleTime" class="birthdate">
-                            <option value="08:00:00">8:00</option>
-                            <option value="09:00:00">9:00</option>
-                            <option value="10:00:00">10:00</option>
-                            <option value="11:00:00">11:00</option>
+                            <option value="02:00:00">2:00</option>
+                            <option value="03:00:00">3:00</option>
+                            <option value="04:00:00">4:00</option>
+                            <option value="05:00:00">5:00</option>
                         </select>
                     </div>
                 </div>
@@ -250,7 +272,57 @@
     </div>
 </div>
 
+
+
+<script src="~/js/jquery.min.js"></script>
+<script src="~/js/popper.min.js"></script>
+<script src="~/js/bootstrap.min.js"></script>
+
+<script src="~/lib/bootstrap/dist/js/bootstrap.js"></script>
+<script src="~/lib/jquery/dist/jquery.js"></script>
+<script src="~/lib/jquery-validation/dist/jquery.validate.js"></script>
+<script src="~/lib/jquery-validation-unobtrusive/jquery.validate.unobtrusive.js"></script>
+<script src="~/jquery-ajax-unobtrusive/jquery.unobtrusive-ajax.js"></script>
+
 <script type="text/javascript">
+
+   
+
+     //$(function () {
+     //    $('.moon').stars(3);
+     //  });
+
+ //   function rats(){
+ //       $("#av").stars(3);
+ //   }
+
+ //$.fn.stars = function (rating) {
+ //    return $(this).each(function () {
+ //        /* var rating = $(this).data("rating");*/
+ //        var fullStar = new Array(Math.floor(rating + 1)).join('<i class="fas fa-star" style="color : #FFD700"></i>');
+ //        var halfStar = ((rating % 1) !== 0) ? '<i class="fas fa-star-half-alt" style="color : #FFD700"></i>' : '';
+ //        var noStar = new Array(Math.floor($(this).data(5) + 1 - rating)).join('<i class="fas fa-star" style="color : #e0e0e0"></i>');
+ //        $(this).html(fullStar + halfStar + noStar);
+ //    });
+ //}
+
+    //$.fn.stars = function () {
+    //    return $(this).each(function () {
+    //        // Get the value
+    //        var val = parseFloat($(this).html());
+    //        //val = Math.round(val) ;
+    //        // Make sure that the value is in 0 - 5 range, multiply to get width
+    //        var size = Math.max(0, (Math.min(5, val))) * 16;
+    //        // Create stars holder
+    //        var $span = $('<span />').width(size);
+    //        // Replace the numerical value with stars
+    //        $(this).html($span);
+    //    });
+    //}
+
+    //$(function () {
+    //    $('span.stars').stars();
+    //});
 
     function ShowDetails(ServiceRequestId) {
 
@@ -280,6 +352,14 @@
         $(".ServiceDetails").modal('hide');
         $("#update").prop("value", ServiceRequestId);
 
+        $.post("/Customer/RescheduleGetDetail", { Id: parseInt(ServiceRequestId) }, function (data) {
+
+
+            $("#scheduleddate").text(data.date);
+            $("#scheduledtime").val(data.time);
+
+        });
+
 
 
 
@@ -296,10 +376,13 @@
             $.post("/Customer/UpdateService", { Id: parseInt(val), ServiceDateTime: ServiceStartDate }, function (data) {
 
                 if (data) {
-                   // alert("Update Successfully!!");
+                    // alert("Update Successfully!!");
                     $("#RescheduleModal").modal('hide');
                     location.reload();
 
+                }
+                else {
+                    alert("This service reschedule date and time conflict with other service of the service provider so not reschedule this service.please change time and date");
                 }
 
             });
@@ -324,6 +407,8 @@
 
         });
     }
+
+
 
 
 

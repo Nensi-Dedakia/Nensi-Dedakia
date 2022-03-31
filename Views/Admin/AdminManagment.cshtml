@@ -328,6 +328,7 @@
                                 <th>Postal code</th>
                                 <th>Status</th>
                                 <th>Action</th>
+                                
                             </tr>
                         </thead>
                         <tbody>
@@ -361,6 +362,8 @@
     <script src="https://cdn.datatables.net/responsive/2.2.9/js/dataTables.responsive.min.js"></script>
     <script src="https://cdn.datatables.net/responsive/2.2.9/js/responsive.bootstrap4.min.js"></script>
     <script type="text/javascript">
+
+       var approved;
 
         $(document).ready(function () {
             findParameters();
@@ -435,6 +438,8 @@
                             return getActionColumnData(row);
                         },
                     },
+
+                   
                 ],
                 stripeClasses: [],
                 aLengthMenu: [
@@ -536,19 +541,39 @@
             }
         }
 
+       
         function getActionColumnData(row) {
             var deactiveOprion = "";
-            if (row.isActive) {
-                deactiveOprion =
-                    '<a class="dropdown-item" onclick="onDeactivateLinkClick(' +
+            var isapprovedlink = "";
+            
+
+                if (row.isActive) {
+                    deactiveOprion =
+                        '<a class="dropdown-item" onclick="DeActivate(' +
+                        row.userId +
+                        ')">Deactivate</a>';
+                }
+                else {
+                    deactiveOprion =
+                        '<a class="dropdown-item" onclick="Activate(' +
+                        row.userId +
+                        ')">Activate</a>';
+                }
+
+            if (row.userTypeId == 2) {
+                isapprovedlink = '<a class="dropdown-item" onclick="Approve(' +
                     row.userId +
-                    ')">Deactivate</a>';
-            } else {
-                deactiveOprion =
-                    '<a class="dropdown-item" onclick="onActivateLinkClick(' +
-                    row.userId +
-                    ')">Activate</a>';
+                    ')">Approve</a>';
+
+
             }
+            else {
+                isapprovedlink = '<a class="dropdown-item disabled">Approve</a>';
+
+            }
+                         
+           
+           
 
             return (
                 '<div class="dropdown">' +
@@ -560,10 +585,49 @@
                 row.userId +
                 ')">Delete</a></li>' +
                 deactiveOprion +
+                isapprovedlink +
                 "</ul >" +
+
                 "</div >"
             );
+
+
+            
         }
+        function Activate(val) {
+            $.post("/Admin/ActivateUser", { Id: parseInt(val) }, function (data) {
+
+                if (data) {
+                    alert("Activate User Successfully!");
+                }
+                else {
+                    alert("Plz Approved First to Service Provider");
+                }
+
+            });
+        }
+
+        function DeActivate(val) {
+            $.post("/Admin/DeActivateUser", { Id: parseInt(val) }, function (data) {
+
+                if (data) {
+                    alert("DeActivate User Successfully!");
+                }
+
+            });
+        }
+
+        function Approve(val) {
+            $.post("/Admin/ApproveSP", { Id: parseInt(val) }, function (data) {
+
+                if (data) {
+
+                    alert("Approved Service Provider!!");
+                }
+               
+            });
+        }
+
     </script>
 </body>
 </html>

@@ -1,4 +1,4 @@
-﻿@model IEnumerable<Helperland.ViewModels.UpcomingViewModel>
+﻿@model IEnumerable<Helperland.Models.Data.ServiceRequest>
 @{
     Layout = null;
 }
@@ -29,10 +29,10 @@
         {
 
 
-            if (item.servicerequest.Status != 1 && item.servicerequest.Status != 2)
+            if (item.Status == 4)
             {
 
-                DateTime dt = item.servicerequest.ServiceStartDate;               //Gets the current date
+                DateTime dt = item.ServiceStartDate;               //Gets the current date
                 string datetime = dt.ToString();          //converts the datetime value to string
                 string[] DateTime = datetime.Split(' ');  //splitting the date from time with the help of space delimeter
                 string Date = DateTime[0];                //saving the date value from the string array
@@ -40,8 +40,8 @@
                 string[] time = Time.Split(':');
                 string clocktime = time[0] + ":" + time[1];
 
-                var Extrahour = Convert.ToDouble(item.servicerequest.ExtraHours);
-                var Extratime = item.servicerequest.ServiceHours + Extrahour;
+                var Extrahour = Convert.ToDouble(item.ExtraHours);
+                var Extratime = item.ServiceHours + Extrahour;
                 //  DateTime dts = Convert.ToDateTime(Extratime);
                 DateTime end = Convert.ToDateTime(clocktime);
                 DateTime watch = end.AddHours(Extratime);
@@ -57,8 +57,8 @@
                 <tr>
 
 
-                    <td>@Html.DisplayFor(modelitem => item.servicerequest.ServiceRequestId)</td>
-                    <td onclick="ShowSrDetails(@item.servicerequest.ServiceRequestId);" data-toggle="modal" data-target="#srDetails">
+                    <td>@Html.DisplayFor(modelitem => item.ServiceRequestId)</td>
+                    <td onclick="ShowSrDetails(@item.ServiceRequestId);" data-toggle="modal" data-target="#srDetails">
                         <div>
 
                             <img src="../images/calendar2.png">
@@ -76,22 +76,22 @@
 
 
                         <div>
-                            @Html.DisplayFor(modelitem => item.user.FirstName)  @Html.DisplayFor(modelitem => item.user.LastName)
+                            @Html.DisplayFor(modelitem => item.User.FirstName)  @Html.DisplayFor(modelitem => item.User.LastName)
                         </div>
 
 
 
                         <div>
                             <img src="../images/layer-719.png">
-                            @Html.DisplayFor(modelitem => item.servicerequestaddress.AddressLine1) , @Html.DisplayFor(modelitem => item.servicerequestaddress.AddressLine2) ,
-                            @Html.DisplayFor(modelitem => item.servicerequestaddress.City),@Html.DisplayFor(modelitem => item.servicerequestaddress.PostalCode)
+                            @item.ServiceRequestAddresses.ElementAt(0).AddressLine1 ) ,  @item.ServiceRequestAddresses.ElementAt(0).AddressLine2 ,
+                            @item.ServiceRequestAddresses.ElementAt(0).City , @item.ServiceRequestAddresses.ElementAt(0).PostalCode
                         </div>
                     </td>
-                    <td>@Html.DisplayFor(modelitem => item.servicerequest.TotalCost)&#128;</td>
+                    <td>@Html.DisplayFor(modelitem => item.TotalCost)&#128;</td>
                     <td>15 km</td>
                     <td>
 
-                        <button type="button" class="reschedule-button" id="Acceptting" data-toggle="modal" data-target="#AcceptModal" onclick="AcceptReq(@item.servicerequest.ServiceRequestId)">Accept</button>
+                        <button type="button" class="reschedule-button" id="Acceptting" data-toggle="modal" data-target="#AcceptModal" onclick="AcceptReq(@item.ServiceRequestId)">Accept</button>
 
 
                     </td>
@@ -147,7 +147,7 @@
                     </div>
                     <hr>
                     <div class="row pt-2">
-                        -->
+                       
                         @*<div class="col-sm-3">
                                 <button type="button" class="cancel-button">Cancel</button>
 
@@ -228,6 +228,16 @@
     function AcceptReq(ServiceRequestId) {
         /*  $("#srDetails").modal('hide');*/
         $("#accept").prop("value", ServiceRequestId);
+        $.post("/ServiceProvider/SetRecordVersion", { Id: parseInt(ServiceRequestId) }, function (data) {
+            if (data) {
+
+                alert("RecordVersion is now set.");
+            }
+            else {
+                alert("record version is not set");
+            }
+
+        });
 
     }
 

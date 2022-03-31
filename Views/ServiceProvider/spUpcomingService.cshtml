@@ -14,7 +14,7 @@
     <tbody>
         @foreach (var item in Model)
         {
-            if (item.servicerequest.Status != 3)
+            if (item.servicerequest.Status == 2)
             {
 
                 DateTime dt = item.servicerequest.ServiceStartDate;               //Gets the current date

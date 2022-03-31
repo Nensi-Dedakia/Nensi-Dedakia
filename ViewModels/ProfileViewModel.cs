@@ -10,27 +10,27 @@ namespace Helperland.ViewModels
     public class ProfileViewModel
     {
         public int userId { get; set; }
-        // [Required]
+         [Required]
         [StringLength(100)]
         public string firstname { get; set; }
-        // [Required]
+        [Required]
         [StringLength(100)]
         public string lastname { get; set; }
-        // [Required]
+         [Required]
         [StringLength(100)]
         public string email { get; set; }
 
-        //[Required]
+        [Required]
         [StringLength(20)]
         public string Mobile { get; set; }
 
         [Column(TypeName = "datetime")]
         public DateTime? DateOfBirth { get; set; }
-
+        [Required]
         public int BirthDate { get; set; }
-
+        [Required]
         public string BirthMonth { get; set; }
-
+        [Required]
         public int BirthYear { get; set; }
 
 
@@ -57,15 +57,15 @@ namespace Helperland.ViewModels
         //[StringLength(100)]
         //public string Email { get; set; }
 
-        [Required]
+      //  [Required]
         [StringLength(100)]
         public string Password { get; set; }
 
-        [Required]
+       // [Required]
         [StringLength(100)]
         public string OldPassword { get; set; }
 
-        [Required]
+        //[Required]
         [StringLength(100)]
         public string ConfirmPassword { get; set; }
     }

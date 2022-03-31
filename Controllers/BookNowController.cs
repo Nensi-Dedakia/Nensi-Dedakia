@@ -1,4 +1,5 @@
-﻿using Helperland.Models.Data;
+﻿using Helperland.Enum;
+using Helperland.Models.Data;
 using Helperland.Repository;
 using Helperland.ViewModels;
 using Microsoft.AspNetCore.Http;
@@ -25,34 +26,41 @@ namespace Helperland.Controllers
 
         public IActionResult BookNow()
         {
-            return View();
-        }
-
-        [HttpPost]
-
-        
-        public ActionResult ZipCodeValue(BookNowViewModel model)
-        {
             if (HttpContext.Session.GetString("Email") != null)
             {
-                var postal = _helperlandContext.Users.Where(b => b.ZipCode.Equals(model.ZipCode) && b.UserTypeId == 2).FirstOrDefault();
-                if (postal != null)
-                {
-                    HttpContext.Session.SetString("ZipCode", model.ZipCode);
-                    return Ok(Json("true"));
-                }
-                else
-                {
-                    return Ok(Json("false"));
-                }
+                return View();
             }
 
             else
             {
                 return RedirectToAction("Index", "Home");
             }
+        }
 
-           
+        [HttpPost]
+
+        
+        public JsonResult ZipCodeValue(BookNowViewModel model)
+        {
+
+            var postal = _helperlandContext.Users.Where(b => b.ZipCode.Equals(model.ZipCode) && b.UserTypeId == 2).FirstOrDefault();
+            if (postal != null)
+            {
+                //HttpContext.Session.SetString("ZipCode", model.ZipCode);
+                return Json(true);
+
+            }
+            else
+            {
+                return Json(false);
+
+            }
+
+
+
+
+
+
         }
 
 
@@ -130,7 +138,7 @@ namespace Helperland.Controllers
 
         [HttpPost]
 
-        public ActionResult CompleteBooking(BookNowViewModel booking)
+        public ActionResult CompleteBooking(BookNowViewModel booking , int[] extraservice)
         {
             var CustomerId = _helperlandContext.Users.Where(b => b.Email.Equals(HttpContext.Session.GetString("Email"))).FirstOrDefault();
             int ID = CustomerId.UserId;
@@ -145,7 +153,7 @@ namespace Helperland.Controllers
 
             ServiceRequest service = new ServiceRequest
             {
-                ZipCode = ZipValue,
+                ZipCode = booking.ZipCode,
                 UserId = ID,
                 ServiceStartDate = booking.ServiceStartDate,
                 ServiceHourlyRate = booking.ServiceHourlyRate,
@@ -157,7 +165,8 @@ namespace Helperland.Controllers
                 TotalCost = booking.TotalCost,
                 Comments = booking.Comments,
                 HasPets = booking.HasPets,
-                PaymentDone= booking.PaymentDone,
+                PaymentDone = booking.PaymentDone,
+                Status = (int)ServiceStatus.New ,
                 RecordVersion = Guid.NewGuid(),
             };
 
@@ -181,6 +190,22 @@ namespace Helperland.Controllers
             _helperlandContext.Add(serviceaddress);
 
             _helperlandContext.SaveChanges();
+
+
+            ServiceRequestExtra extra = new ServiceRequestExtra();
+            for (int j = 0; j <= 4; j++)
+            {
+                if (extraservice[j] == 1)
+                {
+                    extra.ServiceRequestExtraId = 0;
+                    extra.ServiceRequestId = service.ServiceRequestId;
+                    extra.ServiceExtraId = j + 1;
+                    _helperlandContext.Add(extra);
+                    _helperlandContext.SaveChanges();
+
+                }
+
+            }
 
             List<User> user = new List<User>();
             var sp = _helperlandContext.FavoriteAndBlockeds.Where(a => a.TargetUserId.Equals(ID) && a.IsBlocked == true).ToList();

@@ -55,97 +55,64 @@
                 </div>
             </nav>
         </header>
-        
-            <div class="modal modal-shadow" id="myModal">
-                <div class="modal-dialog modal-dialog-centered">
-                    <div class="modal-content">
-                        <!-- Modal Header -->
-                        <div class="modal-header login-modal-header">
 
-                            <h3 class="modal-title login-main-heading">
-                                <b>Login to your account</b>
-                            </h3>
-                            <button type="button" class="close" data-dismiss="modal">&times;</button>
-                        </div>
-                        <!-- Modal body -->
-                        <div class="modal-body">
-                            <form method="post" asp-controller="Home" asp-action="Index">
-                                <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-                                <div class="input-group mb-3">
-                                    <input asp-for="email" type="email" class="form-control" placeholder="Email"
-                                           style="border-right: none;">
-                                    <span class="input-group-text"> <i class="fas fa-user"></i> </span>
-                                    <span asp-validation-for="email" class="text-danger"></span>
-                                </div>
-                                <div class="input-group mb-3">
-                                    <input asp-for="Password" type="password" class="form-control" placeholder="Password"
-                                           style="border-right: none;">
-                                    <span class="input-group-text"> <i class="fas fa-lock"></i></span>
-                                    <span asp-validation-for="Password" class="text-danger"></span>
-                                </div>
-                                <div class="login-check">
-                                    <input asp-for="RememberMe" class="form-check-input login-checkbox" type="checkbox" id="myCheck">
-                                    <label class="form-check-label" for="myCheck" style="margin-left:10px;">
-                                        Remeber me
-                                    </label>
-                                </div>
-                                <br>
-                                <button type="submit" class="btn  login-btn"> Login </button>
-                                </form>
-                                <br><br>
-                                <p class="login-para">
-                                    <a href="" class="login-para-links" data-target="#forgotModal"
-                                       data-toggle="modal" data-dismiss="modal"><b>Forgot Password ?</b></a>
-                                    <br>
-                                    Don't have an account?
+        <partial name="LoginModal" />
+        <partial name="ForgotPassword" />
+        <!--<div class="modal modal-shadow" id="myModal">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content">-->
+        <!-- Modal Header -->
+        <!--<div class="modal-header login-modal-header">
 
-                                    <a asp-controller="Home" asp-action="CreateAnAccount" class="login-para-links">
-                                        <b>
-                                            Create an
-                                            account
-                                        </b>
-                                    </a>
-                                </p>
-                          
+        <h3 class="modal-title login-main-heading">
+            <b>Login to your account</b>
+        </h3>
+        <button type="button" class="close" data-dismiss="modal">&times;</button>
+    </div>-->
+        <!-- Modal body -->
+        <!--<div class="modal-body">
+                    <form method="post" asp-controller="Home" asp-action="Index">
+                        <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                        <div class="input-group mb-3">
+                            <input asp-for="email" type="email" class="form-control" placeholder="Email"
+                                   style="border-right: none;">
+                            <span class="input-group-text"> <i class="fas fa-user"></i> </span>
+                            <span asp-validation-for="email" class="text-danger"></span>
                         </div>
-                    </div>
+                        <div class="input-group mb-3">
+                            <input asp-for="Password" type="password" class="form-control" placeholder="Password"
+                                   style="border-right: none;">
+                            <span class="input-group-text"> <i class="fas fa-lock"></i></span>
+                            <span asp-validation-for="Password" class="text-danger"></span>
+                        </div>
+                        <div class="login-check">
+                            <input asp-for="RememberMe" class="form-check-input login-checkbox" type="checkbox" id="myCheck">
+                            <label class="form-check-label" for="myCheck" style="margin-left:10px;">
+                                Remeber me
+                            </label>
+                        </div>
+                        <br>
+                        <button type="submit" class="btn  login-btn"> Login </button>
+                    </form>
+                    <br><br>
+                    <p class="login-para">
+                        <a href="" class="login-para-links" data-target="#forgotModal"
+                           data-toggle="modal" data-dismiss="modal"><b>Forgot Password ?</b></a>
+                        <br>
+                        Don't have an account?
+
+                        <a asp-controller="Home" asp-action="CreateAnAccount" class="login-para-links">
+                            <b>
+                                Create an
+                                account
+                            </b>
+                        </a>
+                    </p>
+
                 </div>
             </div>
-       
-
-            <form method="post" asp-action="ForgotPassword" asp-controller="Home">
-                <div class="modal modal-shadow" id="forgotModal">
-                    <div class="modal-dialog modal-dialog-centered">
-                        <div class="modal-content">
-                            <div class="modal-header login-modal-header">
-                                <h3 class="modal-title login-main-heading">
-                                    <b> Forgot Password </b>
-                                </h3>
-                                <button type="button" class="close" data-dismiss="modal">&times;</button>
-
-                            </div>
-                            <div class="modal-body">
-                                <div class="text-danger">@ViewBag.error</div>
-                                <div class="input-group mb-3">
-                                    <input type="email" class="form-control" placeholder="Email" name="Email"
-                                           style="border-right: none;">
-                                    <span class="input-group-text"> <i class="fas fa-user"></i> </span>
-                                </div>
-                                <br>
-                                <button type="submit" class="btn  login-btn"> Send </button>
-                                <br><br>
-                                <p class="login-para">
-                                    <a href="#" class="login-para-links" data-target="#myModal" data-toggle="modal" data-dismiss="modal">
-                                        <b>
-                                            Login now
-                                        </b>
-                                    </a>
-                                </p>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </form>
+        </div>
+    </div>-->
         <!-------------main page content-------------------->
         <div class="container-fluid">
             <p class="lorem-main-heading">Lorem ipsum text</p>
@@ -478,6 +445,15 @@
         </div>
 
     </footer>
+    @if (TempData.ContainsKey("Modal"))
+    {
+        <script>
+            $(document).ready(function () {
+                var temp = '@TempData["Modal"]';
+                $(temp).modal('show');
+            });
+        </script>
+    }
     <script src="./js/jquery-3.6.0.js"></script>
     <script type="text/javascript">
         $(window).scroll(function () {

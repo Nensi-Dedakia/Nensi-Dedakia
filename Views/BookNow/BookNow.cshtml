@@ -262,7 +262,7 @@
                                             <div class="row">
                                                 <div class="col-md-6">
                                                     <label class="add-new-button-label">Postal Code:</label>
-                                                    <input asp-for="postalcode" placeholder="Postal-Code" class="form11" id="PostalCode">
+                                                    <input asp-for="postalcode" id="PostalCode" class="form11 postzip" value="" readonly>
                                                 </div>
                                                 <div class="col-md-6">
                                                     <label class="add-new-button-label">City:</label>
@@ -378,8 +378,16 @@
                                 <div class="col-4 col-sm-4 " id="basicduration">3 Hrs</div>
                             </div>
                             <div class="row payment-summary-content">
-                                <div class="col-8 col-sm-8 extraservicetext"></div>
-                                <div class="col-4 col-sm-4 extratime"></div>
+                                <div class="col-8 col-sm-8 cextraservicetext"></div>
+                                <div class="col-4 col-sm-4 cextratime"></div>
+                                <div class="col-8 col-sm-8 fextraservicetext"></div>
+                                <div class="col-4 col-sm-4 fextratime"></div>
+                                <div class="col-8 col-sm-8 oextraservicetext"></div>
+                                <div class="col-4 col-sm-4 oextratime"></div>
+                                <div class="col-8 col-sm-8 lextraservicetext"></div>
+                                <div class="col-4 col-sm-4 lextratime"></div>
+                                <div class="col-8 col-sm-8 iextraservicetext"></div>
+                                <div class="col-4 col-sm-4 iextratime"></div>
                             </div>
                             <hr>
                             <div class="row payment-summary-content">
@@ -517,16 +525,21 @@
     <script type="text/javascript">
         var globalVar = "Global to Booking page";
         var totaltime = 0;
-        var cabinet = 0;
-        var interior = 0;
-        var laundry = 0;
-        var oven = 0;
-        var fridge = 0;
+        //var cabinet = 0;
+        //var interior = 0;
+        //var laundry = 0;
+        //var oven = 0;
+        //var fridge = 0;
         var time = 0;
         var payment = 0;
         var percleaning = 87;
         var Extraservice = 0;
-
+        var Extras = [];
+        Extras[0] = 0;
+        Extras[1] = 0;
+        Extras[2] = 0;
+        Extras[3] = 0;
+        Extras[4] = 0;
 
         function Tab1Click() {
 
@@ -574,7 +587,7 @@
         $("#tabContent2").hide();
         $("#tabContent4").hide();
         $("#tabContent3").show();
-
+        $("#PostalCode").val($("#zipcode").val());
         document.getElementById("schedule").src = "../images/schedule.png";
         document.getElementById("setup").src = "../images/setup-service.png";
         document.getElementById("detail").src = "../images/details-white.png";
@@ -612,7 +625,7 @@
                 contentType: 'application/x-www-form-urlencoded; charset=UTF-8',
                 data: data,
                 success: function (result) {
-                    if (result.value == "true") {
+                    if (result) {
                        // next();
                         $("#tab2").addClass("active-tab");
                         $("#tab2").removeClass("disabled");
@@ -624,6 +637,9 @@
                         document.getElementById("setup").src = "../images/setup-service.png";
                         document.getElementById("detail").src = "../images/details.png";
                         document.getElementById("payment").src = "../images/payment.png";
+                    }
+                    else {
+                        alert("Fill ZipCode!");
                     }
                 },
                 error: function () {
@@ -656,7 +672,7 @@
                         $("#tabContent2").hide();
                         $("#tabContent4").hide();
                         $("#tabContent3").show();
-
+                        $("#PostalCode").val($("#zipcode").val());
                         document.getElementById("schedule").src = "../images/schedule.png";
                         document.getElementById("setup").src = "../images/setup-service.png";
                         document.getElementById("detail").src = "../images/details-white.png";
@@ -763,7 +779,10 @@
             data.Comments = $("#comment").val();
             data.HasPets = false;
             data.PaymentDone = true;
-
+            data.extraservice = [];
+            for (var i = 0; i <= 4; i++) {
+                data.extraservice[i] = Extras[i];
+            }
 
            // details.
             $.ajax({
@@ -809,154 +828,288 @@
         }
 
 
+        //function duration() {
+        //    $("#basicduration").html($("#hours").val() + " Hrs ");
+
+
+
+
+
+
+
+        //    totaltime = parseFloat($("#hours").val());
+
+        //    $("#totalservicetime").html(totaltime + " Hrs ");
+
+        //    payment = parseFloat(percleaning * totaltime);
+        //    $(".totalpayment").html("$" + payment);
+        //    $(".effectivepayment").html("$" + payment);
+
+
+
+        //}
         function duration() {
-            $("#basicduration").html($("#hours").val() + " Hrs ");
+            if (Extras[0] > 0 || Extras[1] > 0 || Extras[2] > 0 || Extras[3] > 0 || Extras[4] > 0) {
+                Extras[0] = Extras[1] = Extras[2] = Extras[3] = Extras[4] = 0;
+                /*$("#Extra").empty();*/
+                /*$("#Extra").html("");*/
+                $(".cextraservicetext").empty();
+                $(".cextratime").empty();
+                $(".fextraservicetext").empty();
+                $(".fextratime").empty();
+                $(".oextraservicetext").empty();
+                $(".oextratime").empty();
+                $(".lextraservicetext").empty();
+                $(".lextratime").empty();
+                $(".iextraservicetext").empty();
+                $(".iextratime").empty();
 
+                document.getElementById("cabinet").src = "../images/3.png";
+                document.getElementById("cabinetborder").style.border = "1px solid #DEDDDD";
 
+                document.getElementById("fridge").src = "../images/5.png";
+                document.getElementById("fridgeborder").style.border = "1px solid #DEDDDD";
 
+                document.getElementById("oven").src = "../images/4.png";
+                document.getElementById("ovenborder").style.border = "1px solid #DEDDDD";
 
+                document.getElementById("laundry").src = "../images/2.png";
+                document.getElementById("laundryborder").style.border = "1px solid #DEDDDD";
 
+                document.getElementById("interior").src = "../images/1.png";
+                document.getElementById("interiorborder").style.border = "1px solid #DEDDDD";
 
+                $("#basicduration").html($("#hours").val() + " Hrs ");
 
-            totaltime = parseFloat($("#hours").val());
+                totaltime = parseFloat($("#hours").val());
 
-            $("#totalservicetime").html(totaltime + " Hrs ");
+                $("#totalservicetime").html(totaltime + " Hrs ");
 
-            payment = parseFloat(percleaning * totaltime);
-            $(".totalpayment").html("$" + payment);
-            $(".effectivepayment").html("$" + payment);
+                payment = parseFloat(percleaning * totaltime);
+                $(".totalpayment").html("$" + payment);
+                $(".effectivepayment").html("$" + payment);
+            }
 
+            else {
+                $("#basicduration").html($("#hours").val() + " Hrs ");
 
+                totaltime = parseFloat($("#hours").val());
 
+                $("#totalservicetime").html(totaltime + " Hrs ");
+
+                payment = parseFloat(percleaning * totaltime);
+                $(".totalpayment").html("$" + payment);
+                $(".effectivepayment").html("$" + payment);
+            }
         }
 
 
         function Cabinet() {
 
-            if (cabinet < 1) {
-                totaltime += 0.5;
+            if (Extras[0] == 0) {
+                totaltime = totaltime + 0.5;
                 Extraservice += 0.5;
                 $("#totalservicetime").html(totaltime + " Hrs ");
-                $(".extraservicetext").append("<p>Inside Cabinets(extra)</p>");
-                $(".extratime").append("<p>30 Mins</p>");
+                $(".cextraservicetext").html("Inside Cabinets(extra)");
+                $(".cextratime").html("30 Mins");
 
                 payment = parseFloat(percleaning * totaltime);
                 $(".totalpayment").html("$" + payment);
                 $(".effectivepayment").html("$" + payment);
-                cabinet++;
+                Extras[0]++;
+                $('#cabinetborder').css({
+                    'border': '2px solid #1d7a8c',
+                });
+                document.getElementById("cabinet").src = "../images/3-green.png";
+            }
+            else {
+                Extras[0] = 0;
+                totaltime = totaltime - 0.5;
+                Extraservice -= 0.5;
+
+                payment = parseFloat(percleaning * totaltime);
+                $("#totalservicetime").html(totaltime + " Hrs ");
+
+
+                $(".totalpayment").html("$" + payment);
+                $(".effectivepayment").html("$" + payment);
+                $(".cextraservicetext").html("");
+                $(".cextratime").html("");
+
+                $('#cabinetborder').css({
+                    'border': '2px solid #DEDDDD',
+                });
+                document.getElementById("cabinet").src = "../images/3.png";
             }
 
-            $('#cabinetborder').css({
-                'border': '2px solid #1d7a8c',
-            });
 
 
-
-            //$(document).ready(function () {
-            //    $("#cabinet").click(function () {
-            //        var select = true;
-            //        if (select == true) {
-            //            $("#cabinet").attr("src", "../images/3-green.png");
-            //            //document.getElementById("cabinet").src = "../image/cabinet-green.png";
-            //            select = false;
-            //        }
-
-            //        else {
-            //            $("#cabinet").attr("src", "../images/3.png");
-            //            //document.getElementById("cabinet").src = "../image/cabinet.png";
-            //            select = true;
-            //        }
-            //    });
-            //});
-            document.getElementById("cabinet").src = "../images/3-green.png";
-            $('#cabinetborder').css({
-                'border': '2px solid #1d7a8c',
-            });
 
         }
 
 
 
         function Fridge() {
-            if (fridge < 1) {
+            if (Extras[1] == 0) {
                 totaltime += 0.5;
                 Extraservice += 0.5;
                 $("#totalservicetime").html(totaltime + " Hrs ");
-                $(".extraservicetext").append("<p>Inside Fridge(extra)</p>");
-                $(".extratime").append("<p>30 Mins</p>");
+                $(".fextraservicetext").html("Inside Fridge(extra)");
+                $(".fextratime").html("30 Mins");
 
                 payment = parseFloat(percleaning * totaltime);
                 $(".totalpayment").html("$" + payment);
                 $(".effectivepayment").html("$" + payment);
-                fridge++;
+                Extras[1]++;
+                document.getElementById("fridge").src = "../images/5-green.png";
+                $('#fridgeborder').css({
+                    'border': '2px solid #1d7a8c',
+                });
             }
-            document.getElementById("fridge").src = "../images/5-green.png";
-            $('#fridgeborder').css({
-                'border': '2px solid #1d7a8c',
-            });
+            else {
+                Extras[1] = 0;
+                totaltime = totaltime - 0.5;
+                Extraservice -= 0.5;
+
+                payment = parseFloat(percleaning * totaltime);
+                $("#totalservicetime").html(totaltime + " Hrs ");
+
+
+                $(".totalpayment").html("$" + payment);
+                $(".effectivepayment").html("$" + payment);
+                $(".fextraservicetext").html("");
+                $(".fextratime").html("");
+
+                $('#fridgeborder').css({
+                    'border': '2px solid #DEDDDD',
+                });
+                document.getElementById("fridge").src = "../images/5.png";
+            }
+
+           
         }
 
         function Oven() {
-            if (oven < 1) {
+            if (Extras[2] == 0) {
                 totaltime += 0.5;
                 Extraservice += 0.5;
+                Extras[2]++;
                 $("#totalservicetime").html(totaltime + " Hrs ");
-                $(".extraservicetext").append("<p>Inside Oven(extra)</p>");
-                $(".extratime").append("<p>30 Mins</p>");
+                $(".oextraservicetext").html("Inside Oven(extra)");
+                $(".oextratime").html("30 Mins");
 
                 payment = parseFloat(percleaning * totaltime);
                 $(".totalpayment").html("$" + payment);
                 $(".effectivepayment").html("$" + payment);
-                oven++;
+               
+                document.getElementById("oven").src = "../images/4-green.png";
+                $('#ovenborder').css({
+                    'border': '2px solid #1d7a8c',
+                });
             }
 
-            //$(".extraservicetext").html($("#oventext").text());
-            document.getElementById("oven").src = "../images/4-green.png";
-            $('#ovenborder').css({
-                'border': '2px solid #1d7a8c',
-            });
+            else {
+                Extras[2] = 0;
+                totaltime = totaltime - 0.5;
+                Extraservice -= 0.5;
+                
+                payment = parseFloat(percleaning * totaltime);
+                $("#totalservicetime").html(totaltime + " Hrs ");
+
+
+                $(".totalpayment").html("$" + payment);
+                $(".effectivepayment").html("$" + payment);
+                $(".oextraservicetext").html("");
+                $(".oextratime").html("");
+
+                $('#ovenborder').css({
+                    'border': '2px solid #DEDDDD',
+                });
+                document.getElementById("oven").src = "../images/4.png";
+            }
+
         }
 
         function Laundry() {
-            if (laundry < 1) {
+            if (Extras[3] == 0) {
                 totaltime += 0.5;
                 Extraservice += 0.5;
+                Extras[3]++;
                 $("#totalservicetime").html(totaltime + " Hrs ");
-                $(".extraservicetext").append("<p>Laundry Wash & Dry (extra)</p>");
-                $(".extratime").append("<p>30 Mins</p>");
+                $(".lextraservicetext").html("Laundry Wash & Dry (extra)");
+                $(".lextratime").html("30 Mins");
 
                 payment = parseFloat(percleaning * totaltime);
                 $(".totalpayment").html("$" + payment);
                 $(".effectivepayment").html("$" + payment);
-                laundry++;
+                document.getElementById("laundry").src = "../images/2-green.png";
+                $('#laundryborder').css({
+                    'border': '2px solid #1d7a8c',
+                });
+            }
+            else {
+                Extras[3] = 0;
+                totaltime = totaltime - 0.5;
+                Extraservice -= 0.5;
+
+                payment = parseFloat(percleaning * totaltime);
+                $("#totalservicetime").html(totaltime + " Hrs ");
+
+
+                $(".totalpayment").html("$" + payment);
+                $(".effectivepayment").html("$" + payment);
+                $(".lextraservicetext").html("");
+                $(".lextratime").html("");
+
+                $('#laundryborder').css({
+                    'border': '2px solid #DEDDDD',
+                });
+                document.getElementById("laundry").src = "../images/2.png";
             }
 
-            //$(".extraservicetext").html($("#laundrytext").text());
-            document.getElementById("laundry").src = "../images/2-green.png";
-            $('#laundryborder').css({
-                'border': '2px solid #1d7a8c',
-            });
+            
+           
         }
 
         function Interior() {
-            if (interior < 1) {
+            if (Extras[4] == 0) {
                 totaltime += 0.5;
                 Extraservice += 0.5;
+                Extras[4]++;
                 $("#totalservicetime").html(totaltime + " Hrs ");
-                $(".extraservicetext").append("<p>Interior Windows(extra)</p>");
-                $(".extratime").append("<p>30 Mins</p>");
+                $(".iextraservicetext").html("Interior Windows(extra)");
+                $(".iextratime").html("30 Mins");
 
                 payment = parseFloat(percleaning * totaltime);
                 $(".totalpayment").html("$" + payment);
                 $(".effectivepayment").html("$" + payment);
-                interior++;
+                document.getElementById("interior").src = "../images/1-green.png";
+                $('#interiorborder').css({
+                    'border': '2px solid #1d7a8c',
+                });
+               
             }
 
-            //$(".extraservicetext").html($("#windowtext").text());
-            document.getElementById("interior").src = "../images/1-green.png";
-            $('#interiorborder').css({
-                'border': '2px solid #1d7a8c',
-            });
+            else {
+                Extras[4] = 0;
+                totaltime = totaltime - 0.5;
+                Extraservice -= 0.5;
+
+                payment = parseFloat(percleaning * totaltime);
+                $("#totalservicetime").html(totaltime + " Hrs ");
+
+
+                $(".totalpayment").html("$" + payment);
+                $(".effectivepayment").html("$" + payment);
+                $(".iextraservicetext").html("");
+                $(".iextratime").html("");
+
+                $('#interiorborder').css({
+                    'border': '2px solid #DEDDDD',
+                });
+                document.getElementById("interior").src = "../images/1.png";
+            }
+            
         }
     </script>
 

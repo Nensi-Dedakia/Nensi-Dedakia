@@ -139,49 +139,19 @@
     function Edit(ServiceRequestId) {
       // $(".edit-modal").modal('hide');
         $("#update").prop("value", ServiceRequestId);
-        //$.post("/Customer/ShowAddressDetails", { Id: parseInt(ServiceRequestId) }, function (data) {
+        $.post("/Customer/GetAddressDetails", { Id: parseInt(ServiceRequestId) }, function (data) {
 
-        //    $(".street").html(data.line1);
-        //    $(".house").html(data.line2);
-        //    $(".phone").html(data.mobile);
-        //    $(".postal").html(data.zip);
-        //    $(".city").html(data.city);
-        //});
+           $(".street").val(data.line1);
+           $(".house").val(data.line2);
+          $(".phone").val(data.mobile);
+           $(".postal").val(data.zip);
+           $(".city").val(data.city);
+        });
 
 
 
     }
-    //function AddAddress(ServiceRequestId)
-    //{
-    //    $("#add").prop("value", ServiceRequestId);
-    //}
-    //function Update(val) {
-    //    //if ($("#scheduleddate").val() == "" && $('#scheduledtime').val() == "") {
-    //    //    alert("Please Select Date and Time");
-    //    //}
-
-
-
-    //    var addressline1 = $(".street").val();
-    //    var addressline2 = $(".house").val();
-    //    var mobile = $(".phone").val();
-    //    var zip = $(".postal").val();
-    //    var city = $(".city").val();
-
-    //    $.post("/Customer/UpdateAddress", { Id: parseInt(val), AddressLine1: addressline1, AddressLine2: addressline2 , Mobile:mobile ,Zip:zip , City:city}, function (data) {
-
-    //            if (data) {
-    //                alert("Update Successfully!!");
-    //                //$("#RescheduleModal").modal('hide');
-    //                //location.reload();
-
-    //            }
-
-    //        });
-
-    //}
-
-
+    
 
     function Update(id) {
         var data = {};

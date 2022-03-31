@@ -75,25 +75,26 @@ namespace Helperland.Controllers
 
                     if (!string.IsNullOrEmpty(postalCode))
                     {
-                        data = data.Where(x => x.ZipCode == postalCode).ToList();
+                        data = data.Where(x => x.ZipCode.Contains(postalCode)).ToList();
                     }
-
                     if (!string.IsNullOrEmpty(email))
                     {
-                        data = data.Where(x => x.User.Email == email || x.ServiceProvider?.Email == email).ToList();
+                        data = data.Where(x => x.User.Email.Contains(email, StringComparison.OrdinalIgnoreCase) || (!string.IsNullOrEmpty(x.ServiceProvider?.Email) ? x.ServiceProvider.Email.Contains(email, StringComparison.OrdinalIgnoreCase) : false)).ToList();
                     }
 
                     if (!string.IsNullOrEmpty(customerName))
                     {
-                        var name = customerName.Split(" ");
-                        data = data.Where(x => x.User.FirstName == name[0] && x.User.LastName == name[1]).ToList();
+                        //var name = customerName.Split(" ");
+                        data = data.Where(x => x.User.FirstName.Contains(customerName, StringComparison.OrdinalIgnoreCase) || x.User.LastName.Contains(customerName, StringComparison.OrdinalIgnoreCase)).ToList();
 
                     }
 
                     if (!string.IsNullOrEmpty(spName))
                     {
-                        var name = spName.Split(" ");
-                        data = data.Where(x => x.ServiceProvider?.FirstName == name[0] && x.ServiceProvider.LastName == name[1]).ToList();
+
+
+
+                        data = data.Where(x => (!string.IsNullOrEmpty(x.ServiceProvider?.FirstName) ? x.ServiceProvider.FirstName.Contains(spName, StringComparison.OrdinalIgnoreCase) : false) || (!string.IsNullOrEmpty(x.ServiceProvider?.LastName) ? x.ServiceProvider.LastName.Contains(spName, StringComparison.OrdinalIgnoreCase) : false)).ToList();
 
                     }
                     if (!string.IsNullOrEmpty(status))
@@ -160,7 +161,8 @@ namespace Helperland.Controllers
                     serviceRequest.serviceTime = request.ServiceStartDate.ToString("HH:mm") + "-" + request.ServiceStartDate.AddHours(request.ServiceHours).ToString("HH:mm");
                     serviceRequest.customerName = request.User.FirstName + " " + request.User.LastName;
 
-                    serviceRequest.customerAddress = request.ServiceRequestAddresses.ElementAt(0).AddressLine1;
+                    serviceRequest.customerAddress = request.ServiceRequestAddresses.ElementAt(0).AddressLine1+" " +request.ServiceRequestAddresses.ElementAt(0).AddressLine2+"</br> "+
+                        request.ServiceRequestAddresses.ElementAt(0).City+" "+ request.ServiceRequestAddresses.ElementAt(0).PostalCode;
 
                     serviceRequest.spName = request.ServiceProvider?.FirstName + " " + request.ServiceProvider?.LastName;
                     serviceRequest.spAvtar = request.ServiceProvider?.UserProfilePicture;
@@ -351,10 +353,12 @@ namespace Helperland.Controllers
                     var fromDate = searchArray[5];
                     var toDate = searchArray[6];
 
+
                     if (!string.IsNullOrEmpty(userName))
                     {
-                        var fullName = userName.Split(" ");
-                        data = data.Where(x => x.FirstName == fullName[0] && x.LastName == fullName[1]).ToList();
+                        //var fullName = userName.Split(" ");
+                        //data = data.Where(x => x.FirstName == fullName[0] && x.LastName == fullName[1]).ToList();
+                        data = data.Where(x => x.FirstName.Contains(userName, StringComparison.OrdinalIgnoreCase) || x.LastName.Contains(userName, StringComparison.OrdinalIgnoreCase)).ToList();
                     }
 
                     if (!string.IsNullOrEmpty(userType))
@@ -370,11 +374,13 @@ namespace Helperland.Controllers
                     if (!string.IsNullOrEmpty(postalCode))
                     {
                         data = data.Where(x => x.ZipCode == postalCode).ToList();
+                      
                     }
 
                     if (!string.IsNullOrEmpty(email))
                     {
-                        data = data.Where(x => x.Email == email).ToList();
+                        //data = data.Where(x => x.Email == email).ToList();
+                        data = data.Where(x => x.Email.Contains(email, StringComparison.OrdinalIgnoreCase)).ToList();
                     }
 
                     if (!string.IsNullOrEmpty(fromDate) && !string.IsNullOrEmpty(toDate))
@@ -416,10 +422,12 @@ namespace Helperland.Controllers
                         }
                     }
                 }
+               
+                    
                 //return data according to page sige 
                 recordsTotal = data.Count();
                 data = data.Skip(skip).Take(pageSize).ToList();
-                return Json(new { draw = draw, recordsFiltered = recordsTotal, recordsTotal = recordsTotal, data = data });
+                return Json(new { draw = draw, recordsFiltered = recordsTotal, recordsTotal = recordsTotal, data = data});
             }
             catch (Exception ex)
             {
@@ -468,10 +476,7 @@ namespace Helperland.Controllers
                 }
             }
 
-        public IActionResult CancelModal()
-        {
-            return View();
-        }
+       
         public JsonResult CancleService(int Id)
         {
             //var subject = "";
@@ -499,6 +504,62 @@ namespace Helperland.Controllers
 
         }
 
+
+        public IActionResult ActivateUser(int Id)
+        {  
+           
+            User use = _helperlandContext.Users.Where(b => b.UserId.Equals(Id)).FirstOrDefault();
+            if (use.UserTypeId == 2)
+            {
+                if (use.IsApproved == true)
+                {
+                    use.IsActive = true;
+                    use.ModifiedDate = DateTime.Now;
+                    _helperlandContext.Users.Update(use);
+                    _helperlandContext.SaveChanges();
+                    return Json(true);
+                }
+                else
+                {
+                    return Json(false);
+                }
+            }
+            else
+            {
+                use.IsActive = true;
+                use.ModifiedDate = DateTime.Now;
+                _helperlandContext.Users.Update(use);
+                _helperlandContext.SaveChanges();
+                return Json(true);
+            }
+           
+        }
+
+        public IActionResult DeActivateUser(int Id)
+        {
+            User use = _helperlandContext.Users.Where(b => b.UserId.Equals(Id)).FirstOrDefault();
+            use.IsActive = false;
+            if(use.UserTypeId==2)
+            {
+                use.IsApproved = false;
+            }
+            use.ModifiedDate = DateTime.Now;
+            _helperlandContext.Users.Update(use);
+            _helperlandContext.SaveChanges();
+            return Json(true);
+        }
+
+        public IActionResult ApproveSP(int Id)
+        {
+
+            User use = _helperlandContext.Users.Where(b => b.UserId.Equals(Id)).FirstOrDefault();
+            use.IsApproved = true;
+            use.ModifiedDate = DateTime.Now;
+            _helperlandContext.Users.Update(use);
+            _helperlandContext.SaveChanges();
+           
+            return Json(true);
+        }
 
     }
 }

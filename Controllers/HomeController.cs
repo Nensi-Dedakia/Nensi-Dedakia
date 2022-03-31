@@ -16,6 +16,7 @@ using System.Threading.Tasks;
 
 namespace Helperland.Controllers
 {
+
     public class HomeController : Controller
     {
         //private readonly ILogger<HomeController> _logger;
@@ -121,19 +122,20 @@ namespace Helperland.Controllers
         }
 
         [HttpPost]
-        public ActionResult Index(CreateAccountViewModel use)
+        public ActionResult Index(LoginViewModel use)
         {
-           //  if (ModelState.IsValid)
-            //{
+           
             using (HelperlandContext _tc = new HelperlandContext())
             {
-                
 
-                var detail = _helperlandContext.Users.Where(a => a.Email.Equals(use.email)).FirstOrDefault();
+                if (ModelState.IsValid)
+                {
+                    var detail = _helperlandContext.Users.Where(a => a.Email.Equals(use.email)).FirstOrDefault();
                 if (detail == null)
                 {
-                    ViewBag.Message = "Invalid UserName And Password";
-                    return View();
+                       ViewBag.email = "Invalid Email";
+                        TempData["Modal"] = "#myModal";
+                        return View();
                 }
                 HttpContext.Session.SetString("Email", use.email);
                 HttpContext.Session.SetString("Password", use.Password);
@@ -141,18 +143,18 @@ namespace Helperland.Controllers
                 {
                     if (string.Compare(Crypto.Hash(use.Password), detail.Password) == 0)
                     {
-                        var check = use.RememberMe;
-                        if (check == true)
-                        {
-                            string key = use.Password;
-                            string value = use.email;
-                            CookieOptions options = new CookieOptions
-                            {
-                                Expires = DateTime.Now.AddMinutes(5)
-                            };
-                            Response.Cookies.Append(key, value, options);
+                        //var check = use.RememberMe;
+                        //if (check == true)
+                        //{
+                        //    string key = use.Password;
+                        //    string value = use.email;
+                        //    CookieOptions options = new CookieOptions
+                        //    {
+                        //        Expires = DateTime.Now.AddMinutes(5)
+                        //    };
+                        //    Response.Cookies.Append(key, value, options);
 
-                        }
+                        //}
                         if (detail.UserTypeId == 1)
                         {
                             return RedirectToAction("CustomerPage", "Customer");
@@ -161,19 +163,26 @@ namespace Helperland.Controllers
                         {
                             return RedirectToAction("ServiceProviderPage", "ServiceProvider");
                         }
-                        //Redirect to page according to use if user is customer then redirect to dashboard, Service Provider then Service Request
-                        //If Admin Page then admin page are open
-                        return RedirectToAction("ServiceProviderPage", "ServiceProvider");
+                        if(detail.UserTypeId == 3)
+                        {
+                            return RedirectToAction("AdminRequest", "Admin");
+                        }
+                        
+                        
                     }
                     else
                     {
-                        ViewBag.message = "Invalid Password";
-                    }
+                        ViewBag.password = "Invalid Password";
+                            TempData["Modal"] = "#myModal";
+                        }
                 }
 
-          //  }
-       }
-            return View();
+                }
+                TempData["Modal"] = "#myModal";
+
+            }
+           
+            return View("Index");
            
           
 
@@ -250,25 +259,34 @@ namespace Helperland.Controllers
         public IActionResult ForgotPassword(String email)
         {
             var user = _helperlandContext.Users.Where(X => X.Email.Equals(email)).FirstOrDefault();
-            if(user != null)
+            if (ModelState.IsValid)
             {
-                var token = Guid.NewGuid().ToString();
-                var UserID = user.UserId;
-                var ResetLink = Url.Action("ResetPassword", "Home", new { ID = UserID, Email = email, Token = token }, Request.Scheme);
-                var subject = "Password Reset Request";
-                var body = "Hi " + user.FirstName + ", <br/> You recently requested to reset your password for your account. Click the link below to reset it. " +
 
-                               " <br/><br/><a href='" + ResetLink + "'>" + ResetLink+ "</a> <br/><br/>" +
-                             "If you did not request a password reset, please ignore this email or reply to let us know.<br/><br/> Thank you";
 
-               SendEmail(user.Email, body, subject);
-                ViewBag.error = "Reset Password Link has been sent to your email id";
+                if (user != null)
+                {
+                    var token = Guid.NewGuid().ToString();
+                    var UserID = user.UserId;
+                    var ResetLink = Url.Action("ResetPassword", "Home", new { ID = UserID, Email = email, Token = token }, Request.Scheme);
+                    var subject = "Password Reset Request";
+                    var body = "Hi " + user.FirstName + ", <br/> You recently requested to reset your password for your account. Click the link below to reset it. " +
+
+                                   " <br/><br/><a href='" + ResetLink + "'>" + ResetLink + "</a> <br/><br/>" +
+                                 "If you did not request a password reset, please ignore this email or reply to let us know.<br/><br/> Thank you";
+
+                    SendEmail(user.Email, body, subject);
+                    ViewBag.success = "Reset Password Link has been sent to your email id";
+                    TempData["Modal"] = "#forgotModal";
+                }
+                else
+                {
+                  ViewBag.alert =  ViewBag.Alert = "<div class='alert alert-success alert-dismissible fade show' role='alert'>"  + "<button type= 'button' class='btn-close' data-bs-dismiss='alert' aria-label='Close'></button></div>";
+                    ViewBag.email = "Invalid Email";
+                    TempData["Modal"] = "#forgotModal";
+                    return View();
+                }
             }
-            else
-            {
-                ViewBag.error = "Invalid Email";
-                return RedirectToAction("Index");
-            }
+            TempData["Modal"] = "#forgotModal";
             return RedirectToAction("Index");
         }
         private void SendEmail(string emailAddress, string body, string subject)

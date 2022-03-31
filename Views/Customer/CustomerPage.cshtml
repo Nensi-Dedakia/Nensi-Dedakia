@@ -42,7 +42,7 @@
                     <img src="~/images/admin-user.png">
                 </a>
                 <div class="dropdown-menu " aria-labelledby="navbarDropdownMenuLink" style="min-width: 50px; background-color: grey; color: black; font-size: 14px;">
-                    <a class="dropdown-item" asp-controller="Customer" asp-action="MyProfile" >Setting</a>
+                    <a class="dropdown-item" asp-controller="Customer" asp-action="MyProfile">Setting</a>
                     <a class="dropdown-item" href="#">Log out</a>
 
                 </div>
@@ -112,9 +112,9 @@
                     <ul class="nav flex-column ">
                         <ul class="nav flex-column ">
                             <li class="nav-item " onclick="Dashboard()">
-                                <a class="nav-link text-white side-menu-content"  >Dashboard</a>
+                                <a class="nav-link text-white side-menu-content">Dashboard</a>
                             </li>
-                            <hr class="side-menu-line" >
+                            <hr class="side-menu-line">
                             <li class="nav-item" onclick="ServiceHistory()">
                                 <a class="nav-link text-white side-menu-content" href="#customer-service-history">Service History</a>
                             </li>
@@ -145,7 +145,7 @@
                     <div id="servicehistorycontent" style="display:none;">
                         @await Html.PartialAsync("CustomerServiceHistory.cshtml")
                     </div>
-                   
+
                     <div id="dashboardcontent">
                         @await Html.PartialAsync("CustomerDashboard.cshtml")
                     </div>
@@ -212,18 +212,36 @@
         </div>
     </footer>
     <script>
+
+        $(function () {
+            $('.stars').stars();
+        });
+
+
+
+
+        $.fn.stars = function () {
+            return $(this).each(function () {
+               const rating = $(this).data("rating");
+                const numStars = $(this).data("numStars");
+                const fullStar = '<i class="fas fa-star" style="color : #FFD700"></i>'.repeat(Math.floor(rating));
+                const halfStar = (rating % 1 !== 0) ? '<i class="fas fa-star-half-alt" style="color : #FFD700"></i>' : '';
+                const noStar = '<i class="fas fa-star" style="color : #e0e0e0"></i>'.repeat(Math.floor(numStars - rating));
+                $(this).html(`${fullStar}${halfStar}${noStar}`);
+            });
+        }
         function Dashboard() {
 
 
-           
+
 
 
             $("#servicehistorycontent").hide();
-            
+
 
             $("#dashboardcontent").show();
 
-            
+
 
         }
         function ServiceHistory() {
@@ -236,15 +254,22 @@
 
             $("#dashboardcontent").hide();
 
-            
+
 
         }
+
     </script>
-    <script src="./js/jquery.min.js"></script>
 
+    <script src="~/js/bootstrap.min.js"></script>
     <!-- Popper JS -->
-    <script src="./js/popper.min.js"></script>
+    <script src="~/js/popper.min.js"></script>
+    <script src="~/js/jquery.min.js"></script>
 
+    <script src="~/lib/bootstrap/dist/js/bootstrap.js"></script>
+    <script src="~/lib/jquery/dist/jquery.js"></script>
+    <script src="~/lib/jquery-validation/dist/jquery.validate.js"></script>
+    <script src="~/lib/jquery-validation-unobtrusive/jquery.validate.unobtrusive.js"></script>
+    <script src="~/jquery-ajax-unobtrusive/jquery.unobtrusive-ajax.js"></script>
     <!-- Latest compiled JavaScript -->
 
     <script src="https://code.jquery.com/jquery-3.5.1.js"></script>
@@ -254,35 +279,35 @@
     <script src="https://cdn.datatables.net/responsive/2.2.9/js/dataTables.responsive.min.js"></script>
     <script src="https://cdn.datatables.net/responsive/2.2.9/js/responsive.bootstrap4.min.js"></script>
     <script type="text/javascript">
-$(document).ready(function() {
-    $('.example').DataTable( {
-      searching:false,
-      info:false,
-      dom: '<"float-left"B><"float-right"f>rt<"row"<"col-sm-4"l><"col-sm-4"i><"col-sm-4"p>>',
-      "sPaginationType":"full_numbers",
-      language: {
-        paginate: {
-          first:'<img src="../images/first-page.png">',
-          next: '<i class="fas fa-angle-right"></i>',
-          previous: '<i class="fas fa-angle-left"></i>',
-          last:'<img src="../images/first-page.png" style="transform:rotate(180deg);">'
-        },
-      },
-        responsive: {
-            details: {
-                display: $.fn.dataTable.Responsive.display.modal( {
-                    header: function ( row ) {
-                        var data = row.data();
-                        return 'Details for '+data[0]+' '+data[1];
+        $(document).ready(function () {
+            $('.example').DataTable({
+                searching: false,
+                info: false,
+                dom: '<"float-left"B><"float-right"f>rt<"row"<"col-sm-4"l><"col-sm-4"i><"col-sm-4"p>>',
+                "sPaginationType": "full_numbers",
+                language: {
+                    paginate: {
+                        first: '<img src="../images/first-page.png">',
+                        next: '<i class="fas fa-angle-right"></i>',
+                        previous: '<i class="fas fa-angle-left"></i>',
+                        last: '<img src="../images/first-page.png" style="transform:rotate(180deg);">'
+                    },
+                },
+                responsive: {
+                    details: {
+                        display: $.fn.dataTable.Responsive.display.modal({
+                            header: function (row) {
+                                var data = row.data();
+                                return 'Details for ' + data[0] + ' ' + data[1];
+                            }
+                        }),
+                        renderer: $.fn.dataTable.Responsive.renderer.tableAll({
+                            tableClass: 'table'
+                        })
                     }
-                } ),
-                renderer: $.fn.dataTable.Responsive.renderer.tableAll( {
-                    tableClass: 'table'
-                } )
-            }
-        }
-    } );
-  } );
+                }
+            });
+        });
 
     </script>
 </body>

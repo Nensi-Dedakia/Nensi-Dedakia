@@ -152,14 +152,17 @@
 
                         <div id="tabContent1">
                             <form asp-action="MyProfile" asp-controller="Customer" method="post">
+                                <div asp-validation-summary="ModelOnly" class="text-danger"></div>
                                 <div class="row">
                                     <div class="col-sm-4">
                                         <label class="add-new-button-label">First Name:</label>
                                         <input asp-for="firstname" id="firstname" placeholder="First Name" class="form11">
+                                        <span asp-validation-for="firstname" class="text-danger"></span>
                                     </div>
                                     <div class="col-sm-4">
                                         <label class="add-new-button-label">Last Name:</label>
                                         <input asp-for="lastname" id="lastname" placeholder="Last Name" class="form11">
+                                        <span asp-validation-for="lastname" class="text-danger"></span>
                                     </div>
                                     <div class="col-sm-4">
                                         <label class="add-new-button-label">Email Address:</label>
@@ -174,7 +177,8 @@
                                             <div class="input-group-prepend">
                                                 <span class="input-group-text" id="basic-addon1" style="height:46px;">+49</span>
                                             </div>
-                                            <input asp-for="Mobile" id="mobile" class="form-control " placeholder="Mobile number" pattern="[0-9]{3}-[0-9]{2}-[0-9]{3}" style="height:46px;">
+                                            <input asp-for="Mobile" id="mobile" class="form-control " placeholder="Mobile number" style="height:46px;">
+                                            <span asp-validation-for="Mobile" class="text-danger"></span>
                                         </div>
                                     </div>
                                     <div class="col-sm-4">
@@ -183,34 +187,53 @@
                                             <div class="col-sm-3">
                                                 <div>
                                                     <select asp-for="BirthDate" id="birthdate" class="birthdate">
-                                                        <option value="10">10</option>
-                                                        <option value="20">20</option>
-                                                        <option value="30">30</option>
-                                                        <option value="40">40</option>
+                                                        <option value="-1" selected>
+                                                            Day
+                                                        </option>
+                                                        @for (int i = 1; i < 32; i++)
+                                                        {
+                                                            <option value=@i>
+                                                                @i
+                                                            </option>
+                                                        }
                                                     </select>
+                                                    <span asp-validation-for="BirthDate" class="text-danger"></span>
 
                                                 </div>
                                             </div>
                                             <div class="col-sm-5">
                                                 <div>
                                                     <select asp-for="BirthMonth" id="birthmonth" class="birthdate">
-                                                        <option value="June">June</option>
-                                                        <option value="July">July</option>
-                                                        <option value="August">August</option>
-                                                        <option value="September">September</option>
+                                                        <option value="01">January</option>
+                                                        <option value="02">February</option>
+                                                        <option value="03">March</option>
+                                                        <option value="04">April</option>
+                                                        <option value="05">May</option>
+                                                        <option value="06">June</option>
+                                                        <option value="07">July</option>
+                                                        <option value="08">August</option>
+                                                        <option value="09">September</option>
+                                                        <option value="10">October</option>
+                                                        <option value="11">November</option>
+                                                        <option value="12">December</option>
                                                     </select>
-
+                                                    <span asp-validation-for="BirthMonth" class="text-danger"></span>
                                                 </div>
                                             </div>
                                             <div class="col-sm-4">
                                                 <div>
                                                     <select asp-for="BirthYear" id="birthyear" class="birthdate">
-                                                        <option value="1991">1991</option>
-                                                        <option value="1992">1992</option>
-                                                        <option value="1993">1993</option>
-                                                        <option value="1994">1994</option>
+                                                        <option value="0" selected>
+                                                            Year
+                                                        </option>
+                                                        @for (int i = DateTime.Now.Year; i > (DateTime.Now.Year - 117); i--)
+                                                        {
+                                                            <option value=@i>
+                                                                @i
+                                                            </option>
+                                                        }
                                                     </select>
-
+                                                    <span asp-validation-for="BirthYear" class="text-danger"></span>
                                                 </div>
                                             </div>
                                         </div>
@@ -230,7 +253,7 @@
                                 </div>
 
                                 <div>
-                                    <button type="button" class="savecomputer-btn" onclick="MyProfile();">Save On Computer</button>
+                                    <button type="submit" class="savecomputer-btn">Save On Computer</button>
                                 </div>
 
                             </form>
@@ -278,6 +301,7 @@
                                     <button type="submit" class="savecomputer-btn" style="background-color:#6DA9B5 ;">Save On Computer</button>
                                 </div>
                             </form>
+                           
                         </div>
 
 
@@ -376,34 +400,34 @@
 
         }
 
-        function MyProfile() {
-            var data = {};
+        //function MyProfile() {
+        //    var data = {};
 
-            data.firstname = $("#firstname").val();
-            data.lastname = $("#lastname").val();
-            data.Mobile = $("#mobile").val();
-            data.DateOfBirth = $("#birthdate").val() + "-" + $("#birthmonth").val() + "-" + $("#birthyear").val();
+        //    data.firstname = $("#firstname").val();
+        //    data.lastname = $("#lastname").val();
+        //    data.Mobile = $("#mobile").val();
+        //    data.DateOfBirth = $("#birthdate").val() + "-" + $("#birthmonth").val() + "-" + $("#birthyear").val();
 
 
-            $.ajax({
-                type: 'POST',
-                url: '/Customer/MyProfile',
-                contentType: 'application/x-www-form-urlencoded; charset=UTF-8',
+        //    $.ajax({
+        //        type: 'POST',
+        //        url: '/Customer/MyProfile',
+        //        contentType: 'application/x-www-form-urlencoded; charset=UTF-8',
 
-                data: data,
-                success: function (result) {
-                    if (result.value == "true") {
-                        alert('Successfully!Updated Data!');
-                       
-                    }
-                },
-                error: function () {
-                    alert('Failed to update Data');
-                    console.log('Failed ');
-                }
-            })
+        //        data: data,
+        //        success: function (result) {
+        //            if (result.value == "true") {
+        //                alert('Successfully!Updated Data!');
 
-        }
+        //            }
+        //        },
+        //        error: function () {
+        //            alert('Failed to update Data');
+        //            console.log('Failed ');
+        //        }
+        //    })
+
+        //}
         function Tab2Click() {
 
 
@@ -427,7 +451,7 @@
             $("#tab3").addClass("active-tab");
             $("#tab1").removeClass("active-tab").addClass("customerprofile");
             $("#tab2").removeClass("active-tab").addClass("customerprofile");
-
+             
 
             $("#tabContent1").hide();
             $("#tabContent2").hide();
@@ -438,7 +462,7 @@
 
         }
 
-      
+
     </script>
 
     <script src="https://cdn.jsdelivr.net/npm/jquery@3.5.1/dist/jquery.slim.min.js"></script>

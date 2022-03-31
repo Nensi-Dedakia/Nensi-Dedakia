@@ -1,7 +1,8 @@
 ﻿
 
 
-@model IEnumerable<Helperland.ViewModels.UpcomingViewModel>
+@*@model IEnumerable<Helperland.ViewModels.UpcomingViewModel>*@
+@model IEnumerable<Helperland.Models.Data.User>
 @{
     Layout = null;
 }
@@ -47,6 +48,43 @@
     @*<table>*@
     <table class="table upcoming-table exams" style="width: 100%;">
         <div class="row mb-4">
+            @*@foreach (var block in Model)
+        {
+
+            <div class="col-sm-4" id="BlockCustomer">
+                <div class="card  align-items-center">
+                    <div class="Avtar ">
+                        <img src="../images/default-sp-xlarge.png" class="" alt="Avtar">
+                    </div>
+
+                    <div class="card-body text-center">
+                        <h5 class="card-title mb-3"><b style="font-size: 16px; color: #646464; ">@Html.DisplayFor(modelitem => block.user.FirstName)  @Html.DisplayFor(modelitem => block.user.LastName) </b></h5>
+                        <div id="blockbtn">
+
+                        </div>
+
+
+                        <a href="#" class="block-button rounded-pill" id="@block.user.UserId" onclick="spBlock(@block.user.UserId)">Block</a>
+
+                        <script>
+                            $.post("/ServiceProvider/CheckBlock", { Id: parseInt(@block.user.UserId) }, function (data) {
+                                if (data == true) {
+                                    var x = "#" + @block.user.UserId ;
+                                    $(x).html("UnBlock");
+                                }
+                                else {
+                                    var x = "#" + @block.user.UserId ;
+                                    $(x).html("Block");
+                                }
+                            });
+                        </script>
+
+                    </div>
+                </div>
+
+            </div>
+
+        }*@
             @foreach (var block in Model)
             {
 
@@ -57,22 +95,22 @@
                         </div>
 
                         <div class="card-body text-center">
-                            <h5 class="card-title mb-3"><b style="font-size: 16px; color: #646464; ">@Html.DisplayFor(modelitem => block.user.FirstName)  @Html.DisplayFor(modelitem => block.user.LastName) </b></h5>
+                            <h5 class="card-title mb-3"><b style="font-size: 16px; color: #646464; ">@Html.DisplayFor(modelitem => block.FirstName)  @Html.DisplayFor(modelitem => block.LastName) </b></h5>
                             <div id="blockbtn">
 
                             </div>
 
 
-                            <a href="#" class="block-button rounded-pill" id="@block.user.UserId" onclick="spBlock(@block.user.UserId)">Block</a>
+                            <a href="#" class="block-button rounded-pill" id="@block.UserId" onclick="spBlock(@block.UserId)">Block</a>
 
                             <script>
-                                $.post("/ServiceProvider/CheckBlock", { Id: parseInt(@block.user.UserId) }, function (data) {
+                                $.post("/ServiceProvider/CheckBlock", { Id: parseInt(@block.UserId) }, function (data) {
                                     if (data == true) {
-                                        var x = "#" + @block.user.UserId ;
+                                        var x = "#" + @block.UserId ;
                                         $(x).html("UnBlock");
                                     }
                                     else {
-                                        var x = "#" + @block.user.UserId ;
+                                        var x = "#" + @block.UserId ;
                                         $(x).html("Block");
                                     }
                                 });

@@ -28,5 +28,10 @@ namespace Helperland.ViewModels
         public string AddressLine2 { get; set; }
         public string City { get; set; }
         public string PostalCode { get; set; }
+
+        public string InvoiceAddressLine1 { get; set; }
+        public string InvoiceAddressLine2 { get; set; }
+        public string InvoiceCity { get; set; }
+        public string InvoicePostalCode { get; set; }
     }
 }

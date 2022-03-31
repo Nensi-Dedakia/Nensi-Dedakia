@@ -1,0 +1,88 @@
+﻿@model Helperland.ViewModels.LoginViewModel
+@{
+    Layout = "";
+}
+<head>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.1/dist/css/bootstrap.min.css">
+
+    <!-- jQuery library -->
+
+
+    <link href="./css/Style.css" rel="stylesheet">
+
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.0/css/all.css" integrity="sha384-lZN37f5QGtY3VHgisS14W3ExzMWZxybE1SJSEsQp9S+oqd12jhcu+A56Ebc1zFSJ" crossorigin="anonymous">
+</head>
+
+
+<div class="modal fade" id="myModal" tabindex="-1" role="dialog">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+            <div class="modal-header login-modal-header">
+
+                <h3 class="modal-title login-main-heading">
+                    <b>Login to your account</b>
+                </h3>
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+            </div>
+            <!-- Modal body -->
+            <div class="modal-body">
+                <form method="post" asp-controller="Home" asp-action="Index">
+                    <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                    <div class="input-group mb-3">
+                        <input asp-for="email" type="email" class="form-control" placeholder="Email"
+                               style="border-right: none;">
+                        <span class="input-group-text"> <i class="fas fa-user"></i> </span>
+
+                    </div>
+                    <span asp-validation-for="email" class="text-danger"></span>
+                    <span class="text-danger">@ViewBag.email</span>
+                    <div class="input-group mb-3">
+                        <input asp-for="Password" type="password" class="form-control" placeholder="Password"
+                               style="border-right: none;">
+                        <span class="input-group-text"> <i class="fas fa-lock"></i></span>
+
+                    </div>
+                    <span asp-validation-for="Password" class="text-danger"></span>
+                    <span class="text-danger">@ViewBag.pssword</span>
+                    <div class="login-check">
+                        <input asp-for="RememberMe" class="form-check-input login-checkbox" type="checkbox" id="myCheck">
+                        <label class="form-check-label" for="myCheck" style="margin-left:10px;">
+                            Remeber me
+                        </label>
+                    </div>
+                    <br>
+                    <input type="submit" class="btn  login-btn" value="Login">
+                    <br><br>
+                    <p class="login-para">
+                        <a href="" class="login-para-links" data-target="#forgotModal"
+                           data-toggle="modal" data-dismiss="modal"><b>Forgot Password ?</b></a>
+                        <br>
+                        Don't have an account?
+
+                        <a asp-controller="Home" asp-action="CreateAnAccount" class="login-para-links">
+                            <b>
+                                Create an
+                                account
+                            </b>
+                        </a>
+                    </p>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script src="~/lib/bootstrap/dist/js/bootstrap.js"></script>
+<script src="~/lib/jquery/dist/jquery.js"></script>
+<script src="~/lib/jquery-validation/dist/jquery.validate.js"></script>
+<script src="~/lib/jquery-validation-unobtrusive/jquery.validate.unobtrusive.js"></script>
+<script src="~/jquery-ajax-unobtrusive/jquery.unobtrusive-ajax.js"></script>
+
+<script src="https://cdn.jsdelivr.net/npm/jquery@3.5.1/dist/jquery.slim.min.js"></script>
+<!-- Popper JS -->
+<script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js"></script>
+
+<!-- Latest compiled JavaScript -->
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.1/dist/js/bootstrap.bundle.min.js"></script>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
